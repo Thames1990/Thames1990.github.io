@@ -19,11 +19,8 @@ date: 2016-07-28
 	});
 	
 	$.ajax({
-		headers: {
-			'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365',
-			'Access-Control-Allow-Origin': 'api.football-data.org'
-		},
-		url: 'http://api.football-data.org/v1/fixtures?timeFrame=n2',
+		headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
+		url: '//api.football-data.org/v1/fixtures?timeFrame=n2',
 		dataType: 'json',
 		type: 'GET',
 	}).done(function(response) {
