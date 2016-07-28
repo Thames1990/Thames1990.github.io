@@ -15,8 +15,15 @@ date: 2016-07-28
 		type: 'GET',
 	}).done(function(response) {
 		console.log(response);
-            	$('#test').append(JSON.stringify(response));
+		$.each(response, function(i, d) {
+			var row='<tr>';
+			$.each(d, function(j, e) {
+				row+='<td>'+e+'</td>';
+			});
+			row+='</tr>';
+			$('#table tbody').append(row);
+		});
 	}); 
 </script>
 
-<p id="test"></p>
+<table id="table"></table>
