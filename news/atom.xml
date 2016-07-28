@@ -5,13 +5,13 @@ layout: feed
 <feed xmlns="http://www.w3.org/2005/Atom">
 
 	<title>Hank Quinlan's Blog</title>
-	<link href="http://thames1990.github.io/blog/atom.xml" rel="self"/>
-	<link href="http://thames1990.github.io/blog"/>
+	<link href="http://thames1990.github.io/news/atom.xml" rel="self"/>
+	<link href="http://thames1990.github.io/news"/>
 	<updated>{{ site.time | date_to_xmlschema }}</updated>
-	<id>http://thames1990.github.io/blog</id>
+	<id>http://thames1990.github.io/news</id>
 	<author>
-		<name>Hank Quinlan</name>
-		<email>hankquinlanhub@gmail.com</email>
+		<name>Thomas Mohr</name>
+		<email>ThomasMohr1990@gmail.com</email>
 	</author>
 
 	{% for post in site.posts %}
