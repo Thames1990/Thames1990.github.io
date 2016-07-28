@@ -24,7 +24,7 @@ date: 2016-07-28
 		dataType: 'json',
 		type: 'GET',
 	}).done(function(response) {
-		console.log(teamId);
+		console.log(response);
 		$('#football_data').append(JSON.stringify(response))
 	}); 
 </script>
