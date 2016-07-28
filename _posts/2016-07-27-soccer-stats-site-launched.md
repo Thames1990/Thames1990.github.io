@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Thomas Mohr, Soccer Stats, Launches Site"
+title: "SoccerStats erblickt das Licht der Welt"
 date: 2016-07-27
 ---
 
-Well. Finally got around to putting this old website together. Neat thing about it - powered by [Jekyll](http://jekyllrb.com) and I can use Markdown to author my posts. It actually is a lot easier than I thought it was going to be.
+SoccerStats, eine intuitiv zu bedienende Fußballstatistik-Datenbank ist ab jetzt online. Diese Seite wurde mit [Jekyll](http://jekyllrb.com) erstellt und nutzt die Datenbank von [football-data](http://api.football-data.org/index).
