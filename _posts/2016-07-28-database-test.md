@@ -24,7 +24,8 @@ date: 2016-07-28
 			'Access-Control-Allow-Origin': 'https://thames1990.github.io'
 		},
 		url: 'http://api.football-data.org/v1/fixtures?timeFrame=n1',
-		dataType: 'json',
+		crossDomain: true,
+		dataType: 'jsonp',
 		type: 'GET',
 	}).done(function(response) {
 		// do something with the response, e.g. isolate the id of a linked resource        
