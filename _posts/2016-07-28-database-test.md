@@ -15,8 +15,24 @@ date: 2016-07-28
 		type: 'GET',
 	}).done(function(response) {
 		console.log(response);
-		$('#test').append(JSON.stringify(response))
+		$('#sports_open_data').append(JSON.stringify(response))
+	});
+	
+	$.ajax({
+		headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
+		url: 'http://api.football-data.org/v1/fixtures?timeFrame=n1',
+		dataType: 'json',
+		type: 'GET',
+	}).done(function(response) {
+		// do something with the response, e.g. isolate the id of a linked resource        
+		var regex = /.*?(\d+)$/; // the ? makes the first part non-greedy
+		var res = regex.exec(response.fixtures[0]._links.awayTeam.href);
+		var teamId = res[1];
+		console.log(teamId);
+		$('#football').append(teamId)
 	}); 
 </script>
 
-<p id="test"></p>
+<p id="sports_open_data"></p>
+<br>
+<p id="football-data"></p>
