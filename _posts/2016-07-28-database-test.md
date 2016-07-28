@@ -29,10 +29,10 @@ date: 2016-07-28
 		var res = regex.exec(response.fixtures[0]._links.awayTeam.href);
 		var teamId = res[1];
 		console.log(teamId);
-		$('#football').append(teamId)
+		$('#football_data').append(teamId)
 	}); 
 </script>
 
 <p id="sports_open_data"></p>
 <br>
-<p id="football-data"></p>
+<p id="football_data"></p>
