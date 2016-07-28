@@ -19,9 +19,12 @@ date: 2016-07-28
 	});
 	
 	$.ajax({
-		headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
+		headers: {
+			'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365',
+			'Access-Control-Allow-Origin': '*'
+		},
 		url: 'http://api.football-data.org/v1/fixtures?timeFrame=n1',
-		dataType: 'jsonp',
+		dataType: 'json',
 		type: 'GET',
 	}).done(function(response) {
 		// do something with the response, e.g. isolate the id of a linked resource        
