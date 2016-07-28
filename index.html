@@ -16,7 +16,7 @@ title: SoccerStats
 		  var regex = /.*?(\d+)$/; // the ? makes the first part non-greedy
 		  var res = regex.exec(response.fixtures[0]._links.awayTeam.href);
 		  var teamId = res[1];
-		  console.log(teamId);
+		  alert(teamId);
 		}); 
 	</script>
 </div>
