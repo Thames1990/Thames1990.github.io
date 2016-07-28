@@ -29,6 +29,8 @@ date: 2016-07-28
 	}); 
 </script>
 
+<h2>Sport Open Data</h2>
 <p id="sports_open_data"></p>
 <br>
+<h2>Football-Data</h2>
 <p id="football_data"></p>
