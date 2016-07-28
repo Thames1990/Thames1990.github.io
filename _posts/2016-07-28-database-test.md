@@ -14,10 +14,6 @@ date: 2016-07-28
 		dataType: 'json',
 		type: 'GET',
 	}).done(function(response) {
-		$('#test').append(response);
+		console.log(response);
 	}); 
 </script>
-
-<div>
-	<p id="test">The ID is </p>
-</div>
