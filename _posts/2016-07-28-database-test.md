@@ -21,7 +21,7 @@ date: 2016-07-28
 	$.ajax({
 		headers: {
 			'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365',
-			'Access-Control-Allow-Origin': '*'
+			'Access-Control-Allow-Origin': 'https://thames1990.github.io'
 		},
 		url: 'http://api.football-data.org/v1/fixtures?timeFrame=n1',
 		dataType: 'json',
