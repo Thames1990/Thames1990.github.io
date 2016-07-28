@@ -4,6 +4,10 @@ title: "SoccerStats Datenbank Test"
 date: 2016-07-28
 ---
 
+{::comment}
+	Fix mixed content (http/https) warning
+{:/comment}
+
 <script>
 	$.ajax({
 	  headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
