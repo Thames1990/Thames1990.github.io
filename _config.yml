@@ -1,6 +1,5 @@
 name: Soccer Stats
 markdown: kramdown
 permalink: /news/:year/:month/:day/:title
-disqus-shortname: soccerstats
 gems:
   - jekyll-sitemap
