@@ -1,1 +1,3 @@
-# Thames1990.github.io
+# SoccerStats
+
+*SoccerStats* ist eine intuitiv zu bedienende Fußballstatistik-Datenbank.
