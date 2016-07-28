@@ -15,7 +15,7 @@ date: 2016-07-28
 		type: 'GET',
 	}).done(function(response) {
 		console.log(response);
-            	$('#container').append('<p>'response'</p>');
+            	$('#test').append(response);
 	}); 
 </script>
 
