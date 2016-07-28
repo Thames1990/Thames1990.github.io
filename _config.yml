@@ -1,5 +1,5 @@
-name: Thomas Mohr, Soccer Stats
+name: Soccer Stats
 markdown: kramdown
-permalink: /blog/:year/:month/:day/:title
+permalink: /news/:year/:month/:day/:title
 gems:
   - jekyll-sitemap
