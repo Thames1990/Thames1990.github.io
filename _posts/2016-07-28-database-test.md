@@ -28,7 +28,6 @@ date: 2016-07-28
 			tr += '</tr>';
 		});
 		$('#sports_open_data').append(tr);
-		// $('#sports_open_data').append(JSON.stringify(response, null, '\t'));
 	});
 	
 	$.ajax({
@@ -38,7 +37,21 @@ date: 2016-07-28
 		type: 'GET',
 	}).done(function(response) {
 		console.log(response);
-		$('#football_data').append(JSON.stringify(response, null, '\t'));
+		var tr = '';
+		$.each(response, function(index, item) {
+			tr += '<tr>';
+			tr += '<td>' + response[index].id + '</td>';
+			tr += '<td>' + response[index].caption + '</td>';
+			tr += '<td>' + response[index].league + '</td>';
+			tr += '<td>' + response[index].year + '</td>';
+			tr += '<td>' + response[index].currentMatchday + '</td>';
+			tr += '<td>' + response[index].numberOfMatchdays + '</td>';
+			tr += '<td>' + response[index].numberOfTeams + '</td>';
+			tr += '<td>' + response[index].numberOfGames + '</td>';
+			tr += '<td>' + response[index].lastUpdated + '</td>';
+			tr += '</tr>';
+		});
+		$('#sports_open_data').append(tr);
 	}); 
 </script>
 
@@ -46,16 +59,28 @@ date: 2016-07-28
 <h3>Verfügbare Ligen:</h3>
 <table id="sports_open_data" border="1">
 	<tr>
-		<th>Identifier</th>
-		<th>League slug</th>
+		<th>Id</th>
+		<th>Abkürzung</th>
 		<th>Name</th>
 		<th>Nation</th>
-		<th>Level</th>
-		<th>Federation</th>
-		<th>Cup</th>
+		<th>Ligaklasse</th>
+		<th>Verband</th>
+		<th>Pokal?</th>
 	</tr>
 </table>
 <br>
 <h2>Football-Data</h2>
 <h3>Verfügbare Ligen:</h3>
-<pre id="football_data"></pre>
+<table id="football_data">
+	<tr>
+		<th>Id</th>
+		<th>Name</th>
+		<th>Abkürzung</th>
+		<th>Jahr</th>
+		<th>Aktueller Spieltag</th>
+		<th>Spieltage</th>
+		<th>Mannschaften</th>
+		<th>Spiele</th>
+		<th>Zuletzt aktualisiert</th>
+	</tr>
+</table>
