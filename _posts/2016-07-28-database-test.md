@@ -15,7 +15,12 @@ date: 2016-07-28
 		type: 'GET',
 	}).done(function(response) {
 		console.log(response);
-		$('#sports_open_data').append(JSON.stringify(response, null, '\t'));
+		var tr = '';
+		$.each(response.data.leagues, function(index, item) {
+			tr += '<tr><td>' + response.data.leagues[i] + '</td></tr>';
+		});
+		$('#sports_open_data').append(tr);
+		// $('#sports_open_data').append(JSON.stringify(response, null, '\t'));
 	});
 	
 	$.ajax({
@@ -31,7 +36,17 @@ date: 2016-07-28
 
 <h2>Sport Open Data</h2>
 <h3>Verfügbare Ligen:</h3>
-<pre id="sports_open_data"></pre>
+<table id="sports_open_data" border="1">
+	<tr>
+		<th>Identifier</th>
+		<th>League slug</th>
+		<th>Name</th>
+		<th>Caption</th>
+		<th>Level</th>
+		<th>Federation</th>
+		<th>Cup</th>
+	</tr>
+</table>
 <br>
 <h2>Football-Data</h2>
 <h3>Verfügbare Ligen:</h3>
