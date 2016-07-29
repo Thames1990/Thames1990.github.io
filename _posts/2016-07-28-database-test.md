@@ -15,11 +15,7 @@ date: 2016-07-28
 		type: 'GET',
 	}).done(function(response) {
 		console.log(response);
-		var ul = $('ul').appendTo('#sports_open_data');
-		$(response).each(function(index, item) {
-			ul.append($(document.createElement('li')).text(item))
-		});
-		// $('#sports_open_data').append(JSON.stringify(response, null, '\t'));
+		$('#sports_open_data').append(JSON.stringify(response, null, '\t'));
 	});
 	
 	$.ajax({
