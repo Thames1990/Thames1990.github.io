@@ -30,6 +30,7 @@ date: 2016-07-28
 </script>
 
 <h2>Sport Open Data</h2>
+<h3>Verfügbare Ligen:</h3>
 <pre id="sports_open_data"></pre>
 <br>
 <h2>Football-Data</h2>
