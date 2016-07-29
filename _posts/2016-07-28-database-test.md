@@ -20,7 +20,7 @@ date: 2016-07-28
 	
 	$.ajax({
 		headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
-		url: '//api.football-data.org/v1/fixtures?timeFrame=n2',
+		url: '//api.football-data.org/v1/fixtures?timeFrame=n7',
 		dataType: 'json',
 		type: 'GET',
 	}).done(function(response) {
@@ -33,4 +33,5 @@ date: 2016-07-28
 <p id="sports_open_data"></p>
 <br>
 <h2>Football-Data</h2>
+<h3>Spiele in den nächsten 7 Tagen:</h3>
 <p id="football_data"></p>
