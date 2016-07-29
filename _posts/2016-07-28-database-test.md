@@ -15,7 +15,7 @@ date: 2016-07-28
 		type: 'GET',
 	}).done(function(response) {
 		console.log(response);
-		$('#sports_open_data').append(JSON.stringify(response))
+		$('#sports_open_data').append(JSON.stringify(response, null, '\t'));
 	});
 	
 	$.ajax({
@@ -25,13 +25,13 @@ date: 2016-07-28
 		type: 'GET',
 	}).done(function(response) {
 		console.log(response);
-		$('#football_data').append(JSON.stringify(response))
+		$('#football_data').append(JSON.stringify(response, null, '\t'));
 	}); 
 </script>
 
 <h2>Sport Open Data</h2>
-<p id="sports_open_data"></p>
+<pre id="sports_open_data"></pre>
 <br>
 <h2>Football-Data</h2>
 <h3>Spiele in den nächsten 7 Tagen:</h3>
-<p id="football_data"></p>
+<pre id="football_data"></pre>
