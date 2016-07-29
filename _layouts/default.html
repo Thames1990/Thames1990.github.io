@@ -7,20 +7,26 @@
 		</head>
 		<body>
 			<nav>
-	    		<ul>
-	        		<li><a href="/">Startseite</a></li>
-		        	<li><a href="/details">Details</a></li>
-	        		<li><a href="/database">Datenbank</a></li>
-	        		<li><a href="/news">Neuigkeiten</a></li>
-	    		</ul>
-	    			<div class="grid" id="searchBar">
-					<div id="search">
-						<form role="search" method="get" action="{{site.baseurl}}/search/">
-							<input id="searchString" name="searchString" placeholder="Be a Better Developer, etc." type="text">
-							<input id="searchButton" name="googleSearchName" type="submit" value="Search">
-						</form>
-					</div>
-				</div>
+		    		<ul>
+		        		<li><a href="/">Startseite</a></li>
+			        	<li><a href="/details">Details</a></li>
+		        		<li><a href="/database">Datenbank</a></li>
+		        		<li><a href="/news">Neuigkeiten</a></li>
+		    		</ul>
+		    		<div class="google_custom_seach">
+		    			<script>
+							(function() {
+								var cx = '012656683858583077118:lu4g3hxi3do';
+								var gcse = document.createElement('script');
+								gcse.type = 'text/javascript';
+								gcse.async = true;
+								gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+								var s = document.getElementsByTagName('script')[0];
+								s.parentNode.insertBefore(gcse, s);
+							})();
+						</script>
+						<gcse:search></gcse:search>
+		    		</div>
 			</nav>
 			<div class="container">
 				{{ content }}
