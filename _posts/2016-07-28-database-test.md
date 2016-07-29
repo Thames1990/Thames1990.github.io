@@ -51,7 +51,7 @@ date: 2016-07-28
 			tr += '<td>' + response[index].lastUpdated + '</td>';
 			tr += '</tr>';
 		});
-		$('#sports_open_data').append(tr);
+		$('#football_data').append(tr);
 	}); 
 </script>
 
