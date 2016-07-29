@@ -71,7 +71,7 @@ date: 2016-07-28
 <br>
 <h2>Football-Data</h2>
 <h3>Verfügbare Ligen:</h3>
-<table id="football_data">
+<table id="football_data" border="1">
 	<tr>
 		<th>Id</th>
 		<th>Name</th>
