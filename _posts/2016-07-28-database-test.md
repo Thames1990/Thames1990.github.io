@@ -17,7 +17,7 @@ date: 2016-07-28
 		console.log(response);
 		var tr = '';
 		$.each(response.data.leagues, function(index, item) {
-			tr += '<tr><td>' + response.data.leagues[i] + '</td></tr>';
+			tr += '<tr><td>' + response.data.leagues[index] + '</td></tr>';
 		});
 		$('#sports_open_data').append(tr);
 		// $('#sports_open_data').append(JSON.stringify(response, null, '\t'));
