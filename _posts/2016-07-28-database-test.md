@@ -21,7 +21,7 @@ date: 2016-07-28
 			tr += '<td>' + response.data.leagues[index].identifier + '</td>';
 			tr += '<td>' + response.data.leagues[index].league_slug + '</td>';
 			tr += '<td>' + response.data.leagues[index].name + '</td>';
-			tr += '<td>' + response.data.leagues[index].caption + '</td>';
+			tr += '<td>' + response.data.leagues[index].nation + '</td>';
 			tr += '<td>' + response.data.leagues[index].level + '</td>';
 			tr += '<td>' + response.data.leagues[index].federation + '</td>';
 			tr += '<td>' + response.data.leagues[index].cup + '</td>';
@@ -49,7 +49,7 @@ date: 2016-07-28
 		<th>Identifier</th>
 		<th>League slug</th>
 		<th>Name</th>
-		<th>Caption</th>
+		<th>Nation</th>
 		<th>Level</th>
 		<th>Federation</th>
 		<th>Cup</th>
