@@ -11,7 +11,7 @@ title: Multimedia Test
 	}).done(function(response) {
 		console.log(response);
 		$.each(response.teams, function(index, item) {
-			$('#team_logos').prepend('<img src="response.teams[index].crestUrl"/>');
+			$('#team_logos').prepend('<img src="' + response.teams[index].crestUrl + '" width="100%"/>');
 		});
 	});
 </script>
