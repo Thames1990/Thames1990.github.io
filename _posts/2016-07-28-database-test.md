@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SoccerStats Datenbank Test"
+title: "Datenbank Test"
 date: 2016-07-28
 ---
 
