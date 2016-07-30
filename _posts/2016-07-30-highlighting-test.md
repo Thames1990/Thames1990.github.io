@@ -1,6 +1,7 @@
 ---
-layout: default
+layout: post
 title: Highlighting Test
+date: 2016-07-30
 ---
 {% highlight ruby %}
 def show
