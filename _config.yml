@@ -1,6 +1,6 @@
 name: Soccer Stats
 markdown: kramdown
-highlighter: rogue
+highlighter: rouge
 permalink: /news/:year/:month/:day/:title
 google_analytics: UA-81466509-1
 gems:
