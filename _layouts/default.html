@@ -1,46 +1,46 @@
 <!DOCTYPE html>
-	<html>
-		<head>
-			<title>{{ page.title }}</title>
-			<link rel="stylesheet" type="text/css" href="/css/main.css">
-			<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-		</head>
-		<body>
-			<nav>
-		    		<ul>
-		        		<li><a href="/">Startseite</a></li>
-			        	<li><a href="/details">Details</a></li>
-		        		<li><a href="/database">Datenbank</a></li>
-		        		<li><a href="/news">Neuigkeiten</a></li>
-		    		</ul>
-		    		<div class="google_custom_seach">
-		    			<script>
-							(function() {
-								var cx = '012656683858583077118:lu4g3hxi3do';
-								var gcse = document.createElement('script');
-								gcse.type = 'text/javascript';
-								gcse.async = true;
-								gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-								var s = document.getElementsByTagName('script')[0];
-								s.parentNode.insertBefore(gcse, s);
-							})();
-							window.onload = function() {
-								document.getElementById('gsc-i-id1').placeholder = 'Suche';
-							}
-						</script>
-						<gcse:search></gcse:search>
-		    		</div>
-			</nav>
-			<div class="container">
-				{{ content }}
-			</div>
-			<footer>
-	    		<ul>
-	        		<li><a href="mailto:ThomasMohr1990@gmail.com" target="_blank">email</a></li>
-	        		<li><a href="https://github.com/Thames1990/Thames1990.github.io" target="_blank">SoccerStats Github</a></li>
-				</ul>
-			</footer>
-			<script id="dsq-count-scr" src="//soccerstats.disqus.com/count.js" async></script>
-			{% include analytics.html %}
-		</body>
-	</html>
+<html>
+<head>
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Startseite</a></li>
+        <li><a href="/details">Details</a></li>
+        <li><a href="/database">Datenbank</a></li>
+        <li><a href="/news">Neuigkeiten</a></li>
+    </ul>
+    <div class="google_custom_seach">
+        <script>
+            (function () {
+                var cx = '012656683858583077118:lu4g3hxi3do';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+            })();
+            window.onload = function () {
+                document.getElementById('gsc-i-id1').placeholder = 'Suche';
+            }
+        </script>
+        <gcse:search></gcse:search>
+    </div>
+</nav>
+<div class="container">
+    {{ content }}
+</div>
+<footer>
+    <ul>
+        <li><a href="mailto:ThomasMohr1990@gmail.com" target="_blank">email</a></li>
+        <li><a href="https://github.com/Thames1990/Thames1990.github.io" target="_blank">SoccerStats Github</a></li>
+    </ul>
+</footer>
+<script id="dsq-count-scr" src="//soccerstats.disqus.com/count.js" async></script>
+{% include analytics.html %}
+</body>
+</html>

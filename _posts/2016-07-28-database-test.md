@@ -55,8 +55,8 @@ date: 2016-07-28
 	}); 
 </script>
 
-<h2>Sport Open Data</h2>
-<h3>Verfügbare Ligen:</h3>
+## Sport Open Data
+### Verfügbare Ligen:
 <table id="sports_open_data" border="1">
 	<tr>
 		<th>Id</th>
@@ -68,9 +68,9 @@ date: 2016-07-28
 		<th>Pokal?</th>
 	</tr>
 </table>
-<br>
-<h2>Football-Data</h2>
-<h3>Verfügbare Ligen:</h3>
+
+## Football-Data
+### Verfügbare Ligen:
 <table id="football_data" border="1">
 	<tr>
 		<th>Id</th>
