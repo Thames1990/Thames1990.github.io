@@ -10,9 +10,8 @@ title: Multimedia Test
 		type: 'GET',
 	}).done(function(response) {
 		console.log(response);
-		var tr = '';
 		$.each(response.teams, function(index, item) {
-			$('team_logos').prepend('<img src="response.teams[index].crestUrl"/>');
+			$('#team_logos').prepend('<img src="response.teams[index].crestUrl"/>');
 		});
 	});
 </script>
