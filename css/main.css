@@ -39,5 +39,9 @@ ul.posts {
 }
 
 ul.posts li {
-    list-style: none;
+	list-style: none;
+}
+
+.cse input.gsc-input, input.gsc-input {
+	background-image:none !important;
 }
