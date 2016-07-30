@@ -12,9 +12,8 @@ title: Multimedia Test
 		console.log(response);
 		var tr = '';
 		$.each(response.teams, function(index, item) {
-			$('team_logos').prepend('<img src="response.teams[index].cresturl"/>');
+			$('team_logos').prepend('<img src="response.teams[index].crestUrl"/>');
 		});
-		$('#football_data').append(tr);
 	});
 </script>
 
