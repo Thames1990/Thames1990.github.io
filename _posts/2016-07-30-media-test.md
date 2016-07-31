@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Multimedia Test
+tags: [Mutlimedia, Test, football-data]
+bigimg: /img/404-soutpark.jpg
 ---
 <script>
 	$.ajax({

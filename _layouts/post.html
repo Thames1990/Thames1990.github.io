@@ -1,32 +1,47 @@
 ---
-layout: default
-notes: active
-comments: true
+layout: base
 ---
 
-<div class="notes">
-    <div class="note single">
-        <h1 class="title">{{ page.title }}</h1>
+{% include header.html type="post" %}
 
-        <h2 class="date">
-            <info datetime="{{ page.date }}">
-                {{ page.date | date_to_string }} {% if page.author %} by {{ page.author }} {% endif %}
-            </info>
-        </h2>
-        <!-- Post content -->
-        <div class="notebody">
-            {{ content }}
-        </div>
-        <!-- Post info -->
-        <div class="noteinfo">
-            <!-- include some categories and tags maybe? -->
-        </div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <article role="main" class="blog-post">
+                {{ content }}
+            </article>
+            {% if page.tags.size > 0 %}
+            <div class="blog-tags">
+                Tags:
+                {% if site.link-tags %}
+                {% for tag in page.tags %}
+                <a href="/tag/{{ tag }}">{{ tag }}</a>
+                {% endfor %}
+                {% else %}
+                {{ page.tags | join: ", " }}
+                {% endif %}
+            </div>
+            {% endif %}
+            <ul class="pager blog-pager">
+                {% if page.previous.url %}
+                <li class="previous">
+                    <a href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip"
+                       data-placement="top" title="{{page.previous.title}}">&larr; Previous Post</a>
+                </li>
+                {% endif %}
+                {% if page.next.url %}
+                <li class="next">
+                    <a href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip"
+                       data-placement="top" title="{{page.next.title}}">Next Post &rarr;</a>
+                </li>
+                {% endif %}
+            </ul>
 
-        <hr>
-
-        <!-- Post comments -->
-        <div class="notecomments">
-            {% include disqus.html %}
+            {% if page.comments %}
+            <div class="disqus-comments">
+                {% include disqus.html %}
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

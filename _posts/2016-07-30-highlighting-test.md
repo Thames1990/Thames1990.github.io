@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Highlighting Test
-date: 2016-07-30
+tags: [Ruby, Highlight, JSON]
 ---
 {% highlight ruby %}
 def show
