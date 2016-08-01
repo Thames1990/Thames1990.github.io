@@ -3,6 +3,7 @@ layout: post
 title: "Datenbank Test"
 tags: [Datenbank, football-data, sport-open-data]
 ---
+<script src="/js/jquery-1.11.2.min.js"></script>
 
 <script>
 	$.ajax({

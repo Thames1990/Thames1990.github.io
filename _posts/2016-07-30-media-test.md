@@ -4,6 +4,8 @@ title: Multimedia Test
 tags: [Mutlimedia, Test, football-data]
 bigimg: /img/404-soutpark.jpg
 ---
+<script src="/js/jquery-1.11.2.min.js"></script>
+
 <script>
 	$.ajax({
 		headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
