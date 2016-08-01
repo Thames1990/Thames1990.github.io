@@ -1,7 +1,11 @@
 ---
 layout: post
-title: "Datenbank Test"
-tags: [Datenbank, football-data, sport-open-data]
+title: Datenbank Test
+tags:
+  - Datenbank
+  - football-data
+  - sport-open-data
+published: true
 ---
 <script src="/js/jquery-1.11.2.min.js"></script>
 
