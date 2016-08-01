@@ -16,13 +16,14 @@ tags: [Mutlimedia, Test, football-data]
             type: 'GET',
         }).done(function(response) {
             console.log(response);
+            var id = null;
             $.ajax({
                 headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
                 url: '//api.football-data.org/v1/competitions/' + item,
                 dataType: 'json',
                 type: 'GET',
             }).done(function(response) {
-                var id = response.league
+                id = response.league;
                 $('.image_grid').append('<h2 id="' + id + '">' + response.caption + '</h2>');
             });
             $.each(response.teams, function(index, item) {
