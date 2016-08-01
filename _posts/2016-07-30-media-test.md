@@ -13,7 +13,7 @@ tags: [Mutlimedia, Test, football-data]
             headers: { 
                 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365', 
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': 'true,
+                'Access-Control-Allow-Credentials': 'true',
                 'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
                 'Access-Control-Allow-Headers': 'Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
             },
@@ -26,7 +26,7 @@ tags: [Mutlimedia, Test, football-data]
                 headers: { 
                     'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365', 
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Credentials': 'true,
+                    'Access-Control-Allow-Credentials': 'true',
                     'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
                     'Access-Control-Allow-Headers': 'Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
                 },
