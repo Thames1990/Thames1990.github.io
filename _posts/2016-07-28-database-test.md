@@ -32,7 +32,7 @@ tags:
 			tr += '<td>' + response.data.leagues[index].cup + '</td>';
 			tr += '</tr>';
 		});
-		$('#sports_open_data').append(tr);
+		$('#sports_open_data tbody').append(tr);
 	});
 	
 	$.ajax({
@@ -56,36 +56,42 @@ tags:
 			tr += '<td>' + response[index].lastUpdated + '</td>';
 			tr += '</tr>';
 		});
-		$('#football_data').append(tr);
+		$('#football_data tbody').append(tr);
 	}); 
 </script>
 
 ## Sport Open Data
 ### Verfügbare Ligen:
 <table id="sports_open_data" class="sortable" border="1">
-	<tr>
-		<th>Id</th>
-		<th>Abkürzung</th>
-		<th>Name</th>
-		<th>Nation</th>
-		<th>Ligaklasse</th>
-		<th>Verband</th>
-		<th>Pokal?</th>
-	</tr>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Abkürzung</th>
+            <th>Name</th>
+            <th>Nation</th>
+            <th>Ligaklasse</th>
+            <th>Verband</th>
+            <th>Pokal?</th>
+        </tr>
+	</thead>
+	<tbody></tbody>
 </table>
 
 ## Football-Data
 ### Verfügbare Ligen:
 <table id="football_data" class="sortable" border="1">
-	<tr>
-		<th>Id</th>
-		<th>Name</th>
-		<th>Abkürzung</th>
-		<th>Jahr</th>
-		<th>Aktueller Spieltag</th>
-		<th>Spieltage</th>
-		<th>Mannschaften</th>
-		<th>Spiele</th>
-		<th>Zuletzt aktualisiert</th>
-	</tr>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Abkürzung</th>
+            <th>Jahr</th>
+            <th>Aktueller Spieltag</th>
+            <th>Spieltage</th>
+            <th>Mannschaften</th>
+            <th>Spiele</th>
+            <th>Zuletzt aktualisiert</th>
+        </tr>
+	</thead>
+	<tbody></tbody>
 </table>
