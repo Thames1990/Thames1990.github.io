@@ -23,7 +23,7 @@ tags: [Mutlimedia, Test, football-data]
                     );
         		});
         	});
-    };
+    });
 </script>
 
 <div class="image_grid"></div>
