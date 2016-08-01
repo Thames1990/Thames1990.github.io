@@ -23,11 +23,11 @@ tags: [Mutlimedia, Test, football-data]
                 type: 'GET',
             }).done(function(response) {
                 $('.image_grid').append('<h2>' + response.caption + '</h2>');
-            });
-            $.each(response.teams, function(index, item) {
-                $('.image_grid').prepend(
-                '<a href="' + response.teams[index].crestUrl + '"><figure><img src="' + response.teams[index].crestUrl + '" width="100%"/><figcaption>' + response.teams[index].name + '</figcaption></figure></a>'
-                );
+                $.each(response.teams, function(index, item) {
+                    $('.image_grid').append(
+                    '<a href="' + response.teams[index].crestUrl + '"><figure><img src="' + response.teams[index].crestUrl + '" width="100%"/><figcaption>' + response.teams[index].name + '</figcaption></figure></a>'
+                    );
+                });
             });
         });
     });
