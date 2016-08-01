@@ -15,9 +15,9 @@ bigimg: /img/404-soutpark.jpg
 	}).done(function(response) {
 		console.log(response);
 		$.each(response.teams, function(index, item) {
-			$('#team_logos').prepend('<img src="' + response.teams[index].crestUrl + '" width="100%"/>');
+			$('.image_grid').prepend('<a href="' + response.teams[index].crestUrl + '"><figure><img src="' + response.teams[index].crestUrl + '" width="100%"/></figure></a>');
 		});
 	});
 </script>
 
-<div id="team_logos"></div>
+<div class="image_grid"></div>
