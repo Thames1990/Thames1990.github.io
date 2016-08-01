@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: Multimedia Test
 tags: [Mutlimedia, Test, football-data]
 bigimg: /img/404-soutpark.jpg
