@@ -2,6 +2,7 @@
 layout: post
 title: Markdown Test
 subtitle: 404
+bigimg: /img/404-southpark.jpg
 ---
 
 # Überschrift 1
