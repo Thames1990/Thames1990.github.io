@@ -63,8 +63,8 @@ published: true
 </script>
 
 ## Sport Open Data
-
 ### Verfügbare Ligen:
+
 <table id="sports_open_data" class="sortable" border="1">
     <thead>
         <tr>
@@ -81,8 +81,8 @@ published: true
 </table>
 
 ## Football-Data
-
 ### Verfügbare Ligen:
+
 <table id="football_data" class="sortable" border="1">
     <thead>
         <tr>
