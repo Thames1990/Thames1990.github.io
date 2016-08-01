@@ -2,7 +2,6 @@
 layout: post
 title: Multimedia Test
 tags: [Mutlimedia, Test, football-data]
-bigimg: /img/404-soutpark.jpg
 ---
 
 <script src="/js/jquery-1.11.2.min.js"></script>
