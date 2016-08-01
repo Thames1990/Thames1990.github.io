@@ -5,83 +5,113 @@
                 <ul class="list-inline text-center footer-links">
                     {% if site.author.facebook and site.footer-links-active.facebook %}
                     <li>
-                        <a href="https://www.facebook.com/{{ site.author.facebook }}" title="Facebook" target="_blank">
+                        <a
+                                href="https://www.facebook.com/{{ site.author.facebook }}"
+                                title="Facebook"
+                                target="_blank"
+                        >
                             <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
                             </span>
                         </a>
                     </li>
                     {% endif %}
                     {% if site.author.github and site.footer-links-active.github %}
                     <li>
-                        <a href="https://github.com/{{ site.author.github }}" title="GitHub" target="_blank">
+                        <a
+                                href="https://github.com/{{ site.author.github }}"
+                                title="GitHub"
+                                target="_blank"
+                        >
                             <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
                             </span>
                         </a>
                     </li>
                     {% endif %}
                     {% if site.author.twitter and site.footer-links-active.twitter %}
                     <li>
-                        <a href="https://twitter.com/{{ site.author.twitter }}" title="Twitter" target="_blank">
-                    <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                    </span>
+                        <a
+                                href="https://twitter.com/{{ site.author.twitter }}"
+                                title="Twitter"
+                                target="_blank"
+                        >
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
                         </a>
                     </li>
                     {% endif %}
                     {% if site.author.email and site.footer-links-active.email %}
                     <li>
-                        <a href="mailto:{{ site.author.email }}" title="Schreib mir eine Mail" target="_blank">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-              </span>
+                        <a
+                                href="mailto:{{ site.author.email }}"
+                                title="Schreib mir eine Mail"
+                                target="_blank"
+                        >
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
                         </a>
                     </li>
                     {% endif %}
                     {% if site.author.linkedin and site.footer-links-active.linkedin %}
                     <li>
-                        <a href="https://linkedin.com/in/{{ site.author.linkedin }}" title="LinkedIn" target="_blank">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-              </span>
+                        <a
+                                href="https://linkedin.com/in/{{ site.author.linkedin }}"
+                                title="LinkedIn"
+                                target="_blank"
+                        >
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
                         </a>
                     </li>
                     {% endif %}
                     {% if site.author.stackoverflow and site.footer-links-active.stackoverflow %}
                     <li>
-                        <a href="https://stackoverflow.com/users/{{ site.author.stackoverflow }}" title="StackOverflow"
-                           target="_blank">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
-              </span>
+                        <a
+                                href="https://stackoverflow.com/users/{{ site.author.stackoverflow }}"
+                                title="StackOverflow"
+                                target="_blank"
+                        >
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                            </span>
                         </a>
                     </li>
                     {% endif %}
                     {% if site.author.instagram and site.footer-links-active.instagram %}
                     <li>
-                        <a href="https://www.instagram.com/{{ site.author.instagram }}" title="Instagram"
-                           target="_blank">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
-              </span>
+                        <a
+                                href="https://www.instagram.com/{{ site.author.instagram }}"
+                                title="Instagram"
+                                target="_blank"
+                        >
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
                         </a>
                     </li>
                     {% endif %}
                     {% if site.footer-links-active.rss %}
                     <li>
-                        <a href="{{ '/feed.xml' | prepend: site.baseurl }}" title="RSS" target="_blank">
-			  <span class="fa-stack fa-lg">
-				<i class="fa fa-circle fa-stack-2x"></i>
-				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-			  </span>
+                        <a
+                                href="{{ '/feed.xml' | prepend: site.baseurl }}"
+                                title="RSS"
+                                target="_blank"
+                        >
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
                         </a>
                     </li>
                     {% endif %}

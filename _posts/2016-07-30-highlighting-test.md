@@ -3,6 +3,7 @@ layout: post
 title: Highlighting Test
 tags: [Ruby, Highlight, JSON]
 ---
+
 {% highlight ruby %}
 def show
     @widget = Widget(params[:id])
