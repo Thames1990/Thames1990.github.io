@@ -22,16 +22,16 @@ tags: [Mutlimedia, Test, football-data]
                 dataType: 'json',
                 type: 'GET',
             }).done(function(response) {
-                $('.competitions').append('<h2>' + response.caption + '</h2>');
-                $('.competitions').append('<div class="image_grid">');
+                $('.competitions').prepend('<h2>' + response.caption + '</h2>');
+                $('.competitions').prepend('<div class="image_grid">');
                 
             });
             $.each(response.teams, function(index, item) {
-                $('.competitions').append(
+                $('.competitions').prepend(
                 '<a href="' + response.teams[index].crestUrl + '"><figure><img src="' + response.teams[index].crestUrl + '"/><figcaption>' + response.teams[index].name + '</figcaption></figure></a>'
                 );
             });
-            $('.competitions').append('</div>');
+            $('.competitions').prepend('</div>');
         });
     });
 </script>
