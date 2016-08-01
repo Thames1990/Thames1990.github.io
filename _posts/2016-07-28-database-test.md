@@ -62,7 +62,7 @@ tags:
 
 ## Sport Open Data
 ### Verfügbare Ligen:
-<table id="sports_open_data" border="1">
+<table id="sports_open_data" class="sortable" border="1">
 	<tr>
 		<th>Id</th>
 		<th>Abkürzung</th>
@@ -76,7 +76,7 @@ tags:
 
 ## Football-Data
 ### Verfügbare Ligen:
-<table id="football_data" border="1">
+<table id="football_data" class="sortable" border="1">
 	<tr>
 		<th>Id</th>
 		<th>Name</th>
