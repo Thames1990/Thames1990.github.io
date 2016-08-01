@@ -22,7 +22,7 @@ tags: [Mutlimedia, Test, football-data]
                 dataType: 'json',
                 type: 'GET',
             }).done(function(response) {
-                $('.image_grid').prepend('<h2>' + response.caption + '</h2>');
+                $('.image_grid').append('<h2>' + response.caption + '</h2>');
             });
             $.each(response.teams, function(index, item) {
                 $('.image_grid').prepend(
