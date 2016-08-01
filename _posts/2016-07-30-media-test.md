@@ -10,42 +10,27 @@ tags: [Mutlimedia, Test, football-data]
     var competition_ids = ["424", "426", "427", "428", "430", "431", "432", "433", "434", "435", "436", "437", "438"]
     $.each(competition_ids, function(index, item) {
         $.ajax({
-            headers: { 
-                'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365', 
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': 'true',
-                'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
-                'Access-Control-Allow-Headers': 'Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-            },
+            headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
             url: '//api.football-data.org/v1/competitions/' + item + '/teams',
             dataType: 'json',
             type: 'GET',
         }).done(function(response) {
             console.log(response);
             $.ajax({
-                headers: { 
-                    'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365', 
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Credentials': 'true',
-                    'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
-                    'Access-Control-Allow-Headers': 'Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-                },
+                headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
                 url: '//api.football-data.org/v1/competitions/' + item,
                 dataType: 'json',
                 type: 'GET',
             }).done(function(response) {
-                $('.competitions').prepend('<h2>' + response.caption + '</h2>');
-                $('.competitions').prepend('<div class="image_grid">');
-                
+                $('.image_grid').append('<h2>' + response.caption + '</h2>');
             });
             $.each(response.teams, function(index, item) {
-                $('.competitions').prepend(
-                '<a href="' + response.teams[index].crestUrl + '"><figure><img src="' + response.teams[index].crestUrl + '"/><figcaption>' + response.teams[index].name + '</figcaption></figure></a>'
+                $('.image_grid').append(
+                '<a href="' + response.teams[index].crestUrl + '"><figure><img src="' + response.teams[index].crestUrl + '" width="100%"/><figcaption>' + response.teams[index].name + '</figcaption></figure></a>'
                 );
             });
-            $('.competitions').prepend('</div>');
         });
     });
 </script>
 
-<div id="competitions"></div>
+<div class="image_grid"></div>
