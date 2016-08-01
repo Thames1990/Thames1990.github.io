@@ -16,7 +16,7 @@ tags: [Mutlimedia, Test, football-data]
             type: 'GET',
         }).done(function(response) {
             console.log(response);
-            $a.ajax({
+            $.ajax({
                 headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
                 url: '//api.football-data.org/v1/competitions/' + item,
                 dataType: 'json',
