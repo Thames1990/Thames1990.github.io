@@ -25,7 +25,7 @@ tags: [Mutlimedia, Test, football-data]
                 $('.image_grid').append('<h2>' + response.caption + '</h2>');
             });
             $.each(response.teams, function(index, item) {
-                $('.image_grid').prepend(
+                $('.image_grid').append(
                 '<a href="' + response.teams[index].crestUrl + '"><figure><img src="' + response.teams[index].crestUrl + '"/><figcaption>' + response.teams[index].name + '</figcaption></figure></a>'
                 );
             });
