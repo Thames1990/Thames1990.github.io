@@ -686,7 +686,8 @@ td.gutter {
 /* --- Image grid --- */
 
 .image_grid div {
-    font-size: 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .image_grid a {
@@ -695,7 +696,6 @@ td.gutter {
     margin-bottom: 8px;
     width: calc(50% - 4px);
     margin-right: 8px;
-    border: 1px solid black;
 }
 
 .image_grid a:nth-of-type(2n) {
