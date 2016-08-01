@@ -10,14 +10,20 @@ tags: [Mutlimedia, Test, football-data]
     var competition_ids = ["424", "426", "427", "428", "430", "431", "432", "433", "434", "435", "436", "437", "438"]
     $.each(competition_ids, function(index, item) {
         $.ajax({
-            headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
+            headers: { 
+                'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365', 
+                'Access-Control-Allow-Origin': 'https://thames1990.github.io/' 
+            },
             url: '//api.football-data.org/v1/competitions/' + item + '/teams',
             dataType: 'json',
             type: 'GET',
         }).done(function(response) {
             console.log(response);
             $.ajax({
-                headers: { 'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365' },
+                headers: { 
+                    'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365',
+                    'Access-Control-Allow-Origin': 'https://thames1990.github.io/' 
+                },
                 url: '//api.football-data.org/v1/competitions/' + item,
                 dataType: 'json',
                 type: 'GET',
