@@ -686,33 +686,33 @@ td.gutter {
 /* --- Image grid --- */
 
 .image_grid div {
-    font-size: 0;
+  font-size: 0;
 }
 
 .image_grid a {
-    font-size: 16px;
-    display: inline-block;
-    margin-bottom: 8px;
-    width: calc(50% - 4px);
-    margin-right: 8px;
+  font-size: 16px; 
+  display: inline-block;
+  margin-bottom: 8px;
+  width: calc(50% - 4px);
+  margin-right: 8px;
 }
 
 .image_grid a:nth-of-type(2n) {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 @media screen and (min-width: 50em) {
-    .image_grid a {
-        width: calc(25% - 6px);
-    }
+  .image_grid a {
+    width: calc(25% - 6px);
+  }
 
-    .image_grid a:nth-of-type(2n) {
-        margin-right: 8px;
-    }
+  .image_grid a:nth-of-type(2n) {
+    margin-right: 8px;
+  }
 
-    .image_grid a:nth-of-type(4n) {
-        margin-right: 0;
-    }
+  .image_grid a:nth-of-type(4n) {
+    margin-right: 0;
+  }
 }
 
 /* --- Sortable table --- */

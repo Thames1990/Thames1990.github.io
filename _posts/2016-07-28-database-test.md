@@ -5,6 +5,7 @@ tags:
   - Datenbank
   - football-data
   - sport-open-data
+published: true
 ---
 
 <script src="/js/jquery-1.11.2.min.js"></script>
@@ -63,6 +64,7 @@ tags:
 
 ## Sport Open Data
 ### Verfügbare Ligen:
+
 <table id="sports_open_data" class="sortable" border="1">
     <thead>
         <tr>
@@ -80,6 +82,7 @@ tags:
 
 ## Football-Data
 ### Verfügbare Ligen:
+
 <table id="football_data" class="sortable" border="1">
     <thead>
         <tr>
