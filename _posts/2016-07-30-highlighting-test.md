@@ -1,7 +1,10 @@
 ---
 layout: post
 title: Highlighting Test
-tags: [Ruby, Highlight, JSON]
+tags:
+    - Ruby
+    - Highlight
+    - JSON
 ---
 
 {% highlight ruby %}

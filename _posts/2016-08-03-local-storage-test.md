@@ -1,11 +1,13 @@
 ---
 layout: post
 title: Javascript localstorage Test
-tags: [Javascript, localstorage, JSON]
+tags:
+    - Javascript
+    - localstorage
+customjs:
+    - /js/jquery-1.11.2.min.js
+    - /js/local-storage-test.js
 ---
-
-<script src="/js/jquery-1.11.2.min.js"></script>
-<script src="/js/local-storage-test.js"></script>
 
 ## localstorage
 

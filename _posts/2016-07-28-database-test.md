@@ -5,11 +5,11 @@ tags:
   - Datenbank
   - football-data
   - sport-open-data
+customjs:
+    - /js/jquery-1.11.2.min.js
+    - /js/sorttable.js
+    - /js/database-test.js
 ---
-
-<script src="/js/jquery-1.11.2.min.js"></script>
-<script src="/js/sorttable.js"></script>
-<script src="/js/database-test.js"></script>
 
 ## Sport Open Data
 

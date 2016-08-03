@@ -1,8 +1,10 @@
 ---
 layout: post
 title: Multimedia Test
-tags: [Multimedia, Test, football-data]
+tags:
+    - Multimedia
+    - football-data
+customjs:
+    - /js/jquery-1.11.2.min.js
+    - /js/media-test.js
 ---
-
-<script src="/js/jquery-1.11.2.min.js"></script>
-<script src="/js/media-test.js"></script>

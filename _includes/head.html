@@ -12,7 +12,8 @@
     {% endif %}
 
     <link
-            rel="alternate" type="application/rss+xml"
+            rel="alternate"
+            type="application/rss+xml"
             title="{{ site.title }} - {{ site.description }}"
             href="{{ site.baseurl }}/feed.xml"
     />
@@ -52,6 +53,11 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ font }}"/>
     {% endfor %}
     {% endif %}
+
+    <!-- Custom JavaScript files set in YAML front matter -->
+    {% for js in page.customjs %}
+    <script async type="text/javascript" src="{{ js }}"></script>
+    {% endfor %}
 
     <!-- Facebook OpenGraph tags -->
     <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}"/>
