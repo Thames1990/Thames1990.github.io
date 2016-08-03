@@ -10,5 +10,8 @@ customjs:
     - /js/indexed-db-test.js
 ---
 
-{:.indexed_db_table}
+<div class="table-responsive" markdown="block">
+{:.indexed_db_table .table}
 | ID | Vorname | Nachname | Alter |
+
+</div>

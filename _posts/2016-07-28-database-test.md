@@ -15,13 +15,19 @@ customjs:
 
 ### Verfügbare Ligen:
 
-{:.sports_open_data}
+<div class="table-responsive" markdown="block">
+{:.sports_open_data .sortable}
 | ID | Abkürzung | Name | Nation | Ligaklasse | Verband | Pokal |
+
+</div>
 
 
 ## Football-Data
 
 ### Verfügbare Ligen:
 
-{:.football_data}
+<div class="table-responsive" markdown="block">
+{:.football_data .table .sortable}
 | ID | Name | Abkürzung | Jahr | Aktueller Spieltag | Spieltage | Mannschaften | Spiele | Zuletzt aktualisiert |
+
+</div>
