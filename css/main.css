@@ -725,5 +725,6 @@ table.sortable thead {
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    border-color: #04422E;
+    background-color: #04422E;
+    border-color: #04422F;
 }
