@@ -17,7 +17,9 @@ Tippen Sie Text in das Feld ein und bestätigen anschließend, indem Sie den Kno
 
 <div class="input-group">
     <input type="text" class="form-control">
-    <span class="input-group-addon">Speichern</span>
+    <span class="input-group-btn">
+        <button class="btn btn-primary" type="button">Speichern</button>
+    </span>
 </div>
 
 <ul class="text"></ul>
