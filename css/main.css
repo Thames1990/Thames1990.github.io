@@ -723,8 +723,3 @@ table.sortable thead {
     font-weight: bold;
     cursor: default;
 }
-
-.navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    background-color: #04422E;
-    border-color: #04422F;
-}
