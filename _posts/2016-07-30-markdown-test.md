@@ -5,7 +5,8 @@ subtitle: 404
 bigimg: /img/404-southpark.jpg
 ---
 
-# Überschrift 1
+## Überschrift
+
 Dies ist Text.
 
 **Tabelle**
@@ -21,7 +22,7 @@ Dies ist Text.
 
 ![Crêpe](http://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg)
 
-### Code
+## Code
 
 ~~~
 var foo = function(x) {
@@ -30,7 +31,7 @@ var foo = function(x) {
 foo(3)
 ~~~
 
-#### Code mit Syntax Highlight
+### Code mit Syntax Highlight
 
 ```javascript
 var foo = function(x) {
@@ -39,7 +40,7 @@ var foo = function(x) {
 foo(3)
 ```
 
-#### Code mit Syntax Highlight und Zeilennummern
+### Code mit Syntax Highlight und Zeilennummern
 
 {% highlight javascript linenos %}
 var foo = function(x) {

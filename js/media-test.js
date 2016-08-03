@@ -1,6 +1,6 @@
 var competition_ids = [424, 426, 427, 428, 430, 431, 432, 433, 434, 435, 436, 437, 438];
 // var competition_ids = [424];
-$('body > header > div > div.container').append('<div class="image_grid"></div>');
+$('body > div > div > div > article').append('<div class="image_grid"></div>');
 $.each(competition_ids, function (competition_index, competition) {
     $('.image_grid').append('<div class="' + competition + '"></div>');
     $.ajax({

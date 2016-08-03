@@ -9,15 +9,15 @@ $.ajax({
 }).done(function (response) {
     console.log(response);
     var tr = '';
-    $.each(response.data.leagues, function (index, item) {
+    $.each(response.data.leagues, function (key, value) {
         tr += '<tr>';
-        tr += '<td>' + response.data.leagues[index].identifier + '</td>';
-        tr += '<td>' + response.data.leagues[index].league_slug + '</td>';
-        tr += '<td>' + response.data.leagues[index].name + '</td>';
-        tr += '<td>' + response.data.leagues[index].nation + '</td>';
-        tr += '<td>' + response.data.leagues[index].level + '</td>';
-        tr += '<td>' + response.data.leagues[index].federation + '</td>';
-        tr += '<td>' + response.data.leagues[index].cup + '</td>';
+        tr += '<td>' + response.data.leagues[key].identifier + '</td>';
+        tr += '<td>' + response.data.leagues[key].league_slug + '</td>';
+        tr += '<td>' + response.data.leagues[key].name + '</td>';
+        tr += '<td>' + response.data.leagues[key].nation + '</td>';
+        tr += '<td>' + response.data.leagues[key].level + '</td>';
+        tr += '<td>' + response.data.leagues[key].federation + '</td>';
+        tr += '<td>' + response.data.leagues[key].cup + '</td>';
         tr += '</tr>';
     });
     $('.sports_open_data').find('tbody').append(tr);
@@ -31,18 +31,18 @@ $.ajax({
 }).done(function (response) {
     console.log(response);
     var tr = '';
-    $.each(response, function (index, item) {
+    $.each(response, function (key, value) {
         tr += '<tr>';
-        tr += '<td>' + response[index].id + '</td>';
-        tr += '<td>' + response[index].caption + '</td>';
-        tr += '<td>' + response[index].league + '</td>';
-        tr += '<td>' + response[index].year + '</td>';
-        tr += '<td>' + response[index].currentMatchday + '</td>';
-        tr += '<td>' + response[index].numberOfMatchdays + '</td>';
-        tr += '<td>' + response[index].numberOfTeams + '</td>';
-        tr += '<td>' + response[index].numberOfGames + '</td>';
-        tr += '<td>' + response[index].lastUpdated + '</td>';
+        tr += '<td>' + response[key].id + '</td>';
+        tr += '<td>' + response[key].caption + '</td>';
+        tr += '<td>' + response[key].league + '</td>';
+        tr += '<td>' + response[key].year + '</td>';
+        tr += '<td>' + response[key].currentMatchday + '</td>';
+        tr += '<td>' + response[key].numberOfMatchdays + '</td>';
+        tr += '<td>' + response[key].numberOfTeams + '</td>';
+        tr += '<td>' + response[key].numberOfGames + '</td>';
+        tr += '<td>' + response[key].lastUpdated + '</td>';
         tr += '</tr>';
     });
     $('.football_data').find('tbody').append(tr);
-}); 
+});
