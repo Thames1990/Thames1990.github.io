@@ -703,16 +703,17 @@ td.gutter {
   }
 }
 
-figure {
+.image_grid figure {
+    width: 100%;
     display: inline-block;
     border: 1px solid black;
     margin: 1em;
 }
-figure img {
+.image_grid figure img {
     width: 100%;
     vertical-align: top;
 }
-figure figcaption {
+.image_grid figure figcaption {
     border: 1px solid black;
     text-align: center;
 }
