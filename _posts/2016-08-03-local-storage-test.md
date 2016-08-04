@@ -6,7 +6,7 @@ tags:
     - Javascript
     - localstorage
 js:
-    - /js/jquery-1.11.2.min.js
+    - /js/jquery-3.1.0.min.js
     - /js/local-storage-test.js
 ---
 
