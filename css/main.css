@@ -683,41 +683,6 @@ td.gutter {
     padding-top: 3px;
 }
 
-/* --- Image grid --- */
-
-.image_grid div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; /* or space-around */
-} 
-
-.image_grid a {
-  display: inline-block;
-  margin-bottom: 8px;
-  width: calc(50% - 4px);
-}
-
-@media screen and (min-width: 50em) {
-  .image_grid a {
-    width: calc(25% - 6px);
-  }
-}
-
-.image_grid figure {
-    width: 100%;
-    display: inline-block;
-    border: 1px solid black;
-    margin: 1em;
-}
-.image_grid figure img {
-    width: 100%;
-    vertical-align: top;
-}
-.image_grid figure figcaption {
-    border: 1px solid black;
-    text-align: center;
-}
-
 /* --- Sortable table --- */
 
 table.sortable thead {
@@ -740,7 +705,7 @@ input.gsc-input,
 
 /* --- Caret dropdown --- */
 
-.caret-reversed{
+.caret-reversed {
     -ms-transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
