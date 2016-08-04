@@ -1,9 +1,10 @@
 ---
 layout: post
 title: LaTeX Test
+date: 2016-08-03 22:24
 tags:
     - LaTeX
-customjs:
+ext-js:
     - //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 ---
 

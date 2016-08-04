@@ -1,10 +1,11 @@
 ---
 layout: post
 title: Javascript localstorage Test
+date: 2016-08-03 22:23
 tags:
     - Javascript
     - localstorage
-customjs:
+js:
     - /js/jquery-1.11.2.min.js
     - /js/local-storage-test.js
 ---

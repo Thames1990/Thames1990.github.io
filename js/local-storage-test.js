@@ -15,11 +15,12 @@ $(document).ready(function () {
         counter = 1;
     }
 
-    $('.input-group-addon').click(function () {
+    $(':button').click(function () {
         var form_control_value = $('.form-control').val();
-        if (form_control_value != null) {
+        if (form_control_value != null && form_control_value != "") {
+            counter++;
+            localStorage.setItem('counter', counter);
             localStorage.setItem(counter, form_control_value);
-            localStorage.setItem('counter', counter++);
             refreshContent();
         }
     });

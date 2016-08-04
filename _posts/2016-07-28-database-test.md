@@ -5,7 +5,7 @@ tags:
   - Datenbank
   - football-data
   - sport-open-data
-customjs:
+js:
     - /js/jquery-1.11.2.min.js
     - /js/sorttable.js
     - /js/database-test.js

@@ -24,6 +24,7 @@ description: Intuitiv zu bedienende Fußballstatistik-Datenbank
 # List of links in the navigation bar
 navbar-links:
   Suche:
+    - News: "news-search/"
     - Wettbewerbe: ""
     - Mannschaften: ""
     - Spiele: ""
