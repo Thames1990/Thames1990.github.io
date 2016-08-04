@@ -1,5 +1,4 @@
 var competition_ids = [424, 426, 427, 428, 430, 431, 432, 433, 434, 435, 436, 437, 438];
-// var competition_ids = [424];
 $('body > div > div > div > article').append('<div class="image_grid"></div>');
 $.each(competition_ids, function (competition_index, competition) {
     $('.image_grid').append('<div class="' + competition + '"></div>');
@@ -17,14 +16,14 @@ $.each(competition_ids, function (competition_index, competition) {
             type: 'GET'
         }).done(function (response) {
             $('.' + competition).before(
-                '<h2 class="' + competition + '" onclick="toggle_div(' + competition + ')" style="cursor: crosshair">' + response.caption + '</h2>'
+                '<h2 class="' + competition + '">' + response.caption + '<button class="btn btn-default dropdown-toggle pull-right" data-toggle="dropdown" onclick="toggle_div(' + competition + ')"><span class="caret ' + competition + '"></span></button></h2>'
             ).hide();
         });
         $.each(response.teams, function (team_index, team_item) {
             $('.' + competition).append(
                 '<a href="' + response.teams[team_index].crestUrl + '">' +
                 '<figure>' +
-                '<img src="' + response.teams[team_index].crestUrl + '"/>' +
+                '<img src="' + response.teams[team_index].crestUrl + '" class="img-responsive"/>' +
                 '<figcaption>' + response.teams[team_index].name + '</figcaption>' +
                 '</figure>' +
                 '</a>'
@@ -33,6 +32,7 @@ $.each(competition_ids, function (competition_index, competition) {
     });
 });
 
-var toggle_div = function (competition_item) {
-    $('div.' + competition_item).toggle();
-};
+function toggle_div(competition) {
+    $('.caret.' + competition).toggleClass('caret-reversed');
+    $('div.' + competition).toggle();
+}

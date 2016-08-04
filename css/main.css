@@ -734,3 +734,11 @@ input.gsc-input,
     box-sizing: content-box;
     line-height: normal;
 }
+
+/* --- Caret dropdown --- */
+
+.caret-reversed{
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
