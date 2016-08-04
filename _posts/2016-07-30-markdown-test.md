@@ -7,16 +7,32 @@ bigimg: /img/404-southpark.jpg
 
 ## Überschrift
 
-Dies ist Text.
+Dies ist kein HTML, sondern eine andere Sprache.
 
-**Tabelle**
+## Kramdown Klassen und IDs
 
+A simple paragraph with an ID attribute.
+{: #para-one}
+
+A simple paragraph with a class attribute.
+{: .para-one}
+
+## Tabellen
+
+<div class="table-responsive" markdown="block">
+{:.table}
 | Nummer | Nächste Nummer | Vorhergehende Nummer |
 | :------ |:--- | :--- |
 | Fünf | Sechs | Vier |
 | Zehn | Elf | Neun |
 | Sieben | Acht | Sechs |
 | Zwei | Drei | Eins |
+
+</div>
+
+## Referenzen
+
+Dies ist eine Referenz.[^1]
 
 ## Bild
 
@@ -48,3 +64,8 @@ var foo = function(x) {
 }
 foo(3)
 {% endhighlight %}
+
+*[eine andere Sprache]: Markdown
+*[HTML]: HyperTextMarkupLanguage
+
+[^1]: Hier steht die passende Referenz.

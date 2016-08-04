@@ -16,7 +16,7 @@ js:
 ### Verfügbare Ligen:
 
 <div class="table-responsive" markdown="block">
-{:.sports_open_data .sortable}
+{:.sports_open_data .table .sortable}
 | ID | Abkürzung | Name | Nation | Ligaklasse | Verband | Pokal |
 
 </div>

@@ -31,8 +31,8 @@ open.onsuccess = function () {
         tr += '<tr>';
         $.each(getJohn.result, function (key, value) {
             if (typeof value == 'object') {
-                $.each(value, function (index, val) {
-                    tr += '<td>' + val + '</td>';
+                $.each(value, function (object_key, object_value) {
+                    tr += '<td>' + object_value + '</td>';
                 });
             } else {
                 tr += '<td>' + value + '</td>';
@@ -47,8 +47,8 @@ open.onsuccess = function () {
         tr += '<tr>';
         $.each(getBob.result, function (key, value) {
             if (typeof value == 'object') {
-                $.each(value, function (index, val) {
-                    tr += '<td>' + val + '</td>';
+                $.each(value, function (object_key, object_value) {
+                    tr += '<td>' + object_value + '</td>';
                 });
             } else {
                 tr += '<td>' + value + '</td>';
