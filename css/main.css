@@ -715,6 +715,19 @@ td.gutter {
     }
 }
 
+figure {
+    display: inline-block;
+    border: 1px solid gray;
+    margin: 1em;
+}
+figure img {
+    vertical-align: top;
+}
+figure figcaption {
+    border: 1px solid blue;
+    text-align: center;
+}
+
 /* --- Sortable table --- */
 
 table.sortable thead {
