@@ -23,7 +23,7 @@ $.each(competition_ids, function (competition_index, competition) {
             $('.' + competition).append(
                 '<a href="' + response.teams[team_index].crestUrl + '">' +
                 '<figure>' +
-                '<img src="' + response.teams[team_index].crestUrl + '" class="img-responsive"/>' +
+                '<img src="' + response.teams[team_index].crestUrl + '"/>' +
                 '<figcaption>' + response.teams[team_index].name + '</figcaption>' +
                 '</figure>' +
                 '</a>'
@@ -34,5 +34,5 @@ $.each(competition_ids, function (competition_index, competition) {
 
 function toggle_div(competition) {
     $('.caret.' + competition).toggleClass('caret-reversed');
-    $('div.' + competition).toggle();
+    $('div.' + competition).slideToggle();
 }
