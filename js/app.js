@@ -37,10 +37,11 @@ window.onload = function() {
                 var todo = todos[(todos.length - 1 - i)];
 
                 var li = document.createElement('li');
+                li.className = 'list-group-item';
                 li.id = 'todo-' + todo.timestamp;
                 var checkbox = document.createElement('input');
                 checkbox.type = "checkbox";
-                checkbox.className = "todo-checkbox";
+                checkbox.className = "todo-checkbox pull-right";
                 checkbox.setAttribute("data-id", todo.timestamp);
 
                 li.appendChild(checkbox);
