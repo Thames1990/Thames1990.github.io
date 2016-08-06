@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    $('body > div > div > div > article').append('<div class="image_grid"></div>');
     $.ajax({
         headers: {'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365'},
         url: '//api.football-data.org/v1/competitions/',
@@ -8,7 +7,7 @@ $(document).ready(function () {
     }).done(function (response) {
         // Loads all competitions
         $.each(response, function (key, value) {
-            $('.image_grid').append('<div id="competition_' + value.id + '" style="display: none;"></div>');
+            $('body > div > div > div > article').append('<div id="competition_' + value.id + '" style="display: none;"></div>');
             var div = $('div#competition_' + value.id);
 
             // Initially set the competition div layout (mobile/desktop)
@@ -65,7 +64,6 @@ function loadCompetitionData(competition_id) {
                     '</figure>' +
                     '</a>'
                 );
-                setThumbnailCss($('.thumbnail'));
             });
         });
     } else {
@@ -91,20 +89,4 @@ function setDivCss(div, count, gap) {
     div.css('-moz-column-gap', gap);
     div.css('-webkit-column-gap', gap);
     div.css('column-gap', gap);
-}
-
-/**
- * Sets CSS parameters for a thumbnail.
- * @param thumbnail Team thumbnail
- */
-function setThumbnailCss(thumbnail) {
-    thumbnail.css('display', 'inline-block');
-    thumbnail.css('border', '1px solid black');
-    thumbnail.css('text-align', 'center');
-    thumbnail.css('width', '100%');
-    thumbnail.find('figure').css('width', '100%');
-    thumbnail.find('img').css('width', '100%');
-    thumbnail.find('img').css('padding', '0.5em');
-    thumbnail.find('img').css('border', '1px solid black');
-    thumbnail.find('figcaption').css('border', '1px solid black');
 }

@@ -18,10 +18,10 @@ function showImage(name) {
                 urls.push(m[1]);
             }
 
-            $('.image_grid').append('<h2>' + name + '</h2>');
+            var image_grid = $('.image_grid');
             urls.forEach(function (url) {
-                $(".image_grid").append(
-                    '<a href="' + window.location.protocol + url + '">' +
+                image_grid.append(
+                    '<a class="thumbnail" href="' + window.location.protocol + url + '">' +
                     '<figure>' +
                     '<img src="' + window.location.protocol + url + '"/>' +
                     '<figcaption>' + name + '</figcaption>' +
@@ -33,7 +33,10 @@ function showImage(name) {
 }
 
 $(document).ready(function () {
-    $(".form-control").autocomplete({
+    var form_control = $('.form-control');
+    var search = $('#search');
+
+    form_control.autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: "http://en.wikipedia.org/w/api.php",
@@ -50,9 +53,15 @@ $(document).ready(function () {
         }
     });
 
-    $(':button').click(function () {
-        var form_control_value = $('.form-control').val();
-        $('.form-control').val('');
+    form_control.on('keypress', function (event) {
+        if (event.which === 13) {
+            search.trigger('click');
+        }
+    });
+
+    search.click(function () {
+        var form_control_value = form_control.val();
+        form_control.val('');
         if (form_control_value != null && form_control_value != "") {
             showImage(form_control_value);
         }

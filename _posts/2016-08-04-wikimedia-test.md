@@ -18,7 +18,7 @@ js:
 <div class="input-group">
     <input type="text" class="form-control" placeholder="Wikipedia-Artikel-Name">
     <span class="input-group-btn">
-        <button class="btn btn-primary" type="button">Suchen</button>
+        <button class="btn btn-primary" id="search" type="button">Suchen</button>
     </span>
 </div>
 
