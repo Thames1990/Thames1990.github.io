@@ -1,3 +1,5 @@
+// TODO Rewrite with JQuery
+
 window.onload = function() {
     // Display the todo items.
     todoDB.open(refreshTodos);

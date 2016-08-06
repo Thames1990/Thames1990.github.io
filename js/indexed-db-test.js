@@ -11,6 +11,8 @@ open.onupgradeneeded = function () {
     var index = store.createIndex("NameIndex", ["name.last", "name.first"]);
 };
 
+var tbody = $('.indexed_db_table').find('tbody');
+
 open.onsuccess = function () {
     // Start a new transaction
     var db = open.result;
@@ -39,7 +41,7 @@ open.onsuccess = function () {
             }
         });
         tr += '</tr>';
-        $('.indexed_db_table').find('tbody').append(tr);
+        tbody.append(tr);
     };
 
     getBob.onsuccess = function () {
@@ -55,7 +57,7 @@ open.onsuccess = function () {
             }
         });
         tr += '</tr>';
-        $('.indexed_db_table').find('tbody').append(tr);
+        tbody.append(tr);
     };
 
     // Close the db when the transaction is done

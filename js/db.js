@@ -1,3 +1,5 @@
+// TODO Refactor
+
 var todoDB = (function () {
     var tDB = {};
     var datastore = null;
