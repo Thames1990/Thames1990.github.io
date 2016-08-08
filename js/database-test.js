@@ -1,3 +1,6 @@
+// sport-open-data
+
+// Wettbewerbe
 $.ajax({
     headers: {
         'X-Mashape-Key': '5CGnz2QM4GmshiIEb9jmizhrwEzAp1Kzby3jsney4KRPUEAFiJ',
@@ -7,7 +10,6 @@ $.ajax({
     dataType: 'json',
     type: 'GET'
 }).done(function (response) {
-    console.log(response);
     var tr = '';
     $.each(response.data.leagues, function (key, value) {
         tr += '<tr>';
@@ -20,8 +22,57 @@ $.ajax({
         tr += '<td>' + response.data.leagues[key].cup + '</td>';
         tr += '</tr>';
     });
-    $('.sports_open_data').find('tbody').append(tr);
+    $('.sports_open_data_competitions').find('tbody').append(tr);
 });
+
+// Premier League
+
+// Mannschaften
+$.ajax({
+    headers: {
+        'X-Mashape-Key': '5CGnz2QM4GmshiIEb9jmizhrwEzAp1Kzby3jsney4KRPUEAFiJ',
+        'Accept': 'application/json'
+    },
+    url: 'https://sportsop-soccer-sports-open-data-v1.p.mashape.com/v1/leagues/premier-league/seasons/16-17/teams',
+    dataType: 'json',
+    type: 'GET'
+}).done(function (response) {
+    var tr = '';
+    $.each(response.data.teams, function (key, value) {
+        tr += '<tr>';
+        tr += '<td>' + response.data.teams[key].flag + '</td>';
+        tr += '<td>' + response.data.teams[key].identifier + '</td>';
+        tr += '<td>' + response.data.teams[key].name + '</td>';
+        tr += '<td>' + response.data.teams[key].notes + '</td>';
+        tr += '<td>' + response.data.teams[key].team_slug + '</td>';
+        tr += '</tr>';
+    });
+    $('.sports_open_data_premier_league_teams').find('tbody').append(tr);
+});
+
+// Tabelle
+$.ajax({
+    headers: {
+        'X-Mashape-Key': '5CGnz2QM4GmshiIEb9jmizhrwEzAp1Kzby3jsney4KRPUEAFiJ',
+        'Accept': 'application/json'
+    },
+    url: 'https://sportsop-soccer-sports-open-data-v1.p.mashape.com/v1/leagues/premier-league/seasons/16-17/standings',
+    dataType: 'json',
+    type: 'GET'
+}).done(function (response) {
+    var tr = '';
+    $.each(response.data.standings, function (key, value) {
+        tr += '<tr>';
+        tr += '<td>' + response.data.standings[key].position + '</td>';
+        tr += '<td>' + response.data.standings[key].team + '</td>';
+        tr += '<td>' + response.data.standings[key].overall.goal_difference + '</td>';
+        tr += '<td>' + response.data.standings[key].overall.points + '</td>';
+        tr += '</tr>';
+    });
+    $('.sports_open_data_premier_league_standings').find('tbody').append(tr);
+});
+
+// football-data
 
 $.ajax({
     headers: {'X-Auth-Token': 'bf0513ea0ba6457fb4ae6d380cca8365'},
@@ -29,7 +80,6 @@ $.ajax({
     dataType: 'json',
     type: 'GET'
 }).done(function (response) {
-    console.log(response);
     var tr = '';
     $.each(response, function (key, value) {
         tr += '<tr>';

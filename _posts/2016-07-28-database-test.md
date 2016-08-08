@@ -16,8 +16,26 @@ js:
 ### Verfügbare Ligen:
 
 <div class="table-responsive" markdown="block">
-{:.sports_open_data .table .sortable}
+{:.sports_open_data_competitions .table .sortable}
 | ID | Abkürzung | Name | Nation | Ligaklasse | Verband | Pokal |
+
+</div>
+
+### Premier League:
+
+#### Mannschaften
+
+<div class="table-responsive" markdown="block">
+{:.sports_open_data_premier_league_teams .table .sortable}
+| Flag | ID | Name | Notizen | Abkürzung |
+
+</div>
+
+#### Tabelle
+
+<div class="table-responsive" markdown="block">
+{:.sports_open_data_premier_league_standings .table .sortable}
+| Position | Team | Tordifferenz | Punkte |
 
 </div>
 
