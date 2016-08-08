@@ -35,7 +35,7 @@ js:
 
 <div class="table-responsive" markdown="block">
 {:.sports_open_data_premier_league_standings .table .sortable}
-| Position | Team | Tordifferenz | Punkte |
+| Position | Verein | Spiele | Gewonnen | Unentschieden | Verloren | Tore | Differenz | Punkte
 
 </div>
 

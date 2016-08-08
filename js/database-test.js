@@ -65,7 +65,13 @@ $.ajax({
         tr += '<tr>';
         tr += '<td>' + response.data.standings[key].position + '</td>';
         tr += '<td>' + response.data.standings[key].team + '</td>';
-        tr += '<td>' + response.data.standings[key].overall.goal_difference + '</td>';
+        // TODO Rename after database is fixed
+        tr += '<td>' + response.data.standings[key].overall.macthes_played + '</td>';
+        tr += '<td>' + response.data.standings[key].overall.wins + '</td>';
+        tr += '<td>' + response.data.standings[key].overall.draws + '</td>';
+        tr += '<td>' + response.data.standings[key].overall.losts + '</td>';
+        tr += '<td>' + response.data.standings[key].overall.scores;
+        tr += ':' + response.data.standings[key].overall.goal_difference + '</td>';
         tr += '<td>' + response.data.standings[key].overall.points + '</td>';
         tr += '</tr>';
     });
