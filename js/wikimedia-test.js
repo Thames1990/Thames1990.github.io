@@ -1,46 +1,46 @@
-function showImage(name) {
-    $.ajaxPrefilter(function (options) {
-        if (options.crossDomain && jQuery.support.cors) {
-            var https = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-            options.url = https + '//cors-anywhere.herokuapp.com/' + options.url;
-        }
-    });
-
-    $.get(
-        'https://de.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=' + name + '&callback=?',
-
-        function (response) {
-            var m;
-            var urls = [];
-            var regex = /<img.*?src=\\"(.*?)\\"/gmi;
-
-            while (m = regex.exec(response)) {
-                urls.push(m[1]);
-            }
-
-            var image_grid = $('.image_grid');
-            urls.forEach(function (url) {
-                image_grid.append(
-                    '<a class="thumbnail" href="' + window.location.protocol + url + '">' +
-                    '<figure>' +
-                    '<img src="' + window.location.protocol + url + '"/>' +
-                    '<figcaption>' + name + '</figcaption>' +
-                    '</figure>' +
-                    '</a>'
-                );
-            });
-        });
-}
-
 $(document).ready(function () {
-    var form_control = $('.form-control');
-    var search = $('#search');
+    var image_grid = $('.image_grid');
+    var input = $('.form-control');
+    var button = $('#search');
+    var toSearch = '';
+    var searchUrl = 'https://de.wikipedia.org/w/api.php';
 
-    form_control.autocomplete({
+    function searchWiki() {
+        $.ajax({
+            url: searchUrl,
+            dataType: 'jsonp',
+            data: {
+                action: 'query',
+                format: 'json',
+                generator: 'search',
+                gsrsearch: toSearch,
+                gsrlimit: 1,
+                prop: 'pageimages',
+                piprop: 'thumbnail',
+                pilimit: 'max',
+                pithumbsize: 400
+            },
+            success: function (json) {
+                var pages = json.query.pages;
+                $.map(pages, function (page) {
+                    image_grid.append(
+                        '<a class="thumbnail" href="' + page.thumbnail.source + '">' +
+                        '<figure>' +
+                        '<img src="' + page.thumbnail.source + '"/>' +
+                        '<figcaption>' + page.title + '</figcaption>' +
+                        '</figure>' +
+                        '</a>'
+                    );
+                });
+            }
+        });
+    }
+
+    input.autocomplete({
         source: function (request, response) {
             $.ajax({
-                url: "http://en.wikipedia.org/w/api.php",
-                dataType: "jsonp",
+                url: searchUrl,
+                dataType: 'jsonp',
                 data: {
                     'action': "opensearch",
                     'format': "json",
@@ -53,17 +53,16 @@ $(document).ready(function () {
         }
     });
 
-    form_control.on('keypress', function (event) {
+    input.on('keypress', function (event) {
         if (event.which === 13) {
-            search.trigger('click');
+            button.trigger('click');
         }
     });
 
-    search.click(function () {
-        var form_control_value = form_control.val();
-        form_control.val('');
-        if (form_control_value != null && form_control_value != "") {
-            showImage(form_control_value);
-        }
+    button.click(function () {
+        image_grid.empty();
+        toSearch = input.val();
+        input.val('');
+        searchWiki();
     });
 });
