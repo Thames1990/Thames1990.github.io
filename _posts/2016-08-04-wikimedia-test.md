@@ -11,7 +11,7 @@ css:
     - /css/jquery-ui.css
 js:
     - /js/framework/jquery-3.1.0.min.js
-    - /js/jquery-ui.min.js
+    - /js/framework/jquery-ui.min.js
     - /js/wikimedia-test.js
 ---
 
