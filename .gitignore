@@ -8,5 +8,9 @@ _site
 Thumbs.db
 ehthumbs.db
 
+# IntelliJ
+.idea
+*.iml
+
 # incremental build
 /.jekyll-metadata
