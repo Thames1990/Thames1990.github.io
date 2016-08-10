@@ -56,14 +56,18 @@ function loadCompetitionData(competition_id) {
         }).done(function (response) {
             // Add each team of the competition
             $.each(response.teams, function (team_index, team_item) {
-                div.append(
-                    '<a class="thumbnail" href="' + response.teams[team_index].crestUrl + '">' +
-                    '<figure>' +
-                    '<img src="' + response.teams[team_index].crestUrl + '"/>' +
-                    '<figcaption>' + response.teams[team_index].name + '</figcaption>' +
-                    '</figure>' +
-                    '</a>'
-                );
+                if (response.teams[team_index].crestUrl != null) {
+                    div.append(
+                        '<a class="thumbnail" href="' + response.teams[team_index].crestUrl + '">' +
+                        '<figure>' +
+                        '<img src="' + response.teams[team_index].crestUrl + '"/>' +
+                        '<figcaption>' + response.teams[team_index].name + '</figcaption>' +
+                        '</figure>' +
+                        '</a>'
+                    );
+                } else {
+                    loadLogoViaWikimedia(response, team_index);
+                }
             });
         });
     } else {
@@ -74,6 +78,44 @@ function loadCompetitionData(competition_id) {
     // Change style of detail indicator and toggle detail view visibility
     span.toggleClass('caret-reversed');
     div.slideToggle();
+}
+
+/**
+ * Loads a team logo via Wikimedia as a fallback, if 'cresturl' isn't defined.
+ * TODO Fix 404 errors on defined, but not correctly set 'cresturl' parameter
+ * @param response JSON response from AJAX call
+ * @param team_index The appropriate team index in the JSON response
+ */
+function loadLogoViaWikimedia(response, team_index) {
+    console.log(response.teams[team_index].name + '\'s logo was loaded via Wikimedia');
+    $.ajax({
+        url: 'https://de.wikipedia.org/w/api.php',
+        dataType: 'jsonp',
+        data: {
+            action: 'query',
+            format: 'json',
+            generator: 'search',
+            gsrsearch: response.teams[team_index].name,
+            gsrlimit: 1,
+            prop: 'pageimages',
+            piprop: 'thumbnail',
+            pilimit: 'max',
+            pithumbsize: 400
+        },
+        success: function (json) {
+            var pages = json.query.pages;
+            $.map(pages, function (page) {
+                div.append(
+                    '<a class="thumbnail" href="' + page.thumbnail.source + '">' +
+                    '<figure>' +
+                    '<img src="' + page.thumbnail.source + '"/>' +
+                    '<figcaption>' + response.teams[team_index].name + '</figcaption>' +
+                    '</figure>' +
+                    '</a>'
+                );
+            });
+        }
+    });
 }
 
 /**
