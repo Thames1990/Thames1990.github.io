@@ -66,7 +66,7 @@ function loadCompetitionData(competition_id) {
                         '</a>'
                     );
                 } else {
-                    loadLogoViaWikimedia(response, team_index);
+                    loadLogoViaWikimedia(response, team_index, div);
                 }
             });
         });
@@ -85,8 +85,9 @@ function loadCompetitionData(competition_id) {
  * TODO Fix 404 errors on defined, but not correctly set 'cresturl' parameter
  * @param response JSON response from AJAX call
  * @param team_index The appropriate team index in the JSON response
+ * @param div The appropriate div (competition assigned) for the team
  */
-function loadLogoViaWikimedia(response, team_index) {
+function loadLogoViaWikimedia(response, team_index, div) {
     console.log(response.teams[team_index].name + '\'s logo was loaded via Wikimedia');
     $.ajax({
         url: 'https://de.wikipedia.org/w/api.php',
