@@ -60,7 +60,6 @@ $(document).ready(function () {
     });
 
     button.click(function () {
-        image_grid.empty();
         toSearch = input.val();
         input.val('');
         searchWiki();
