@@ -6,8 +6,8 @@ tags:
   - football-data
   - sport-open-data
 js:
-    - /js/jquery-3.1.0.min.js
-    - /js/sorttable.js
+    - /js/framework/jquery-3.1.0.min.js
+    - /js/framework/sorttable.js
     - /js/database-test.js
 ---
 

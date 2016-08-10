@@ -7,7 +7,7 @@ tags:
     - IndexedDB
     - database
 js:
-    - /js/jquery-3.1.0.min.js
+    - /js/framework/jquery-3.1.0.min.js
     - /js/indexed-db-test.js
 ---
 
