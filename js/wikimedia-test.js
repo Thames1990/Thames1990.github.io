@@ -1,11 +1,13 @@
 $(document).ready(function () {
-    var image_grid = $('.image_grid');
     var input = $('.form-control');
     var button = $('#search');
-    var toSearch = '';
     var searchUrl = 'https://de.wikipedia.org/w/api.php';
 
-    function searchWiki() {
+    /**
+     * Searches for the primary image of a Wikipedia article via the Wikipedia API
+     * @param query The search String
+     */
+    function searchWikimediaImage(query) {
         $.ajax({
             url: searchUrl,
             dataType: 'jsonp',
@@ -13,7 +15,7 @@ $(document).ready(function () {
                 action: 'query',
                 format: 'json',
                 generator: 'search',
-                gsrsearch: toSearch,
+                gsrsearch: query,
                 gsrlimit: 1,
                 prop: 'pageimages',
                 piprop: 'thumbnail',
@@ -23,14 +25,18 @@ $(document).ready(function () {
             success: function (json) {
                 var pages = json.query.pages;
                 $.map(pages, function (page) {
-                    image_grid.append(
-                        '<a class="thumbnail" href="' + page.thumbnail.source + '">' +
-                        '<figure>' +
-                        '<img src="' + page.thumbnail.source + '"/>' +
-                        '<figcaption>' + page.title + '</figcaption>' +
-                        '</figure>' +
-                        '</a>'
-                    );
+                    if (typeof  page.thumbnail != 'undefined') {
+                        $('.image_grid').append(
+                            '<a class="thumbnail" href="' + page.thumbnail.source + '">' +
+                            '<figure>' +
+                            '<img src="' + page.thumbnail.source + '"/>' +
+                            '<figcaption>' + page.title + '</figcaption>' +
+                            '</figure>' +
+                            '</a>'
+                        );
+                    } else {
+                        // TODO Show modal
+                    }
                 });
             }
         });
@@ -60,8 +66,7 @@ $(document).ready(function () {
     });
 
     button.click(function () {
-        toSearch = input.val();
+        searchWikimediaImage(input.val());
         input.val('');
-        searchWiki();
     });
 });
