@@ -20,7 +20,9 @@ layout: default
         </a>
 
         <p class="post-meta">
-            Posted on {{ post.date | date: "%B %-d, %Y" }}
+            Erstellt am {{ post.date | date: "%d. %B %Y" | replace:"January","Januar" | replace:"February","Februar" |
+            replace:"March","März" | replace:"May","Mai" | replace:"June","Juni" | replace:"July","Juli" |
+            replace:"October","Oktober" | replace:"December","Dezember" }}
         </p>
 
         <div class="post-entry">

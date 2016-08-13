@@ -18,7 +18,9 @@ subtitle: Intuitiv zu bedienende Fußballstatistik-Datenbank
         </a>
 
         <p class="post-meta">
-            Erstellt am {{ post.date | date_to_long_string }}
+            Erstellt am {{ post.date | date: "%d. %B %Y" | replace:"January","Januar" | replace:"February","Februar" |
+            replace:"March","März" | replace:"May","Mai" | replace:"June","Juni" | replace:"July","Juli" |
+            replace:"October","Oktober" | replace:"December","Dezember" }}
         </p>
 
         <div class="post-entry">
