@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    var input = $('.form-control');
-    var button = $('#search');
+    var searchInput = $('.form-control');
+    var searchButton = $('#search');
     var searchUrl = 'https://de.wikipedia.org/w/api.php';
 
     /**
@@ -23,8 +23,7 @@ $(document).ready(function () {
                 pithumbsize: 400
             },
             success: function (json) {
-                var pages = json.query.pages;
-                $.map(pages, function (page) {
+                $.each(json.query.pages, function (page_key, page) {
                     if (typeof  page.thumbnail != 'undefined') {
                         $('.image_grid').append(
                             '<a class="thumbnail" href="' + page.thumbnail.source + '">' +
@@ -42,7 +41,8 @@ $(document).ready(function () {
         });
     }
 
-    input.autocomplete({
+    // Activates autocomplete for search input
+    searchInput.autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: searchUrl,
@@ -59,14 +59,16 @@ $(document).ready(function () {
         }
     });
 
-    input.on('keypress', function (event) {
+    // Triggers the 'click' event of the search button, if the enter key is pressed in the search input
+    searchInput.on('keypress', function (event) {
         if (event.which === 13) {
-            button.trigger('click');
+            searchButton.trigger('click');
         }
     });
 
-    button.click(function () {
-        searchWikimediaImage(input.val());
-        input.val('');
+    // Starts a new Wikimedia search
+    searchButton.click(function () {
+        searchWikimediaImage(searchInput.val());
+        searchInput.val('');
     });
 });
