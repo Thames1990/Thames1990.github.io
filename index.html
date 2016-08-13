@@ -18,9 +18,11 @@ subtitle: Intuitiv zu bedienende Fußballstatistik-Datenbank
         </a>
 
         <p class="post-meta">
-            Erstellt am {{ post.date | date: "%d. %B %Y" | replace:"January","Januar" | replace:"February","Februar" |
-            replace:"March","März" | replace:"May","Mai" | replace:"June","Juni" | replace:"July","Juli" |
-            replace:"October","Oktober" | replace:"December","Dezember" }}
+            Erstellt am {{ page.date | date: "%d. %B %Y" | replace:"January","Januar" |
+            replace:"February","Februar" | replace:"March","März" | replace:"May","Mai" |
+            replace:"June","Juni" | replace:"July","Juli" | replace:"October","Oktober" |
+            replace:"December","Dezember" }} | {% assign words = content | number_of_words %}
+            {% if words < 360 %}1 Minute{% else %}{{ words | divided_by:180 }} Minuten{% endif %}
         </p>
 
         <div class="post-entry">
