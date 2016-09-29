@@ -1,8 +1,9 @@
 ---
-layout: post
 title: Markdown Test
+date: 2016-07-30 00:00:00 +02:00
+layout: post
 subtitle: 404
-bigimg: /img/404-southpark.jpg
+bigimg: "/img/404-southpark.jpg"
 ---
 
 ## Überschrift

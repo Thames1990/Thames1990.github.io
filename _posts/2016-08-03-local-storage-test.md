@@ -1,13 +1,13 @@
 ---
-layout: post
 title: Javascript localstorage Test
-date: 2016-08-03 22:23
+date: 2016-08-03 22:23:00 +02:00
 tags:
-    - Javascript
-    - localstorage
+- Javascript
+- localstorage
+layout: post
 js:
-    - /js/framework/jquery-3.1.0.min.js
-    - /js/local-storage-test.js
+- "/js/framework/jquery-3.1.0.min.js"
+- "/js/local-storage-test.js"
 ---
 
 ## localstorage

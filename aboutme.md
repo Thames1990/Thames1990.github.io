@@ -1,6 +1,6 @@
 ---
-layout: page
 title: Thomas Mohr
+layout: page
 subtitle: Ist das noch ein Nebenprojekt?
 ---
 

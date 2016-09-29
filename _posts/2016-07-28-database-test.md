@@ -1,14 +1,15 @@
 ---
-layout: post
 title: Datenbank Test
+date: 2016-07-28 00:00:00 +02:00
 tags:
-  - Datenbank
-  - football-data
-  - sport-open-data
+- Datenbank
+- football-data
+- sport-open-data
+layout: post
 js:
-    - /js/framework/jquery-3.1.0.min.js
-    - /js/framework/sorttable.js
-    - /js/database-test.js
+- "/js/framework/jquery-3.1.0.min.js"
+- "/js/framework/sorttable.js"
+- "/js/database-test.js"
 ---
 
 ## Sport Open Data

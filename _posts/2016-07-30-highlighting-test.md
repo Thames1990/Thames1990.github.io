@@ -1,10 +1,11 @@
 ---
-layout: post
 title: Highlighting Test
+date: 2016-07-30 00:00:00 +02:00
 tags:
-    - Ruby
-    - Highlight
-    - JSON
+- Ruby
+- Highlight
+- JSON
+layout: post
 ---
 
 {% highlight ruby %}

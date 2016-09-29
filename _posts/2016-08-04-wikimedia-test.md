@@ -1,18 +1,18 @@
 ---
-layout: post
 title: Wikimedia Test
-date: 2016-08-04 12:40
+date: 2016-08-04 12:40:00 +02:00
 tags:
-    - Wikimedia
-    - Wikipedia
-    - JQuery
-    - Javascript
+- Wikimedia
+- Wikipedia
+- JQuery
+- Javascript
+layout: post
 css:
-    - /css/jquery-ui.css
+- "/css/jquery-ui.css"
 js:
-    - /js/framework/jquery-3.1.0.min.js
-    - /js/framework/jquery-ui.min.js
-    - /js/wikimedia-test.js
+- "/js/framework/jquery-3.1.0.min.js"
+- "/js/framework/jquery-ui.min.js"
+- "/js/wikimedia-test.js"
 ---
 
 <div class="input-group">
