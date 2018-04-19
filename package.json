@@ -1,29 +1,25 @@
 {
-    "title": "Freelancer",
-    "name": "startbootstrap-freelancer",
-    "version": "4.0.0",
-    "description": "A freelancer portfolio HTML theme for Bootstrap.",
+    "title": "Thomas Mohr",
+    "name": "thames1990.github.io",
+    "version": "1.0.0",
+    "description": "Software developer portfolio from Thomas Mohr",
     "keywords": [
         "css",
         "sass",
         "html",
         "responsive",
         "theme",
-        "template"
+        "portfolio"
     ],
-    "homepage": "https://startbootstrap.com/template-overviews/freelancer",
     "bugs": {
-        "url": "https://github.com/BlackrockDigital/startbootstrap-freelancer/issues",
-        "email": "feedback@startbootstrap.com"
+        "url": "https://github.com/Thames1990/Thames1990.github.io/issues",
+        "email": "ThomasMohr1990@gmail.com"
     },
     "license": "MIT",
-    "author": "Start Bootstrap",
-    "contributors": [
-        "David Miller (http://davidmiller.io/)"
-    ],
+    "author": "Thomas Mohr",
     "repository": {
         "type": "git",
-        "url": "https://github.com/BlackrockDigital/startbootstrap-freelancer.git"
+        "url": "https://github.com:Thames1990/Thames1990.github.io.git"
     },
     "dependencies": {
         "@fortawesome/fontawesome": "^1.1.5",
