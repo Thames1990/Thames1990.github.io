@@ -1,6 +1,6 @@
 # Thomas Mohr
 
-I'm a software developer with a bachelors degree in Computer Science and currently looking forward to be hired.
+I'm a software developer with a bachelors degree in Computer Science and currently working for Intelligent Data Analytics in Marburg, Germany.
 
 ## Curriculum Vitae
 
