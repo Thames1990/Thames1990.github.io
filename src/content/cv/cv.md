@@ -127,9 +127,9 @@ experience:
         Built TuneSat ingestion and aggregation workflows for large music-rights claim files from organizations
         including GEMA and Sony Music, using MongoDB and scheduled stored procedures.
       - >
-        Helped deliver an 80+ TB music-catalog classification platform on Ubuntu in Hetzner Cloud with RAID 10,
-        object storage, Bash-based DataOps pipelines, Milvus, MySQL, external-user access controls, and Python data
-        processing support.
+        Helped deliver an 80+ TB music-catalog classification platform on Ubuntu in Hetzner Cloud with resilient
+        local and object storage, Bash-based DataOps pipelines, Milvus, MySQL, external-user access controls, and
+        Python data-processing support.
       - >
         Integrated A Sound Effect and BOOM Library catalogs with Audiomatik, optimized their object-storage and CDN
         delivery, and supported BOOM Library's WordPress commerce and content-release workflows.
@@ -154,9 +154,9 @@ experience:
         for Lufthansa Group airlines, processing more than one million flights per year and approximately three
         million Type B messages per day in 24/7 operations.
       - >
-        Led 3–5 developers while coordinating with roughly 10 Lufthansa Systems technicians and at least two
-        Lufthansa managers; owned customer meetings, mentoring, parser and pipeline development, database work,
-        React UI changes, deployments, and incident response.
+        Led 3–5 developers while coordinating technical teams across Lufthansa organizations and maintaining a
+        direct call-line with Lufthansa fuel managers; owned customer meetings, mentoring, parser and pipeline
+        development, database work, React UI changes, deployments, and incident response.
       - >
         Consolidated operational data across fuel, baggage, weight and balance, loading, flight operations,
         movements, passenger handling, cargo, air traffic control, navigation, maintenance, and logistics systems.
