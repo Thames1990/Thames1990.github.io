@@ -1,0 +1,257 @@
+---
+import { getEntry } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import { caseStudies } from '@/data/portfolio';
+
+const cvEntry = await getEntry('cv', 'cv');
+if (!cvEntry) throw new Error('CV content is required for the portfolio profile');
+const cv = cvEntry.data;
+
+const career = cv.experience.map((role) => ({
+  date: role.date,
+  title: role.title,
+  company: role.company,
+  summary: role.summary,
+}));
+
+const principles = [
+  {
+    number: '01',
+    title: 'Make the tricky bits clear',
+    text: 'A lot of software work starts as a knot of wishes, constraints, and unanswered questions. I like untangling that knot with the people involved.',
+  },
+  {
+    number: '02',
+    title: 'Stay close to the work',
+    text: 'I enjoy planning and architecture, but I also like opening the IDE, inspecting the pipeline, testing the release, and helping with whatever is blocking the team.',
+  },
+  {
+    number: '03',
+    title: 'Think past the merge button',
+    text: 'The interesting part often begins after the code is merged. Deployment, support, observability, security, and helping users through change all count.',
+  },
+];
+
+const toneClasses = {
+  coral: 'bg-accent',
+  blue: 'bg-blue',
+  sand: 'bg-[#d9c8a9]',
+};
+---
+
+<Layout
+  title="Thomas Mohr — Technical Project Lead & Engineering Lead"
+  description="Thomas Mohr leads distributed engineering teams and delivers complex data, platform, and product initiatives from architecture through operation."
+>
+  <SiteHeader />
+
+  <main id="main">
+    <section class="shell relative min-h-[780px] pt-[145px] md:grid md:grid-cols-[1.45fr_0.55fr] md:items-center md:gap-16 md:pt-[100px]" id="top">
+      <div class="pb-16 md:pb-24">
+        <p class="eyebrow flex items-center">
+          <span class="mr-[9px] inline-block h-[7px] w-[7px] rounded-full bg-[#5f9d63] shadow-[0_0_0_5px_#dce7d8]"></span>
+          {cv.availability}
+        </p>
+        <h1 class="max-w-[900px] text-[clamp(52px,8.2vw,108px)] font-extrabold leading-[0.92] tracking-[-0.085em]">
+          I help teams make<br /><em class="font-serif font-normal not-italic tracking-[-0.065em]">difficult software feel manageable.</em>
+        </h1>
+        <p class="my-9 max-w-[610px] text-[17px] leading-relaxed text-[#565650] md:text-lg">
+          I'm Thomas, a Technical Project Lead and hands-on engineer in {cv.location}. I ask a lot of questions, enjoy making sense of complicated systems, and help teams turn good intentions into software that actually works.
+        </p>
+        <div class="flex flex-wrap items-center gap-7">
+          <a class="btn btn-primary" href={`mailto:${cv.email}?subject=Technical leadership opportunity`}>Email me about a role <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="/cv">View detailed CV <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+      <aside class="mb-20 border-l border-line pl-6 md:mb-0 md:pl-8" aria-label="A few useful numbers">
+        <p class="mb-7 font-mono text-[10px] uppercase tracking-[0.1em] text-muted">A few useful numbers</p>
+        <dl class="space-y-7">
+          <div><dt class="text-[34px] font-extrabold tracking-[-0.06em]">8+ years</dt><dd class="font-mono text-[10px] uppercase text-muted">Engineering experience</dd></div>
+          <div><dt class="text-[34px] font-extrabold tracking-[-0.06em]">3–10</dt><dd class="font-mono text-[10px] uppercase text-muted">Developers led per project</dd></div>
+          <div><dt class="text-[34px] font-extrabold tracking-[-0.06em]">Code + people</dt><dd class="font-mono text-[10px] uppercase text-muted">Where I do my best work</dd></div>
+        </dl>
+      </aside>
+
+      <div class="absolute bottom-8 left-0 hidden items-center gap-[18px] font-mono text-[10px] uppercase text-muted md:flex">
+        <span>Selected impact below</span><i class="block h-px w-14 bg-muted"></i>
+      </div>
+    </section>
+
+    <section class="bg-ink text-paper" aria-label="Selected impact metrics">
+      <div class="shell grid grid-cols-2 divide-x divide-white/15 md:grid-cols-4">
+        {[
+          ['≈10k', 'Loader users'],
+          ['3m', 'aviation messages / day'],
+          ['80+ TB', 'music data platform'],
+          ['24/7', 'production operations'],
+        ].map(([value, label]) => (
+          <div class="px-4 py-8 first:pl-0 md:px-8 md:py-10">
+            <strong class="block text-[clamp(28px,4vw,48px)] tracking-[-0.06em]">{value}</strong>
+            <span class="font-mono text-[9px] uppercase tracking-[0.08em] text-paper/55">{label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="shell py-[95px] md:py-[145px]" id="work">
+      <div class="mb-16 grid gap-8 md:grid-cols-[0.8fr_1.4fr_0.8fr] md:items-start">
+        <p class="eyebrow md:pt-2">01 / Work I’m proud of</p>
+        <h2 class="m-0 text-[clamp(42px,5.5vw,70px)] leading-[0.96] tracking-[-0.075em]">
+          A few things I know<br /><em class="font-serif font-normal not-italic">inside out.</em>
+        </h2>
+        <p class="max-w-[280px] text-sm leading-relaxed text-muted md:ml-auto">
+          These projects were large, occasionally messy, and genuinely enjoyable. Here’s what made them interesting and where I helped.
+        </p>
+      </div>
+
+      <div class="space-y-8">
+        {caseStudies.map((study) => (
+          <article class="group overflow-hidden border border-line bg-[#ebe8e0]">
+            <div class="grid md:grid-cols-[0.85fr_1.15fr]">
+              <div class:list={["relative flex min-h-[360px] flex-col justify-between overflow-hidden p-7 md:min-h-[540px] md:p-10", toneClasses[study.tone]]}>
+                <div class="flex items-start justify-between font-mono text-[10px] uppercase tracking-[0.08em]">
+                  <span>{study.eyebrow}</span><span>{study.index} / 03</span>
+                </div>
+                <div class="pointer-events-none absolute -bottom-16 -right-8 font-serif text-[260px] leading-none opacity-[0.09] md:text-[380px]" aria-hidden="true">{study.index}</div>
+                <div class="relative z-[1]">
+                  <h3 class="m-0 text-[clamp(42px,6vw,76px)] leading-[0.92] tracking-[-0.075em]">{study.title}</h3>
+                  <p class="mb-0 mt-6 max-w-[430px] text-sm leading-relaxed text-ink/70">{study.context}</p>
+                </div>
+              </div>
+
+              <div class="p-7 md:p-10 lg:p-12">
+                <p class="font-mono text-[10px] uppercase tracking-[0.1em] text-muted">What made it tricky</p>
+                <p class="mt-4 text-xl leading-relaxed tracking-[-0.025em]">{study.challenge}</p>
+
+                <p class="mb-4 mt-9 font-mono text-[10px] uppercase tracking-[0.1em] text-muted">What I did</p>
+                <ul class="space-y-3 text-sm leading-relaxed text-muted">
+                  {study.contribution.map((item) => (
+                    <li class="grid grid-cols-[16px_1fr] gap-2"><span class="text-accent">↳</span><span>{item}</span></li>
+                  ))}
+                </ul>
+
+                <dl class="my-9 grid grid-cols-3 border-y border-line py-6">
+                  {study.outcomes.map((outcome) => (
+                    <div class="border-r border-line px-3 first:pl-0 last:border-0 last:pr-0">
+                      <dt class="text-[clamp(22px,3vw,34px)] font-extrabold tracking-[-0.055em]">{outcome.value}</dt>
+                      <dd class="mt-1 font-mono text-[8px] uppercase leading-relaxed tracking-[0.06em] text-muted">{outcome.label}</dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <div class="flex flex-wrap gap-2">
+                  {study.technologies.map((technology) => (
+                    <span class="rounded-full border border-line px-3 py-1.5 font-mono text-[9px] text-muted">{technology}</span>
+                  ))}
+                </div>
+
+                {study.links.length > 0 && (
+                  <div class="mt-8 flex flex-wrap gap-5">
+                    {study.links.map((link) => (
+                      <a class="text-link" href={link.href} target="_blank" rel="noopener">{link.label} <span aria-hidden="true">↗</span></a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="bg-blue py-[95px] md:py-[145px]" id="about">
+      <div class="shell">
+        <div class="grid gap-10 md:grid-cols-[0.8fr_1.4fr_0.8fr]">
+          <p class="eyebrow md:pt-2">02 / How I like to work</p>
+          <h2 class="m-0 text-[clamp(42px,5.5vw,70px)] leading-[0.96] tracking-[-0.075em]">
+            Set direction.<br /><em class="font-serif font-normal not-italic">Stay involved.</em>
+          </h2>
+          <p class="max-w-[280px] text-sm leading-relaxed text-[#4f5c5c] md:ml-auto">
+            I’m happiest somewhere between the roadmap and the runtime — helping people agree on where we’re going, then being useful when the route gets bumpy.
+          </p>
+        </div>
+
+        <div class="mt-16 grid border-y border-ink/20 md:grid-cols-3 md:divide-x md:divide-ink/20">
+          {principles.map((principle) => (
+            <article class="border-b border-ink/20 py-9 last:border-0 md:border-0 md:px-8 md:first:pl-0 md:last:pr-0">
+              <span class="font-mono text-[10px] text-[#4f5c5c]">{principle.number}</span>
+              <h3 class="mb-4 mt-10 text-2xl tracking-[-0.045em]">{principle.title}</h3>
+              <p class="m-0 text-sm leading-relaxed text-[#4f5c5c]">{principle.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="shell py-[95px] md:py-[145px]" id="experience">
+      <div class="grid gap-12 md:grid-cols-[0.8fr_2.2fr]">
+        <div>
+          <p class="eyebrow">03 / The path so far</p>
+          <h2 class="sticky top-8 m-0 text-[clamp(42px,5vw,64px)] leading-[0.98] tracking-[-0.075em]">
+            Still learning.<br />Just with <em class="font-serif font-normal not-italic">bigger problems.</em>
+          </h2>
+        </div>
+        <div class="border-t border-line">
+          {career.map((role, index) => (
+            <article class="grid gap-4 border-b border-line py-8 md:grid-cols-[120px_1fr] md:gap-8 md:py-10">
+              <div class="flex justify-between md:block">
+                <span class="font-mono text-[10px] uppercase leading-relaxed text-accent">{role.date}</span>
+                <span class="font-mono text-[10px] text-muted md:mt-4 md:block">0{index + 1}</span>
+              </div>
+              <div>
+                <h3 class="m-0 text-2xl tracking-[-0.045em]">{role.title}</h3>
+                <p class="mb-4 mt-1 text-sm font-semibold">{role.company}</p>
+                <p class="m-0 max-w-[650px] text-sm leading-relaxed text-muted">{role.summary}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+      <div class="mt-10 text-right"><a class="text-link" href="/cv">Full experience, skills & education <span aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <section class="bg-ink py-[95px] text-paper md:py-[130px]">
+      <div class="shell grid gap-12 md:grid-cols-[1fr_1.4fr] md:items-start">
+        <div>
+          <p class="eyebrow !text-paper/45">04 / Things I work with</p>
+          <h2 class="m-0 text-[clamp(42px,5vw,64px)] leading-[0.98] tracking-[-0.075em]">
+            Tools change.<br /><em class="font-serif font-normal not-italic text-accent">Curiosity travels well.</em>
+          </h2>
+        </div>
+        <div class="grid gap-x-8 gap-y-10 sm:grid-cols-2">
+          {cv.skillGroups.slice(0, 6).map((group) => (
+            <div class="border-t border-white/20 pt-4">
+              <h3 class="m-0 font-mono text-[10px] uppercase tracking-[0.08em] text-paper/45">{group.category}</h3>
+              <p class="mb-0 mt-4 text-sm leading-relaxed text-paper/75">{group.skills.join(' · ')}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="shell py-[70px] md:py-[100px]" id="contact">
+      <div class="relative overflow-hidden bg-accent p-8 md:p-[70px_8%]">
+        <span class="pointer-events-none absolute -right-6 -top-4 font-serif text-[260px] leading-none opacity-[0.09]" aria-hidden="true">@</span>
+        <p class="eyebrow relative z-[1]">05 / Say hello</p>
+        <h2 class="relative z-[1] m-0 max-w-[850px] text-[clamp(42px,6vw,78px)] leading-[0.95] tracking-[-0.08em]">
+          Working on something <em class="font-serif font-normal not-italic">complicated?</em>
+        </h2>
+        <p class="relative z-[1] my-8 max-w-[500px] text-sm leading-relaxed text-[#633b31]">
+          I’m looking for a permanent Technical Project Lead or Engineering Lead role. If you have an interesting problem, a thoughtful team, and room for someone who likes both people and systems, I’d be glad to hear from you.
+        </p>
+        <div class="relative z-[1] flex flex-wrap gap-5">
+          <a class="btn btn-light" href={`mailto:${cv.email}?subject=Technical leadership opportunity`}>Email me about a role <span aria-hidden="true">↗</span></a>
+          <a class="btn border border-ink" href={cv.linkedin} target="_blank" rel="noopener">Connect on LinkedIn <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="relative z-[1] mt-14 flex flex-col justify-between gap-3 border-t border-ink/25 pt-5 font-mono text-[10px] uppercase md:flex-row">
+          <span>{cv.email}</span><span>{cv.location}</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</Layout>

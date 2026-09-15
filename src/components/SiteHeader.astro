@@ -1,0 +1,63 @@
+---
+interface Props {
+  cvHref?: string;
+  cvLabel?: string;
+}
+
+const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
+---
+
+<header class="absolute left-0 top-0 z-[5] w-full text-ink">
+  <nav class="shell flex h-[76px] items-center justify-between border-b border-line md:h-[94px]" aria-label="Main navigation">
+    <a class="flex items-center font-mono text-sm tracking-[0.05em]" href="/" aria-label="Thomas Mohr home">
+      <span class="mr-2 grid h-8 w-8 place-items-center rounded-full bg-ink text-[11px] text-paper">TM</span> / 90
+    </a>
+    <button
+      id="menu-toggle"
+      class="flex flex-col gap-[5px] border-0 bg-transparent p-2 md:hidden"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-menu"
+    >
+      <span class="sr-only">Toggle navigation</span>
+      <i class="block h-px w-[22px] bg-ink"></i>
+      <i class="block h-px w-[22px] bg-ink"></i>
+    </button>
+    <div
+      id="site-menu"
+      class="absolute left-5 right-5 top-[76px] hidden flex-col items-stretch gap-0 bg-ink px-5 py-2 text-paper shadow-lg md:static md:flex md:w-auto md:flex-row md:items-center md:gap-8 md:bg-transparent md:p-0 md:text-ink md:shadow-none"
+    >
+      <a class="px-0 py-3.5 text-xs font-bold text-paper md:text-muted md:hover:text-ink" href="/#work">Impact</a>
+      <a class="px-0 py-3.5 text-xs font-bold text-paper md:text-muted md:hover:text-ink" href="/#experience">Experience</a>
+      <a class="px-0 py-3.5 text-xs font-bold text-paper md:text-muted md:hover:text-ink" href="/#contact">Contact</a>
+      <a
+        class="my-2 rounded-full border border-paper px-[17px] py-[11px] text-center text-xs font-bold text-paper hover:bg-paper hover:text-ink md:my-0 md:border-ink md:text-ink md:hover:bg-ink md:hover:text-paper"
+        href={cvHref}
+      >
+        {cvLabel} <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('site-menu');
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      menu.classList.toggle('hidden', isOpen);
+      menu.classList.toggle('flex', !isOpen);
+    });
+
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.add('hidden');
+        menu.classList.remove('flex');
+      });
+    });
+  }
+</script>
