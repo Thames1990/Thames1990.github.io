@@ -24,81 +24,115 @@ const { Content } = await render(cvEntry);
           {cv.name.split(' ')[0]}{' '}
           <em class="font-serif font-normal not-italic">{cv.name.split(' ').slice(1).join(' ')}.</em>
         </h1>
+        <p class="mb-0 mt-6 text-lg font-semibold tracking-[-0.02em] text-muted">{cv.title}</p>
       </div>
-      <div class="mt-8 flex items-center gap-[10px] md:mt-0">
-        <button
-          id="print-cv"
-          type="button"
-          class="border border-ink px-[14px] py-[11px] font-mono text-[11px] hover:bg-ink hover:text-paper"
-          >Print / save PDF</button
-        >
-      </div>
+      <button
+        id="print-cv"
+        type="button"
+        class="mt-8 self-start border border-ink px-[14px] py-[11px] font-mono text-[11px] hover:bg-ink hover:text-paper md:mt-0"
+      >
+        Print / save PDF
+      </button>
     </div>
 
-    <div class="grid grid-cols-1 gap-12 md:grid-cols-[1fr_2fr] md:gap-[100px]">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-[minmax(220px,0.8fr)_minmax(0,2.2fr)] md:gap-[72px]">
       <aside class="text-sm">
-        <section class="pb-10">
-          <h2 class="mb-[18px] border-b border-line pb-3 font-mono text-[11px] uppercase tracking-[0.1em]">Contact</h2>
-          <p class="text-muted">
-            {cv.location}<br />{cv.email}<br />{cv.github}
-          </p>
+        <section class="cv-block pb-9">
+          <h2 class="section-label">Availability</h2>
+          <p class="border-l-2 border-accent pl-3 font-semibold text-ink">{cv.availability}</p>
         </section>
-        <section class="pb-10">
-          <h2 class="mb-[18px] border-b border-line pb-3 font-mono text-[11px] uppercase tracking-[0.1em]">Focus</h2>
-          <ul class="list-none space-y-1.5 p-0 text-muted">
-            {cv.focus.map((item) => <li>{item}</li>)}
+
+        <section class="cv-block pb-9">
+          <h2 class="section-label">Contact</h2>
+          <address class="space-y-1.5 not-italic text-muted">
+            <p>{cv.location}</p>
+            <p><a class="cv-link" href={`mailto:${cv.email}`}>{cv.email}</a></p>
+            <p><a class="cv-link" href={cv.linkedin} target="_blank" rel="noopener">LinkedIn</a></p>
+            <p><a class="cv-link" href={cv.github} target="_blank" rel="noopener">GitHub</a></p>
+          </address>
+        </section>
+
+        <section class="cv-block pb-9">
+          <h2 class="section-label">Languages</h2>
+          <dl class="space-y-3">
+            {cv.languages.map((language) => (
+              <div>
+                <dt class="font-semibold text-ink">{language.name}</dt>
+                <dd class="text-xs text-muted">{language.level}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section class="cv-block pb-9">
+          <h2 class="section-label">Core strengths</h2>
+          <ul class="space-y-1.5 text-muted">
+            {cv.competencies.map((competency) => <li>{competency}</li>)}
           </ul>
         </section>
-        <section class="pb-10">
-          <h2 class="mb-[18px] border-b border-line pb-3 font-mono text-[11px] uppercase tracking-[0.1em]">Tools</h2>
-          <p class="text-muted">{cv.tools.join(' · ')}</p>
-        </section>
+
+        {cv.skillGroups.map((group) => (
+          <section class="cv-block pb-9">
+            <h2 class="section-label">{group.category}</h2>
+            <p class="leading-relaxed text-muted">{group.skills.join(' · ')}</p>
+          </section>
+        ))}
       </aside>
 
       <div>
-        <section class="mb-14">
-          <h2 class="mb-[18px] border-b border-line pb-3 font-mono text-[11px] uppercase tracking-[0.1em]">Profile</h2>
-          <div class="prose prose-sm max-w-none text-muted prose-p:my-3">
+        <section class="cv-block mb-14">
+          <h2 class="section-label">Profile</h2>
+          <div class="prose prose-sm max-w-none text-muted prose-p:my-3 prose-p:leading-relaxed">
             <Content />
           </div>
         </section>
 
         <section class="mb-14">
-          <h2 class="mb-[18px] border-b border-line pb-3 font-mono text-[11px] uppercase tracking-[0.1em]">Experience</h2>
-          {
-            cv.experience.map((role) => (
-              <div class="mb-9 grid grid-cols-1 gap-1 md:grid-cols-[145px_1fr] md:gap-[25px]">
-                <div class="font-mono text-[11px] uppercase text-accent">{role.date}</div>
-                <div>
-                  <h3 class="m-0 text-2xl tracking-[-0.04em]">{role.title}</h3>
-                  <p class="text-sm text-muted">
-                    {role.place}
-                    <br />
-                    {role.description}
-                  </p>
-                </div>
+          <h2 class="section-label">Experience</h2>
+          {cv.experience.map((role) => (
+            <article class="experience-entry grid grid-cols-1 gap-2 border-b border-line py-9 first:pt-2 last:border-0 md:grid-cols-[130px_1fr] md:gap-7">
+              <div>
+                <p class="m-0 font-mono text-[11px] uppercase leading-relaxed text-accent">{role.date}</p>
               </div>
-            ))
-          }
+              <div>
+                <h3 class="m-0 text-[22px] leading-tight tracking-[-0.04em]">{role.title}</h3>
+                <p class="mb-1 mt-2 text-sm font-semibold text-ink">{role.company}</p>
+                <p class="m-0 font-mono text-[10px] uppercase leading-relaxed text-muted">
+                  {role.location} · {role.arrangement}
+                </p>
+                <p class="mb-4 mt-5 text-sm leading-relaxed text-muted">{role.summary}</p>
+                <ul class="ml-4 list-disc space-y-2 text-sm leading-relaxed text-muted marker:text-accent">
+                  {role.highlights.map((highlight) => <li class="pl-1">{highlight}</li>)}
+                </ul>
+                {role.links.length > 0 && (
+                  <div class="mt-5 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] uppercase">
+                    {role.links.map((link) => (
+                      <a class="cv-link" href={link.url} target="_blank" rel="noopener">{link.label} ↗</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
         </section>
 
         <section class="mb-14">
-          <h2 class="mb-[18px] border-b border-line pb-3 font-mono text-[11px] uppercase tracking-[0.1em]">Education</h2>
-          {
-            cv.education.map((entry) => (
-              <div class="mb-9 grid grid-cols-1 gap-1 md:grid-cols-[145px_1fr] md:gap-[25px] last:mb-0">
-                <div class="font-mono text-[11px] uppercase text-accent">{entry.date}</div>
-                <div>
-                  <h3 class="m-0 text-2xl tracking-[-0.04em]">{entry.title}</h3>
-                  <p class="text-sm text-muted">
-                    {entry.place}
-                    <br />
-                    {entry.description}
-                  </p>
-                </div>
+          <h2 class="section-label">Education</h2>
+          {cv.education.map((entry) => (
+            <article class="education-entry grid grid-cols-1 gap-2 border-b border-line py-7 first:pt-2 last:border-0 md:grid-cols-[130px_1fr] md:gap-7">
+              <p class="m-0 font-mono text-[11px] uppercase text-accent">{entry.date}</p>
+              <div>
+                <h3 class="m-0 text-xl tracking-[-0.04em]">{entry.title}</h3>
+                <p class="mb-1 mt-2 text-sm font-semibold text-ink">{entry.place}</p>
+                <p class="my-2 text-sm leading-relaxed text-muted">{entry.description}</p>
+                {entry.highlights.length > 0 && (
+                  <ul class="ml-4 list-disc space-y-1 text-sm leading-relaxed text-muted marker:text-accent">
+                    {entry.highlights.map((highlight) => <li class="pl-1">{highlight}</li>)}
+                  </ul>
+                )}
               </div>
-            ))
-          }
+            </article>
+          ))}
         </section>
       </div>
     </div>
@@ -108,11 +142,55 @@ const { Content } = await render(cvEntry);
 </Layout>
 
 <style>
+  .section-label {
+    margin: 0 0 1.125rem;
+    border-bottom: 1px solid var(--color-line, #d4d1c9);
+    padding-bottom: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .cv-link {
+    text-decoration: underline;
+    text-decoration-color: #d4d1c9;
+    text-underline-offset: 3px;
+  }
+
+  .cv-link:hover {
+    color: #ef6b4a;
+    text-decoration-color: #ef6b4a;
+  }
+
   @media print {
+    @page {
+      margin: 14mm;
+      size: A4;
+    }
+
     header,
     #print-cv,
     footer {
       display: none !important;
+    }
+
+    main {
+      width: 100% !important;
+      max-width: none !important;
+      padding: 0 !important;
+    }
+
+    .experience-entry,
+    .education-entry,
+    .cv-block {
+      break-inside: avoid;
+    }
+
+    a {
+      color: inherit !important;
+      text-decoration: none !important;
     }
   }
 </style>
