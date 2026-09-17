@@ -55,6 +55,7 @@ skillGroups:
       - Vuetify
       - React
       - Mantine UI
+      - deck.gl
       - Flask
       - pandas
       - NumPy
@@ -169,7 +170,7 @@ experience:
         configuration.
       - >
         Built a web-based live tanker-fleet tracking system for the German Air Force using operational position
-        messages, geospatial mapping, and persistent storage; advised Berlin Brandenburg Airport on automated
+        messages, deck.gl geospatial visualization, and persistent storage; advised Berlin Brandenburg Airport on automated
         Schengen/non-Schengen gate-traversal monitoring using airline and DataOps expertise.
       - >
         Recruited, onboarded, and mentored interns using internal data products; improved local development,
