@@ -61,6 +61,8 @@ skillGroups:
       - NumPy
       - scikit-learn
       - SiddhiQL
+      - Apache Camel
+      - Apache Superset
       - Vitest
       - Playwright
       - pytest
@@ -162,8 +164,9 @@ experience:
         Consolidated operational data across fuel, baggage, weight and balance, loading, flight operations,
         movements, passenger handling, cargo, air traffic control, navigation, maintenance, and logistics systems.
       - >
-        Developed DataOps flows with Rahla, Groovy, and SiddhiQL; worked across Oracle Database, MariaDB,
-        PostgreSQL, Redis, and Elasticsearch, with React, TypeScript, and Mantine UI for web interfaces.
+        Developed and operated Rahla, a central Apache Camel-based integration and DataOps platform, using Groovy and
+        SiddhiQL for real-time data flows; worked across Oracle Database, MariaDB, PostgreSQL, Redis, and Elasticsearch,
+        with Apache Superset for analytics dashboards and React, TypeScript, and Mantine UI for web interfaces.
       - >
         Built and operated on-premises delivery workflows with Docker, Kubernetes, Kustomize, Jenkins, and Argo CD,
         including pipeline code, automated tests and builds, image publishing, environment deployments, and GitOps
@@ -258,7 +261,7 @@ real-time aviation systems, customer-facing platforms, and developer infrastruct
 translate stakeholder goals into achievable technical scope, and remain close enough to the code and operations to
 remove delivery risks directly.
 
-My background spans DataOps, GitOps, DevOps, web development, complex event processing, databases, and platform
-engineering. I am particularly effective where product ownership, architecture, customer communication, and
-hands-on implementation meet. I am available immediately for a permanent role, prefer on-site work in the Frankfurt
-region and am open to hybrid arrangements.
+My background spans DataOps, GitOps, DevOps, web development, Apache Camel-based integration, complex event
+processing, databases, and platform engineering. I am particularly effective where product ownership, architecture,
+customer communication, and hands-on implementation meet. I am available immediately for a permanent role, prefer
+on-site work in the Frankfurt region and am open to hybrid arrangements.
