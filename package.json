@@ -3,6 +3,7 @@
   "type": "module",
   "version": "2.0.0",
   "private": true,
+  "packageManager": "pnpm@10.16.1",
   "description": "Software developer portfolio for Thomas Mohr, built with Astro, TypeScript and Tailwind CSS.",
   "author": "Thomas Mohr",
   "license": "MIT",
