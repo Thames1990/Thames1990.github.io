@@ -22,10 +22,10 @@ Markdown-driven version.
 ## Local development
 
 ```sh
-npm install
-npm run dev       # start the dev server at http://localhost:4321
-npm run build     # type-check and produce a static build in ./dist
-npm run preview   # preview the production build locally
+pnpm install
+pnpm run dev       # start the dev server at http://localhost:4321
+pnpm run build     # type-check and produce a static build in ./dist
+pnpm run preview   # preview the production build locally
 ```
 
 ## Deployment
