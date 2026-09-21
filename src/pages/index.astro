@@ -37,7 +37,7 @@ const principles = [
 const toneClasses = {
   coral: 'bg-accent',
   blue: 'bg-blue',
-  sand: 'bg-[#d9c8a9]',
+  sand: 'bg-sand',
 };
 ---
 
@@ -51,13 +51,13 @@ const toneClasses = {
     <section class="shell relative min-h-[780px] pt-[145px] md:grid md:grid-cols-[1.45fr_0.55fr] md:items-center md:gap-16 md:pt-[100px]" id="top">
       <div class="pb-16 md:pb-24">
         <p class="eyebrow flex items-center">
-          <span class="mr-[9px] inline-block h-[7px] w-[7px] rounded-full bg-[#5f9d63] shadow-[0_0_0_5px_#dce7d8]"></span>
+          <span class="mr-[9px] inline-block h-[7px] w-[7px] rounded-full bg-good shadow-[0_0_0_5px_rgb(var(--color-good)/0.18)]"></span>
           {cv.availability}
         </p>
-        <h1 class="max-w-[900px] text-[clamp(52px,8.2vw,108px)] font-extrabold leading-[0.92] tracking-[-0.085em]">
+        <h1 class="display-title max-w-[920px]">
           I help teams make<br /><em class="font-serif font-normal not-italic tracking-[-0.065em]">difficult software feel manageable.</em>
         </h1>
-        <p class="my-9 max-w-[610px] text-[17px] leading-relaxed text-[#565650] md:text-lg">
+        <p class="my-9 max-w-[610px] text-[17px] leading-relaxed text-muted md:text-lg">
           I'm Thomas, a Technical Project Lead and hands-on engineer in {cv.location}. I ask a lot of questions, enjoy making sense of complicated systems, and help teams turn good intentions into software that actually works.
         </p>
         <div class="flex flex-wrap items-center gap-7">
@@ -66,8 +66,8 @@ const toneClasses = {
         </div>
       </div>
 
-      <aside class="mb-20 border-l border-line pl-6 md:mb-0 md:pl-8" aria-label="A few useful numbers">
-        <p class="mb-7 font-mono text-[10px] uppercase tracking-[0.1em] text-muted">A few useful numbers</p>
+      <aside class="noise-card mb-20 rotate-[-1deg] p-6 md:mb-0 md:p-8" aria-label="A few useful numbers">
+        <p class="mb-7 font-mono text-[10px] uppercase tracking-[0.1em] text-muted">Field notes</p>
         <dl class="space-y-7">
           <div><dt class="text-[34px] font-extrabold tracking-[-0.06em]">8+ years</dt><dd class="font-mono text-[10px] uppercase text-muted">Engineering experience</dd></div>
           <div><dt class="text-[34px] font-extrabold tracking-[-0.06em]">3–10</dt><dd class="font-mono text-[10px] uppercase text-muted">Developers led per project</dd></div>
@@ -81,7 +81,7 @@ const toneClasses = {
     </section>
 
     <section class="bg-ink text-paper" aria-label="Selected impact metrics">
-      <div class="shell grid grid-cols-2 divide-x divide-white/15 md:grid-cols-4">
+      <div class="shell grid grid-cols-2 divide-x divide-paper/15 md:grid-cols-4">
         {[
           ['≈10k', 'Loader users'],
           ['3m', 'aviation messages / day'],
@@ -90,7 +90,7 @@ const toneClasses = {
         ].map(([value, label]) => (
           <div class="px-4 py-8 first:pl-0 md:px-8 md:py-10">
             <strong class="block text-[clamp(28px,4vw,48px)] tracking-[-0.06em]">{value}</strong>
-            <span class="font-mono text-[9px] uppercase tracking-[0.08em] text-paper/55">{label}</span>
+            <span class="font-mono text-[9px] uppercase tracking-[0.08em] text-paper/60">{label}</span>
           </div>
         ))}
       </div>
@@ -98,8 +98,8 @@ const toneClasses = {
 
     <section class="shell py-[95px] md:py-[145px]" id="work">
       <div class="mb-16 grid gap-8 md:grid-cols-[0.8fr_1.4fr_0.8fr] md:items-start">
-        <p class="eyebrow md:pt-2">01 / Work I’m proud of</p>
-        <h2 class="m-0 text-[clamp(42px,5.5vw,70px)] leading-[0.96] tracking-[-0.075em]">
+        <p class="eyebrow md:pt-2">Selected impact</p>
+        <h2 class="section-title">
           A few things I know<br /><em class="font-serif font-normal not-italic">inside out.</em>
         </h2>
         <p class="max-w-[280px] text-sm leading-relaxed text-muted md:ml-auto">
@@ -109,7 +109,7 @@ const toneClasses = {
 
       <div class="space-y-8">
         {caseStudies.map((study) => (
-          <article class="group overflow-hidden border border-line bg-[#ebe8e0]">
+          <article class="group noise-card overflow-hidden">
             <div class="grid md:grid-cols-[0.85fr_1.15fr]">
               <div class:list={["relative flex min-h-[360px] flex-col justify-between overflow-hidden p-7 md:min-h-[540px] md:p-10", toneClasses[study.tone]]}>
                 <div class="flex items-start justify-between font-mono text-[10px] uppercase tracking-[0.08em]">
@@ -165,11 +165,11 @@ const toneClasses = {
     <section class="bg-blue py-[95px] md:py-[145px]" id="about">
       <div class="shell">
         <div class="grid gap-10 md:grid-cols-[0.8fr_1.4fr_0.8fr]">
-          <p class="eyebrow md:pt-2">02 / How I like to work</p>
-          <h2 class="m-0 text-[clamp(42px,5.5vw,70px)] leading-[0.96] tracking-[-0.075em]">
+          <p class="eyebrow md:pt-2">Operating style</p>
+          <h2 class="section-title">
             Set direction.<br /><em class="font-serif font-normal not-italic">Stay involved.</em>
           </h2>
-          <p class="max-w-[280px] text-sm leading-relaxed text-[#4f5c5c] md:ml-auto">
+          <p class="max-w-[280px] text-sm leading-relaxed text-ink/70 md:ml-auto">
             I’m happiest somewhere between the roadmap and the runtime — helping people agree on where we’re going, then being useful when the route gets bumpy.
           </p>
         </div>
@@ -177,9 +177,9 @@ const toneClasses = {
         <div class="mt-16 grid border-y border-ink/20 md:grid-cols-3 md:divide-x md:divide-ink/20">
           {principles.map((principle) => (
             <article class="border-b border-ink/20 py-9 last:border-0 md:border-0 md:px-8 md:first:pl-0 md:last:pr-0">
-              <span class="font-mono text-[10px] text-[#4f5c5c]">{principle.number}</span>
+              <span class="font-mono text-[10px] text-ink/60">{principle.number}</span>
               <h3 class="mb-4 mt-10 text-2xl tracking-[-0.045em]">{principle.title}</h3>
-              <p class="m-0 text-sm leading-relaxed text-[#4f5c5c]">{principle.text}</p>
+              <p class="m-0 text-sm leading-relaxed text-ink/70">{principle.text}</p>
             </article>
           ))}
         </div>
@@ -189,8 +189,8 @@ const toneClasses = {
     <section class="shell py-[95px] md:py-[145px]" id="experience">
       <div class="grid gap-12 md:grid-cols-[0.8fr_2.2fr]">
         <div>
-          <p class="eyebrow">03 / The path so far</p>
-          <h2 class="sticky top-8 m-0 text-[clamp(42px,5vw,64px)] leading-[0.98] tracking-[-0.075em]">
+          <p class="eyebrow">The path so far</p>
+          <h2 class="section-title sticky top-8">
             Still learning.<br />Just with <em class="font-serif font-normal not-italic">bigger problems.</em>
           </h2>
         </div>
@@ -216,15 +216,15 @@ const toneClasses = {
     <section class="bg-ink py-[95px] text-paper md:py-[130px]">
       <div class="shell grid gap-12 md:grid-cols-[1fr_1.4fr] md:items-start">
         <div>
-          <p class="eyebrow !text-paper/45">04 / Things I work with</p>
-          <h2 class="m-0 text-[clamp(42px,5vw,64px)] leading-[0.98] tracking-[-0.075em]">
+          <p class="eyebrow !text-paper/55">Things I work with</p>
+          <h2 class="section-title">
             Tools change.<br /><em class="font-serif font-normal not-italic text-accent">Curiosity travels well.</em>
           </h2>
         </div>
         <div class="grid gap-x-8 gap-y-10 sm:grid-cols-2">
           {cv.skillGroups.slice(0, 6).map((group) => (
-            <div class="border-t border-white/20 pt-4">
-              <h3 class="m-0 font-mono text-[10px] uppercase tracking-[0.08em] text-paper/45">{group.category}</h3>
+            <div class="border-t border-paper/20 pt-4">
+              <h3 class="m-0 font-mono text-[10px] uppercase tracking-[0.08em] text-paper/55">{group.category}</h3>
               <p class="mb-0 mt-4 text-sm leading-relaxed text-paper/75">{group.skills.join(' · ')}</p>
             </div>
           ))}
@@ -233,20 +233,20 @@ const toneClasses = {
     </section>
 
     <section class="shell py-[70px] md:py-[100px]" id="contact">
-      <div class="relative overflow-hidden bg-accent p-8 md:p-[70px_8%]">
+      <div class="relative overflow-hidden bg-accent p-8 text-paper shadow-[16px_16px_0_rgb(var(--color-line)/0.7)] md:p-[70px_8%]">
         <span class="pointer-events-none absolute -right-6 -top-4 font-serif text-[260px] leading-none opacity-[0.09]" aria-hidden="true">@</span>
-        <p class="eyebrow relative z-[1]">05 / Say hello</p>
+        <p class="eyebrow relative z-[1] !text-paper/70">Say hello</p>
         <h2 class="relative z-[1] m-0 max-w-[850px] text-[clamp(42px,6vw,78px)] leading-[0.95] tracking-[-0.08em]">
           Working on something <em class="font-serif font-normal not-italic">complicated?</em>
         </h2>
-        <p class="relative z-[1] my-8 max-w-[500px] text-sm leading-relaxed text-[#633b31]">
+        <p class="relative z-[1] my-8 max-w-[500px] text-sm leading-relaxed text-paper/85">
           I’m looking for a permanent Technical Project Lead or Engineering Lead role. If you have an interesting problem, a thoughtful team, and room for someone who likes both people and systems, I’d be glad to hear from you.
         </p>
         <div class="relative z-[1] flex flex-wrap gap-5">
           <a class="btn btn-light" href={`mailto:${cv.email}?subject=Technical leadership opportunity`}>Email me about a role <span aria-hidden="true">↗</span></a>
-          <a class="btn border border-ink" href={cv.linkedin} target="_blank" rel="noopener">Connect on LinkedIn <span aria-hidden="true">↗</span></a>
+          <a class="btn border border-paper text-paper hover:bg-paper hover:text-ink" href={cv.linkedin} target="_blank" rel="noopener">Connect on LinkedIn <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="relative z-[1] mt-14 flex flex-col justify-between gap-3 border-t border-ink/25 pt-5 font-mono text-[10px] uppercase md:flex-row">
+        <div class="relative z-[1] mt-14 flex flex-col justify-between gap-3 border-t border-paper/25 pt-5 font-mono text-[10px] uppercase md:flex-row">
           <span>{cv.email}</span><span>{cv.location}</span>
         </div>
       </div>

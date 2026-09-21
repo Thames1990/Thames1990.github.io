@@ -16,12 +16,28 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content="Thomas Mohr" />
-    <meta name="theme-color" content="#101214" />
+    <meta name="theme-color" content="#f4eede" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12100e" media="(prefers-color-scheme: dark)" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <title>{title}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const theme = localStorage.getItem('theme');
+          if (theme === 'light' || theme === 'dark') {
+            document.documentElement.dataset.theme = theme;
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+          }
+        } catch {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -31,7 +47,7 @@ const { title, description } = Astro.props;
   </head>
   <body>
     <a
-      class="fixed left-3 top-3 z-[99] -translate-y-[150%] bg-accent px-4 py-2 text-white focus:translate-y-0"
+      class="fixed left-3 top-3 z-[99] -translate-y-[150%] bg-accent px-4 py-2 text-paper focus:translate-y-0"
       href="#main">Skip to content</a
     >
     <slot />

@@ -12,17 +12,17 @@ const year = new Date().getFullYear();
   <div class="order-3 flex w-full justify-between gap-4 md:order-none md:w-auto md:gap-6">
     {
       showPortfolioLink ? (
-        <a class="hover:text-ink" href="/">
+        <a class="hover:text-accent" href="/">
           Portfolio
         </a>
       ) : (
-        <a class="hover:text-ink" href="https://github.com/Thames1990" target="_blank" rel="noopener">
+        <a class="hover:text-accent" href="https://github.com/Thames1990" target="_blank" rel="noopener">
           GitHub
         </a>
       )
     }
-    <a class="hover:text-ink" href="mailto:thomasmohr1990@gmail.com">Email</a>
-    {!showPortfolioLink && <a class="hover:text-ink" href="/cv">CV</a>}
+    <a class="hover:text-accent" href="mailto:thomasmohr1990@gmail.com">Email</a>
+    {!showPortfolioLink && <a class="hover:text-accent" href="/cv">CV</a>}
   </div>
   <span class="text-ink">TM / 90</span>
 </footer>

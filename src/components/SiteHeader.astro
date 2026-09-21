@@ -8,9 +8,9 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
 ---
 
 <header class="absolute left-0 top-0 z-[5] w-full text-ink">
-  <nav class="shell flex h-[76px] items-center justify-between border-b border-line md:h-[94px]" aria-label="Main navigation">
+  <nav class="shell flex h-[76px] items-center justify-between border-b border-line/80 md:h-[94px]" aria-label="Main navigation">
     <a class="flex items-center font-mono text-sm tracking-[0.05em]" href="/" aria-label="Thomas Mohr home">
-      <span class="mr-2 grid h-8 w-8 place-items-center rounded-full bg-ink text-[11px] text-paper">TM</span> / 90
+      <span class="mr-2 grid h-9 w-9 place-items-center rounded-full bg-ink text-[11px] text-paper shadow-[6px_6px_0_rgb(var(--color-accent)/0.45)]">TM</span> / 90
     </a>
     <button
       id="menu-toggle"
@@ -25,13 +25,18 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
     </button>
     <div
       id="site-menu"
-      class="absolute left-5 right-5 top-[76px] hidden flex-col items-stretch gap-0 bg-ink px-5 py-2 text-paper shadow-lg md:static md:flex md:w-auto md:flex-row md:items-center md:gap-8 md:bg-transparent md:p-0 md:text-ink md:shadow-none"
+      class="absolute left-5 right-5 top-[76px] hidden flex-col items-stretch gap-0 border border-line bg-panel px-5 py-4 text-ink shadow-[12px_12px_0_rgb(var(--color-line)/0.8)] md:static md:flex md:w-auto md:flex-row md:items-center md:gap-7 md:border-0 md:bg-transparent md:p-0 md:shadow-none"
     >
-      <a class="px-0 py-3.5 text-xs font-bold text-paper md:text-muted md:hover:text-ink" href="/#work">Impact</a>
-      <a class="px-0 py-3.5 text-xs font-bold text-paper md:text-muted md:hover:text-ink" href="/#experience">Experience</a>
-      <a class="px-0 py-3.5 text-xs font-bold text-paper md:text-muted md:hover:text-ink" href="/#contact">Contact</a>
+      <a class="px-0 py-3.5 text-xs font-bold text-muted hover:text-ink" href="/#work">Impact</a>
+      <a class="px-0 py-3.5 text-xs font-bold text-muted hover:text-ink" href="/#experience">Experience</a>
+      <a class="px-0 py-3.5 text-xs font-bold text-muted hover:text-ink" href="/#contact">Contact</a>
+      <div class="my-2 flex rounded-full border border-line p-1 font-mono text-[10px] uppercase tracking-[0.08em] md:my-0" aria-label="Theme preference">
+        <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="system" aria-pressed="true">System</button>
+        <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      </div>
       <a
-        class="my-2 rounded-full border border-paper px-[17px] py-[11px] text-center text-xs font-bold text-paper hover:bg-paper hover:text-ink md:my-0 md:border-ink md:text-ink md:hover:bg-ink md:hover:text-paper"
+        class="my-2 rounded-full border border-ink px-[17px] py-[11px] text-center text-xs font-bold text-ink hover:bg-ink hover:text-paper md:my-0"
         href={cvHref}
       >
         {cvLabel} <span aria-hidden="true">↗</span>
@@ -43,6 +48,61 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
 <script>
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('site-menu');
+  const choices = document.querySelectorAll('[data-theme-choice]');
+
+  /** @returns {'system' | 'light' | 'dark'} */
+  const getStoredTheme = () => {
+    try {
+      const theme = localStorage.getItem('theme');
+      return theme === 'light' || theme === 'dark' ? theme : 'system';
+    } catch {
+      return 'system';
+    }
+  };
+
+  const syncPressedThemeChoice = () => {
+    const theme = getStoredTheme();
+    choices.forEach((choice) => {
+      choice.setAttribute('aria-pressed', String(choice.getAttribute('data-theme-choice') === theme));
+    });
+  };
+
+  const applyStoredTheme = () => {
+    const theme = getStoredTheme();
+
+    if (theme === 'light' || theme === 'dark') {
+      document.documentElement.dataset.theme = theme;
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+
+    syncPressedThemeChoice();
+  };
+
+  applyStoredTheme();
+
+  choices.forEach((choice) => {
+    choice.addEventListener('click', () => {
+      const theme = choice.getAttribute('data-theme-choice');
+      if (theme === 'light' || theme === 'dark') {
+        document.documentElement.dataset.theme = theme;
+        try {
+          localStorage.setItem('theme', theme);
+        } catch {
+          // The selected visual theme can still apply for this page view.
+        }
+      } else if (theme === 'system') {
+        document.documentElement.removeAttribute('data-theme');
+        try {
+          localStorage.removeItem('theme');
+        } catch {
+          // System mode still works without persistence.
+        }
+      }
+
+      syncPressedThemeChoice();
+    });
+  });
 
   if (toggle && menu) {
     toggle.addEventListener('click', () => {

@@ -3,16 +3,75 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: light;
+    --color-ink: 20 18 15;
+    --color-paper: 244 238 222;
+    --color-muted: 100 88 73;
+    --color-line: 210 190 158;
+    --color-accent: 225 69 40;
+    --color-blue: 123 183 194;
+    --color-sand: 218 191 134;
+    --color-ember: 255 129 76;
+    --color-panel: 255 249 232;
+    --color-veil: 34 29 24;
+    --color-good: 65 138 88;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+      color-scheme: dark;
+      --color-ink: 245 231 203;
+      --color-paper: 18 16 14;
+      --color-muted: 181 160 129;
+      --color-line: 83 67 50;
+      --color-accent: 255 104 66;
+      --color-blue: 70 139 153;
+      --color-sand: 181 136 67;
+      --color-ember: 255 151 91;
+      --color-panel: 31 26 21;
+      --color-veil: 247 221 183;
+      --color-good: 97 184 126;
+    }
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --color-ink: 245 231 203;
+    --color-paper: 18 16 14;
+    --color-muted: 181 160 129;
+    --color-line: 83 67 50;
+    --color-accent: 255 104 66;
+    --color-blue: 70 139 153;
+    --color-sand: 181 136 67;
+    --color-ember: 255 151 91;
+    --color-panel: 31 26 21;
+    --color-veil: 247 221 183;
+    --color-good: 97 184 126;
+  }
+
+  :root[data-theme='light'] {
+    color-scheme: light;
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-paper text-ink antialiased;
+    @apply min-h-screen overflow-x-hidden bg-paper text-ink antialiased;
+    background-image:
+      radial-gradient(circle at 12% 8%, rgb(var(--color-accent) / 0.22), transparent 29rem),
+      radial-gradient(circle at 88% 4%, rgb(var(--color-blue) / 0.22), transparent 28rem);
+    background-attachment: fixed;
   }
 
   ::selection {
     @apply bg-accent text-paper;
+  }
+
+  :focus-visible {
+    @apply outline outline-2 outline-offset-4 outline-accent;
   }
 }
 
@@ -22,23 +81,43 @@
   }
 
   .eyebrow {
-    @apply mb-6 font-mono text-[11px] uppercase tracking-[0.1em] text-muted;
+    @apply mb-5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted;
   }
 
   .btn {
-    @apply inline-flex items-center gap-6 px-5 py-4 text-xs font-extrabold transition-all duration-200 ease-out;
+    @apply inline-flex items-center gap-5 rounded-full px-5 py-4 text-xs font-extrabold transition-all duration-300 ease-out;
   }
 
   .btn-primary {
-    @apply bg-ink text-paper hover:-translate-y-1 hover:bg-accent;
+    @apply bg-ink text-paper shadow-[0_16px_34px_rgb(var(--color-veil)/0.16)] hover:-translate-y-1 hover:bg-accent hover:text-paper;
   }
 
   .btn-light {
-    @apply bg-paper text-ink hover:-translate-y-1 hover:bg-white;
+    @apply bg-paper text-ink shadow-[0_16px_34px_rgb(var(--color-veil)/0.14)] hover:-translate-y-1 hover:bg-panel;
   }
 
   .text-link {
-    @apply border-b border-ink pb-1 text-xs font-extrabold;
+    @apply border-b border-ink pb-1 text-xs font-extrabold transition-colors hover:border-accent hover:text-accent;
+  }
+
+  .section-title {
+    @apply m-0 text-[clamp(42px,5.5vw,70px)] leading-[0.96] tracking-[-0.04em];
+  }
+
+  .display-title {
+    @apply m-0 text-[clamp(52px,8vw,96px)] font-extrabold leading-[0.91] tracking-[-0.04em];
+  }
+
+  .noise-card {
+    @apply border border-line bg-panel shadow-[12px_12px_0_rgb(var(--color-line)/0.7)] transition-all duration-300 ease-out;
+  }
+
+  .noise-card:hover {
+    @apply -translate-y-1 shadow-[16px_16px_0_rgb(var(--color-accent)/0.28)];
+  }
+
+  .theme-choice[aria-pressed='true'] {
+    @apply bg-ink text-paper;
   }
 }
 
