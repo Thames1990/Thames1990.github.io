@@ -220,9 +220,10 @@ experience:
         Developed early machine-learning work for Deutsche Telekom, used R to optimize temperature flows for a
         SAMSON combined heat and power plant, and contributed to early FuelDWH development.
       - >
-        During the COVID-19 downturn, helped acquire and deliver new work, including an OSINT platform that scraped
-        and filtered public social-media content for potential NetzDG violations for validation by interns and
-        lawyers.
+        During the COVID-19 downturn, helped acquire and deliver new work, including briefly evaluating Splunk for
+        project validation and contributing to an OSINT platform developed in cooperation with the Bundesamt für
+        Justiz (BfJ) that scraped and filtered public social-media content for potential NetzDG violations for
+        validation by interns and lawyers.
     links:
       - label: Archived iDA website
         url: https://web.archive.org/web/20190718032235/https://www.ida-analytics.de
