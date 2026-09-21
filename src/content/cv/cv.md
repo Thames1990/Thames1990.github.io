@@ -244,8 +244,6 @@ experience:
       - Prepared course material, maintained course websites, graded work, and mentored students.
       - Taught practical web-design and multimedia concepts through demonstrations and hands-on assignments.
     links:
-      - label: 2017–2018 course repository
-        url: https://github.com/Thames1990/webdesign-multimedia-2017-2018
       - label: 2014–2015 course repository
         url: https://github.com/Thames1990/Webdesign-Multimedia-2014-2015
 education:
