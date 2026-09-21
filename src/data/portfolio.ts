@@ -35,7 +35,7 @@ export const caseStudies: CaseStudy[] = [
     links: [
       { label: 'Audiomatik Loader', href: 'https://audiomatik.com/loader/' },
       { label: 'A Sound Effect', href: 'https://www.asoundeffect.com/loader/' },
-      { label: 'BOOM Library', href: 'https://www.boomlibrary.com/' },
+      { label: 'BOOM Library', href: 'https://www.boomlibrary.com/support/loader/' },
     ],
     tone: 'coral',
   },
