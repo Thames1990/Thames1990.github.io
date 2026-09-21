@@ -232,7 +232,7 @@ experience:
         validation by interns and lawyers.
     links:
       - label: Archived iDA website
-        url: https://web.archive.org/web/20190718032235/https://www.ida-analytics.de
+        url: https://web.archive.org/web/20201230003204/https://ida-analytics.de/
   - date: 2015 – 2018
     title: Student Research Assistant — Web Design & Multimedia
     company: Philipps University of Marburg
