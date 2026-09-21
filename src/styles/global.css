@@ -96,6 +96,14 @@
     @apply bg-paper text-ink shadow-[0_16px_34px_rgb(var(--color-veil)/0.14)] hover:-translate-y-1 hover:bg-panel;
   }
 
+  .cv-action {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-full border border-ink bg-transparent px-[17px] py-[11px] text-center text-xs font-bold text-ink shadow-none transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-ink hover:text-paper;
+  }
+
+  .cv-action.is-floating {
+    @apply fixed bottom-5 right-5 z-[80] border-accent bg-accent px-5 py-4 text-paper shadow-[0_20px_44px_rgb(var(--color-veil)/0.24),6px_6px_0_rgb(var(--color-line)/0.9)] hover:-translate-y-1 hover:bg-ink hover:text-paper md:bottom-8 md:right-8;
+  }
+
   .text-link {
     @apply border-b border-ink pb-1 text-xs font-extrabold transition-colors hover:border-accent hover:text-accent;
   }
