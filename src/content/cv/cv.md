@@ -21,7 +21,7 @@ competencies:
   - Complex event processing
   - SQL and database architecture
   - Observability and operations
-  - Infrastructure and security configuration
+  - Infrastructure, security, and controlled-access configuration
   - Testing and quality engineering
   - Stakeholder and customer management
 skillGroups:
@@ -161,6 +161,9 @@ experience:
         direct call-line with Lufthansa fuel managers; owned customer meetings, mentoring, parser and pipeline
         development, database work, React UI changes, deployments, and incident response.
       - >
+        Maintained the aviation-security reliability clearance (Zuverlässigkeitsüberprüfung) under § 7 LuftSiG and
+        used RSA SecurID for secure access to customer server environments.
+      - >
         Consolidated operational data across fuel, baggage, weight and balance, loading, flight operations,
         movements, passenger handling, cargo, air traffic control, navigation, maintenance, and logistics systems.
       - >
@@ -203,6 +206,9 @@ experience:
       - >
         Led FuelDWH, the predecessor of FLT, for Lufthansa with a team ranging from 2–10 developers; evolved the
         delivery cadence from daily releases to stable weekly/monthly updates while maintaining direct contact multiple times per day with Lufthansa fuel managers and regular coordination with Lufthansa Technik.
+      - >
+        Completed the aviation-security reliability clearance (Zuverlässigkeitsüberprüfung) under § 7 LuftSiG for
+        Lufthansa work and used RSA SecurID for secure access to customer server environments.
       - >
         Customer satisfaction and continuity under my leadership contributed to FuelDWH moving with me to
         datatactics, where it evolved into FLT.
