@@ -239,10 +239,11 @@ experience:
     location: Marburg, Germany
     arrangement: Part-time alongside university studies
     summary: >
-      Co-taught a weekly three-hour Web Design & Multimedia course with a professor.
+      Co-taught a weekly 5-hour Web Design & Multimedia course with a professor every Friday, combining lectures
+      with introductory exercises.
     highlights:
       - Prepared course material, maintained course websites, graded work, and mentored students.
-      - Taught practical web-design and multimedia concepts through demonstrations and hands-on assignments.
+      - Taught introductory web-design and multimedia concepts through lectures, demonstrations, and hands-on exercises.
     links:
       - label: 2014–2015 course repository
         url: https://github.com/Thames1990/Webdesign-Multimedia-2014-2015
