@@ -29,7 +29,7 @@ const { Content } = await render(cvEntry);
       <button
         id="print-cv"
         type="button"
-        class="mt-8 self-start border border-ink px-[14px] py-[11px] font-mono text-[11px] hover:bg-ink hover:text-paper md:mt-0"
+        class="mt-8 self-start rounded-full border border-ink px-[14px] py-[11px] font-mono text-[11px] transition-colors hover:bg-ink hover:text-paper md:mt-0"
       >
         Print / save PDF
       </button>
@@ -39,7 +39,7 @@ const { Content } = await render(cvEntry);
       <aside class="text-sm">
         <section class="cv-block pb-9">
           <h2 class="section-label">Availability</h2>
-          <p class="border-l-2 border-accent pl-3 font-semibold text-ink">{cv.availability}</p>
+          <p class="border-l border-accent pl-3 font-semibold text-ink">{cv.availability}</p>
         </section>
 
         <section class="cv-block pb-9">
@@ -144,7 +144,7 @@ const { Content } = await render(cvEntry);
 <style>
   .section-label {
     margin: 0 0 1.125rem;
-    border-bottom: 1px solid var(--color-line, #d4d1c9);
+    border-bottom: 1px solid rgb(var(--color-line));
     padding-bottom: 0.75rem;
     font-family: 'DM Mono', monospace;
     font-size: 11px;
@@ -155,13 +155,13 @@ const { Content } = await render(cvEntry);
 
   .cv-link {
     text-decoration: underline;
-    text-decoration-color: #d4d1c9;
+    text-decoration-color: rgb(var(--color-line));
     text-underline-offset: 3px;
   }
 
   .cv-link:hover {
-    color: #ef6b4a;
-    text-decoration-color: #ef6b4a;
+    color: rgb(var(--color-accent));
+    text-decoration-color: rgb(var(--color-accent));
   }
 
   @media print {
