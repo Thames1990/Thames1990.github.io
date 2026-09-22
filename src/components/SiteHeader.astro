@@ -73,6 +73,18 @@ const isCvAction = cvHref === '/cv';
     const choices = document.querySelectorAll('[data-theme-choice]');
     const floatingCvAction = document.querySelector('[data-floating-cv-action="true"]');
 
+    // `astro:page-load` fires on the initial page load as well as every
+    // subsequent view-transition navigation, so this function can run twice
+    // for the same header markup. Guard against double-binding listeners,
+    // which previously made the mobile menu toggle appear unresponsive (two
+    // click handlers toggled it open, then immediately closed it again).
+    if (toggle?.dataset.headerBound === 'true') {
+      return;
+    }
+    if (toggle) {
+      toggle.dataset.headerBound = 'true';
+    }
+
     /** @returns {'system' | 'light' | 'dark'} */
     const getStoredTheme = () => {
       try {
