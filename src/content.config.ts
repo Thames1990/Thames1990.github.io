@@ -1,10 +1,10 @@
 import { defineCollection } from 'astro:content';
-import { z } from 'astro:schema';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const link = z.object({
   label: z.string(),
-  url: z.string().url(),
+  url: z.url(),
 });
 
 const cv = defineCollection({
@@ -14,9 +14,9 @@ const cv = defineCollection({
     title: z.string(),
     availability: z.string(),
     location: z.string(),
-    email: z.string().email(),
-    linkedin: z.string().url(),
-    github: z.string().url(),
+    email: z.email(),
+    linkedin: z.url(),
+    github: z.url(),
     languages: z.array(z.object({ name: z.string(), level: z.string() })),
     competencies: z.array(z.string()),
     skillGroups: z.array(z.object({ category: z.string(), skills: z.array(z.string()) })),

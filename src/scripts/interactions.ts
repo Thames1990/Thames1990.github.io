@@ -8,7 +8,12 @@
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+let activeController: AbortController | undefined;
+let revealObserver: IntersectionObserver | undefined;
+let counterObserver: IntersectionObserver | undefined;
+
 function initReveal() {
+  revealObserver?.disconnect();
   const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
   if (!targets.length) return;
 
@@ -62,6 +67,7 @@ function initReveal() {
     { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
   );
 
+  revealObserver = observer;
   toObserve.forEach((el) => observer.observe(el));
 }
 
@@ -77,8 +83,8 @@ function initScrollProgress() {
   };
 
   update();
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
+  window.addEventListener('scroll', update, { passive: true, signal: activeController?.signal });
+  window.addEventListener('resize', update, { signal: activeController?.signal });
 }
 
 function initMagnetic() {
@@ -99,9 +105,9 @@ function initMagnetic() {
       const relY = (event.clientY - rect.top) / rect.height - 0.5;
       el.style.setProperty('--mx', String(relX * strength));
       el.style.setProperty('--my', String(relY * strength));
-    });
+    }, { signal: activeController?.signal });
 
-    el.addEventListener('pointerleave', reset);
+    el.addEventListener('pointerleave', reset, { signal: activeController?.signal });
     reset();
   });
 }
@@ -124,14 +130,15 @@ function initTilt() {
       const relY = (event.clientY - rect.top) / rect.height - 0.5;
       el.style.setProperty('--rx', String(relX * max * 2));
       el.style.setProperty('--ry', String(relY * -max * 2));
-    });
+    }, { signal: activeController?.signal });
 
-    el.addEventListener('pointerleave', reset);
+    el.addEventListener('pointerleave', reset, { signal: activeController?.signal });
     reset();
   });
 }
 
 function initCounters() {
+  counterObserver?.disconnect();
   const counters = document.querySelectorAll<HTMLElement>('[data-count-to]');
   if (!counters.length) return;
 
@@ -176,10 +183,13 @@ function initCounters() {
     { threshold: 0.6 }
   );
 
+  counterObserver = observer;
   counters.forEach((el) => observer.observe(el));
 }
 
 function init() {
+  activeController?.abort();
+  activeController = new AbortController();
   document.documentElement.classList.add('js');
   initReveal();
   initScrollProgress();

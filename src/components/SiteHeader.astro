@@ -91,6 +91,8 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
 </header>
 
 <script>
+  let headerController: AbortController | undefined;
+
   function initHeader() {
     const toggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('site-menu');
@@ -105,12 +107,14 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
     if (toggle?.dataset.headerBound === 'true') {
       return;
     }
+    headerController?.abort();
+    headerController = new AbortController();
+    const { signal } = headerController;
     if (toggle) {
       toggle.dataset.headerBound = 'true';
     }
 
-    /** @returns {'system' | 'light' | 'dark'} */
-    const getStoredTheme = () => {
+    const getStoredTheme = (): 'system' | 'light' | 'dark' => {
       try {
         const theme = localStorage.getItem('theme');
         return theme === 'light' || theme === 'dark' ? theme : 'system';
@@ -160,7 +164,7 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
         }
 
         syncPressedThemeChoice();
-      });
+      }, { signal });
     });
 
     if (toggle && menu) {
@@ -171,10 +175,10 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
 
       toggle.addEventListener('click', () => {
         setOpen(toggle.getAttribute('aria-expanded') !== 'true');
-      });
+      }, { signal });
 
       menu.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => setOpen(false));
+        link.addEventListener('click', () => setOpen(false), { signal });
       });
 
       document.addEventListener('keydown', (event) => {
@@ -182,7 +186,7 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
           setOpen(false);
           toggle.focus();
         }
-      });
+      }, { signal });
 
       document.addEventListener('click', (event) => {
         const target = event.target;
@@ -194,7 +198,7 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
         ) {
           setOpen(false);
         }
-      });
+      }, { signal });
     }
 
     if (floatingCvAction) {
@@ -203,7 +207,7 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
       };
 
       syncCvActionPosition();
-      window.addEventListener('scroll', syncCvActionPosition, { passive: true });
+      window.addEventListener('scroll', syncCvActionPosition, { passive: true, signal });
     }
   }
 
