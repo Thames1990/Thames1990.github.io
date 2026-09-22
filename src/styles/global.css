@@ -16,6 +16,8 @@
     --color-panel: 255 249 232;
     --color-veil: 34 29 24;
     --color-good: 65 138 88;
+    --color-surface-strong: 20 18 15;
+    --color-surface-strong-foreground: 244 238 222;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -32,6 +34,8 @@
       --color-panel: 31 26 21;
       --color-veil: 247 221 183;
       --color-good: 97 184 126;
+      --color-surface-strong: 18 16 14;
+      --color-surface-strong-foreground: 245 231 203;
     }
   }
 
@@ -48,6 +52,8 @@
     --color-panel: 31 26 21;
     --color-veil: 247 221 183;
     --color-good: 97 184 126;
+    --color-surface-strong: 18 16 14;
+    --color-surface-strong-foreground: 245 231 203;
   }
 
   :root[data-theme='light'] {
@@ -126,6 +132,16 @@
 
   .theme-choice[aria-pressed='true'] {
     @apply bg-ink text-paper;
+  }
+
+  .btn-strong-secondary {
+    border-color: rgb(var(--color-surface-strong-foreground));
+    color: rgb(var(--color-surface-strong-foreground));
+  }
+
+  .btn-strong-secondary:hover {
+    background-color: rgb(var(--color-surface-strong-foreground));
+    color: rgb(var(--color-surface-strong));
   }
 }
 

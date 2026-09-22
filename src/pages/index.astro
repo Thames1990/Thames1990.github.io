@@ -48,8 +48,8 @@ const toneClasses = {
   <SiteHeader />
 
   <main id="main">
-    <section class="shell relative min-h-[780px] pt-[145px] md:grid md:grid-cols-[1.45fr_0.55fr] md:items-center md:gap-16 md:pt-[100px]" id="top">
-      <div class="pb-16 md:pb-24">
+    <section class="shell relative min-h-[700px] pt-[125px] md:grid md:grid-cols-[1.45fr_0.55fr] md:items-center md:gap-16 md:pt-[88px]" id="top">
+      <div class="pb-12 md:pb-16">
         <p class="eyebrow flex items-center">
           <span class="mr-[9px] inline-block h-[7px] w-[7px] rounded-full bg-good shadow-[0_0_0_5px_rgb(var(--color-good)/0.18)]"></span>
           {cv.availability}
@@ -74,35 +74,13 @@ const toneClasses = {
         </dl>
       </aside>
 
-      <div class="absolute bottom-8 left-0 hidden items-center gap-[18px] font-mono text-[10px] uppercase text-muted md:flex">
-        <span>Selected impact below</span><i class="block h-px w-14 bg-muted"></i>
-      </div>
     </section>
 
-    <section class="bg-ink text-paper" aria-label="Selected impact metrics">
-      <div class="shell grid grid-cols-2 divide-x divide-paper/15 md:grid-cols-4">
-        {[
-          ['≈10k', 'Loader users'],
-          ['3m', 'aviation messages / day'],
-          ['80+ TB', 'music data platform'],
-          ['24/7', 'production operations'],
-        ].map(([value, label]) => (
-          <div class="px-4 py-8 first:pl-0 md:px-8 md:py-10">
-            <strong class="block text-[clamp(28px,4vw,48px)] tracking-[-0.06em]">{value}</strong>
-            <span class="font-mono text-[9px] uppercase tracking-[0.08em] text-paper/60">{label}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <section class="shell py-[95px] md:py-[145px]" id="work">
-      <div class="mb-16 grid gap-8 md:grid-cols-[0.8fr_1.4fr_0.8fr] md:items-start">
-        <p class="eyebrow md:pt-2">Selected impact</p>
-        <h2 class="section-title">
-          A few things I know<br /><em class="font-serif font-normal not-italic">inside out.</em>
-        </h2>
-        <p class="max-w-[280px] text-sm leading-relaxed text-muted md:ml-auto">
-          These projects were large, occasionally messy, and genuinely enjoyable. Here’s what made them interesting and where I helped.
+    <section class="shell py-[80px] md:py-[120px]" id="work">
+      <div class="mb-12 grid gap-7 border-b border-line pb-12 md:mb-16 md:grid-cols-[0.8fr_1.2fr] md:gap-12 md:pb-16">
+        <h2 class="section-title">Selected work.</h2>
+        <p class="m-0 max-w-[620px] self-end text-[17px] leading-relaxed text-muted md:pb-1 md:text-lg">
+          Three projects where I helped teams turn complicated systems into dependable products — from first decisions through day-to-day operation.
         </p>
       </div>
 
@@ -211,40 +189,19 @@ const toneClasses = {
       </div>
     </section>
 
-    <section class="bg-ink py-[95px] text-paper md:py-[130px]">
-      <div class="shell grid gap-12 md:grid-cols-[1fr_1.4fr] md:items-start">
-        <div>
-          <p class="eyebrow !text-paper/55">Things I work with</p>
-          <h2 class="section-title">
-            Tools change.<br /><em class="font-serif font-normal not-italic text-accent">Curiosity travels well.</em>
-          </h2>
-        </div>
-        <div class="grid gap-x-8 gap-y-10 sm:grid-cols-2">
-          {cv.skillGroups.slice(0, 6).map((group) => (
-            <div class="border-t border-paper/20 pt-4">
-              <h3 class="m-0 font-mono text-[10px] uppercase tracking-[0.08em] text-paper/55">{group.category}</h3>
-              <p class="mb-0 mt-4 text-sm leading-relaxed text-paper/75">{group.skills.join(' · ')}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="shell py-[70px] md:py-[100px]" id="contact">
-      <div class="relative overflow-hidden bg-accent p-8 text-paper shadow-[16px_16px_0_rgb(var(--color-line)/0.7)] md:p-[70px_8%]">
-        <span class="pointer-events-none absolute -right-6 -top-4 font-serif text-[260px] leading-none opacity-[0.09]" aria-hidden="true">@</span>
-        <p class="eyebrow relative z-[1] !text-paper/70">Say hello</p>
-        <h2 class="relative z-[1] m-0 max-w-[850px] text-[clamp(42px,6vw,78px)] leading-[0.95] tracking-[-0.08em]">
-          Working on something <em class="font-serif font-normal not-italic">complicated?</em>
+    <section class="bg-[rgb(var(--color-surface-strong))] py-[95px] text-[rgb(var(--color-surface-strong-foreground))] md:py-[130px]" id="contact">
+      <div class="shell">
+        <h2 class="m-0 max-w-[760px] text-[clamp(42px,6vw,78px)] leading-[0.95] tracking-[-0.08em]">
+          Let’s talk about the <em class="font-serif font-normal not-italic text-accent">work.</em>
         </h2>
-        <p class="relative z-[1] my-8 max-w-[500px] text-sm leading-relaxed text-paper/85">
+        <p class="my-8 max-w-[500px] text-sm leading-relaxed text-[rgb(var(--color-surface-strong-foreground)/0.75)]">
           I’m looking for a permanent Technical Project Lead or Engineering Lead role. If you have an interesting problem, a thoughtful team, and room for someone who likes both people and systems, I’d be glad to hear from you.
         </p>
-        <div class="relative z-[1] flex flex-wrap gap-5">
+        <div class="flex flex-wrap gap-5">
           <a class="btn btn-light" href={`mailto:${cv.email}?subject=Technical leadership opportunity`}>Email me about a role <span aria-hidden="true">↗</span></a>
-          <a class="btn border border-paper text-paper hover:bg-paper hover:text-ink" href={cv.linkedin} target="_blank" rel="noopener">Connect on LinkedIn <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-strong-secondary" href={cv.linkedin} target="_blank" rel="noopener">Connect on LinkedIn <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="relative z-[1] mt-14 flex flex-col justify-between gap-3 border-t border-paper/25 pt-5 font-mono text-[10px] uppercase md:flex-row">
+        <div class="mt-14 flex flex-col justify-between gap-3 border-t border-[rgb(var(--color-surface-strong-foreground)/0.25)] pt-5 font-mono text-[10px] uppercase md:flex-row">
           <span>{cv.email}</span><span>{cv.location}</span>
         </div>
       </div>
