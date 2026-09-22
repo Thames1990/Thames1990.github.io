@@ -213,6 +213,106 @@
     @apply bg-ink text-paper;
   }
 
+  /* Mobile menu toggle: a circular icon button whose two bars morph into an
+     "X" and whose background flips to a solid ink pill while the menu is
+     open, echoing the pill-shaped buttons used across the rest of the site. */
+  .menu-toggle {
+    transition:
+      background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .menu-toggle:hover {
+    background-color: rgb(var(--color-panel));
+  }
+
+  .menu-toggle[aria-expanded='true'] {
+    background-color: rgb(var(--color-ink));
+    color: rgb(var(--color-paper));
+  }
+
+  .menu-bar {
+    transition:
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.2s ease-out;
+  }
+
+  .menu-toggle[aria-expanded='true'] .menu-bar-top {
+    transform: translateY(6.25px) rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded='true'] .menu-bar-bottom {
+    transform: translateY(-6.25px) rotate(-45deg);
+  }
+
+  /* Mobile menu panel: hidden via visibility (not display) so it can
+     transition in/out, and only becomes interactive/focusable once fully
+     visible. `.is-open` is toggled by SiteHeader's script. */
+  .site-menu {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+    transition:
+      opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s linear 0.32s;
+  }
+
+  .site-menu.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition:
+      opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s linear 0s;
+  }
+
+  @media (min-width: 768px) {
+    .site-menu {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* Links fade/slide in with a short stagger once the panel opens, and
+     reverse instantly on close so re-opening always restarts the sequence. */
+  .site-menu-link {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      color 0.3s ease-out;
+  }
+
+  .site-menu.is-open .site-menu-link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .site-menu.is-open .site-menu-link:nth-child(1) {
+    transition-delay: 0.05s;
+  }
+
+  .site-menu.is-open .site-menu-link:nth-child(2) {
+    transition-delay: 0.1s;
+  }
+
+  .site-menu.is-open .site-menu-link:nth-child(3) {
+    transition-delay: 0.15s;
+  }
+
+  @media (min-width: 768px) {
+    .site-menu-link {
+      opacity: 1;
+      transform: none;
+      transition: color 0.3s ease-out;
+    }
+  }
+
   .btn-strong-secondary {
     border-color: rgb(var(--color-surface-strong-foreground));
     color: rgb(var(--color-surface-strong-foreground));
@@ -315,5 +415,12 @@
   [data-tilt] {
     transition: none;
     transform: none;
+  }
+
+  .menu-toggle,
+  .menu-bar,
+  .site-menu,
+  .site-menu-link {
+    transition: none !important;
   }
 }

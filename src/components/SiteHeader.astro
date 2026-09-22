@@ -16,26 +16,51 @@ const isCvAction = cvHref === '/cv';
     <div class="flex items-center gap-3 md:gap-7">
       <button
         id="menu-toggle"
-        class="order-2 flex flex-col gap-[5px] border-0 bg-transparent p-2 md:hidden"
+        class="menu-toggle relative order-2 grid h-11 w-11 place-items-center rounded-full text-ink md:hidden"
         type="button"
         aria-expanded="false"
         aria-controls="site-menu"
       >
         <span class="sr-only">Toggle navigation</span>
-        <i class="block h-px w-[22px] bg-ink"></i>
-        <i class="block h-px w-[22px] bg-ink"></i>
+        <span class="relative block h-[14px] w-[22px]">
+          <i class="menu-bar menu-bar-top absolute inset-x-0 top-0 block h-[1.5px] rounded-full bg-current"></i>
+          <i class="menu-bar menu-bar-bottom absolute inset-x-0 bottom-0 block h-[1.5px] rounded-full bg-current"></i>
+        </span>
       </button>
       <div
         id="site-menu"
-        class="absolute left-5 right-5 top-[76px] hidden flex-col items-stretch gap-0 border border-line bg-panel px-5 py-4 text-ink shadow-[0_24px_48px_-16px_rgb(var(--color-veil)/0.5)] backdrop-blur-xl md:static md:order-1 md:flex md:w-auto md:flex-row md:items-center md:gap-7 md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
+        class="site-menu absolute left-5 right-5 top-[68px] z-40 flex-col items-stretch gap-0 overflow-hidden rounded-2xl border border-line bg-panel text-ink shadow-[0_2px_0_0_rgb(var(--color-line)/0.9),0_28px_60px_-24px_rgb(var(--color-veil)/0.55)] backdrop-blur-xl md:static md:top-auto md:z-auto md:order-1 md:flex md:w-auto md:flex-row md:items-center md:gap-7 md:overflow-visible md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
       >
-        <a class="px-0 py-3.5 text-xs font-bold text-muted hover:text-ink" href="/#work">Impact</a>
-        <a class="px-0 py-3.5 text-xs font-bold text-muted hover:text-ink" href="/#experience">Experience</a>
-        <a class="px-0 py-3.5 text-xs font-bold text-muted hover:text-ink" href="/#contact">Contact</a>
-        <div class="my-2 flex rounded-full border border-line p-1 font-mono text-[10px] uppercase tracking-[0.08em] md:my-0" aria-label="Theme preference">
-          <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="system" aria-pressed="true">System</button>
-          <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
-          <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+        <nav class="flex flex-col md:contents" aria-label="Section links">
+          <a class="site-menu-link group flex items-center justify-between gap-4 border-b border-line px-5 py-4 text-sm font-bold text-ink md:border-0 md:p-0 md:text-xs md:text-muted md:hover:text-ink" href="/#work">
+            <span class="flex items-center gap-3">
+              <span class="font-mono text-[10px] text-muted transition-colors duration-300 group-hover:text-accent md:hidden">01</span>
+              Impact
+            </span>
+            <span aria-hidden="true" class="text-muted transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:text-accent md:hidden">↗</span>
+          </a>
+          <a class="site-menu-link group flex items-center justify-between gap-4 border-b border-line px-5 py-4 text-sm font-bold text-ink md:border-0 md:p-0 md:text-xs md:text-muted md:hover:text-ink" href="/#experience">
+            <span class="flex items-center gap-3">
+              <span class="font-mono text-[10px] text-muted transition-colors duration-300 group-hover:text-accent md:hidden">02</span>
+              Experience
+            </span>
+            <span aria-hidden="true" class="text-muted transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:text-accent md:hidden">↗</span>
+          </a>
+          <a class="site-menu-link group flex items-center justify-between gap-4 px-5 py-4 text-sm font-bold text-ink md:border-0 md:p-0 md:text-xs md:text-muted md:hover:text-ink" href="/#contact">
+            <span class="flex items-center gap-3">
+              <span class="font-mono text-[10px] text-muted transition-colors duration-300 group-hover:text-accent md:hidden">03</span>
+              Contact
+            </span>
+            <span aria-hidden="true" class="text-muted transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:text-accent md:hidden">↗</span>
+          </a>
+        </nav>
+        <div class="site-menu-theme border-t border-line px-5 py-4 md:border-0 md:p-0">
+          <span class="mb-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-muted md:hidden">Appearance</span>
+          <div class="flex rounded-full border border-line p-1 font-mono text-[10px] uppercase tracking-[0.08em]" aria-label="Theme preference">
+            <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="system" aria-pressed="true">System</button>
+            <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+            <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+          </div>
         </div>
       </div>
       <script is:inline>
@@ -140,19 +165,36 @@ const isCvAction = cvHref === '/cv';
     });
 
     if (toggle && menu) {
+      const setOpen = (open: boolean) => {
+        toggle.setAttribute('aria-expanded', String(open));
+        menu.classList.toggle('is-open', open);
+      };
+
       toggle.addEventListener('click', () => {
-        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!isOpen));
-        menu.classList.toggle('hidden', isOpen);
-        menu.classList.toggle('flex', !isOpen);
+        setOpen(toggle.getAttribute('aria-expanded') !== 'true');
       });
 
       menu.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => {
-          toggle.setAttribute('aria-expanded', 'false');
-          menu.classList.add('hidden');
-          menu.classList.remove('flex');
-        });
+        link.addEventListener('click', () => setOpen(false));
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (
+          toggle.getAttribute('aria-expanded') === 'true' &&
+          target instanceof Node &&
+          !menu.contains(target) &&
+          !toggle.contains(target)
+        ) {
+          setOpen(false);
+        }
       });
     }
 
