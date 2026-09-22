@@ -17,18 +17,20 @@ const { Content } = await render(cvEntry);
   <SiteHeader cvHref="/" cvLabel="Back to portfolio" />
 
   <main class="shell pb-20 pt-[125px] md:pb-24 md:pt-[150px]">
-    <div class="mb-10 flex flex-col border-b border-line pb-10 md:mb-16 md:flex-row md:items-end md:justify-between">
+    <div class="mb-10 flex flex-col border-b border-line pb-10 md:mb-16 md:flex-row md:items-end md:justify-between" data-reveal>
       <div>
         <p class="eyebrow">Curriculum vitae</p>
-        <h1 class="m-0 text-[clamp(46px,7vw,90px)] leading-[0.9] tracking-[-0.08em]">
+        <h1 class="m-0 text-[clamp(46px,7vw,90px)] leading-[0.9] tracking-[-0.06em]">
           {cv.name.split(' ')[0]}{' '}
-          <em class="font-serif font-normal not-italic">{cv.name.split(' ').slice(1).join(' ')}.</em>
+          <em class="tracking-[-0.02em]">{cv.name.split(' ').slice(1).join(' ')}.</em>
         </h1>
         <p class="mb-0 mt-6 text-lg font-semibold tracking-[-0.02em] text-muted">{cv.title}</p>
       </div>
       <button
         id="print-cv"
         type="button"
+        data-magnetic
+        data-magnetic-strength="10"
         class="mt-8 self-start rounded-full border border-ink px-[14px] py-[11px] font-mono text-[11px] transition-colors hover:bg-ink hover:text-paper md:mt-0"
       >
         Print / save PDF
@@ -90,7 +92,7 @@ const { Content } = await render(cvEntry);
         <section class="mb-14">
           <h2 class="section-label">Experience</h2>
           {cv.experience.map((role) => (
-            <article class="experience-entry grid grid-cols-1 gap-2 border-b border-line py-9 first:pt-2 last:border-0 md:grid-cols-[130px_1fr] md:gap-7">
+            <article class="experience-entry grid grid-cols-1 gap-2 border-b border-line py-9 first:pt-2 last:border-0 md:grid-cols-[130px_1fr] md:gap-7" data-reveal>
               <div>
                 <p class="m-0 font-mono text-[11px] uppercase leading-relaxed text-accent">{role.date}</p>
               </div>
@@ -119,7 +121,7 @@ const { Content } = await render(cvEntry);
         <section class="mb-14">
           <h2 class="section-label">Education</h2>
           {cv.education.map((entry) => (
-            <article class="education-entry grid grid-cols-1 gap-2 border-b border-line py-7 first:pt-2 last:border-0 md:grid-cols-[130px_1fr] md:gap-7">
+            <article class="education-entry grid grid-cols-1 gap-2 border-b border-line py-7 first:pt-2 last:border-0 md:grid-cols-[130px_1fr] md:gap-7" data-reveal>
               <p class="m-0 font-mono text-[11px] uppercase text-accent">{entry.date}</p>
               <div>
                 <h3 class="m-0 text-xl tracking-[-0.04em]">{entry.title}</h3>
