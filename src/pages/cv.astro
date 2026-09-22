@@ -26,15 +26,24 @@ const { Content } = await render(cvEntry);
         </h1>
         <p class="mb-0 mt-6 text-lg font-semibold tracking-[-0.02em] text-muted">{cv.title}</p>
       </div>
-      <button
-        id="print-cv"
+      <div class="mt-8 w-full md:mt-0 md:w-auto">
+        <button
+        id="download-cv"
         type="button"
         data-magnetic
         data-magnetic-strength="10"
-        class="mt-8 self-start rounded-full border border-ink px-[14px] py-[11px] font-mono text-[11px] transition-colors hover:bg-ink hover:text-paper md:mt-0"
+        class="download-cv-button group relative inline-flex min-h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-ink px-6 py-3.5 text-sm font-bold text-paper shadow-[0_18px_42px_-14px_rgb(var(--color-veil)/0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_22px_48px_-12px_rgb(var(--color-accent)/0.45)] disabled:cursor-wait disabled:opacity-70 md:w-auto"
       >
-        Print / save PDF
-      </button>
+          <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" data-download-icon viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 2v10m0 0 4-4m-4 4L6 8M3 15.5V18h14v-2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <svg class="hidden h-4 w-4 animate-spin" data-loading-icon viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-opacity=".25" stroke-width="2"></circle>
+            <path d="M17 10a7 7 0 0 0-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+          <span data-download-label>Download PDF</span>
+        </button>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 gap-12 md:grid-cols-[minmax(220px,0.8fr)_minmax(0,2.2fr)] md:gap-[72px]">
@@ -84,7 +93,7 @@ const { Content } = await render(cvEntry);
       <div>
         <section class="cv-block mb-14">
           <h2 class="section-label">Profile</h2>
-          <div class="prose prose-sm max-w-none text-muted prose-p:my-3 prose-p:leading-relaxed">
+          <div id="cv-profile" class="prose prose-sm max-w-none text-muted prose-p:my-3 prose-p:leading-relaxed">
             <Content />
           </div>
         </section>
@@ -141,6 +150,11 @@ const { Content } = await render(cvEntry);
   </main>
 
   <SiteFooter showPortfolioLink />
+  <script
+    id="cv-pdf-data"
+    type="application/json"
+    set:html={JSON.stringify(cv).replaceAll('<', '\\u003c')}
+  ></script>
 </Layout>
 
 <style>
@@ -173,7 +187,7 @@ const { Content } = await render(cvEntry);
     }
 
     header,
-    #print-cv,
+    #download-cv,
     footer {
       display: none !important;
     }
@@ -198,7 +212,39 @@ const { Content } = await render(cvEntry);
 </style>
 
 <script>
-  document.getElementById('print-cv')?.addEventListener('click', () => {
-    window.print();
+  const button = document.getElementById('download-cv');
+  const label = button?.querySelector('[data-download-label]');
+  const downloadIcon = button?.querySelector('[data-download-icon]');
+  const loadingIcon = button?.querySelector('[data-loading-icon]');
+
+  button?.addEventListener('click', async () => {
+    if (!(button instanceof HTMLButtonElement) || !(label instanceof HTMLElement)) {
+      return;
+    }
+
+    button.disabled = true;
+    label.textContent = 'Creating your PDF…';
+    downloadIcon?.classList.add('hidden');
+    loadingIcon?.classList.remove('hidden');
+
+    try {
+      const dataElement = document.getElementById('cv-pdf-data');
+      if (!dataElement?.textContent) {
+        throw new Error('CV data is missing from the page.');
+      }
+      const profile = Array.from(document.querySelectorAll('#cv-profile p'))
+        .map((paragraph) => paragraph.textContent?.trim())
+        .filter((paragraph): paragraph is string => Boolean(paragraph));
+      const { downloadCvPdf } = await import('../scripts/cv-pdf');
+      await downloadCvPdf({ ...JSON.parse(dataElement.textContent), profile });
+      label.textContent = 'PDF downloaded';
+    } catch (error) {
+      console.error('CV PDF generation failed:', error);
+      label.textContent = 'Try download again';
+    } finally {
+      button.disabled = false;
+      downloadIcon?.classList.remove('hidden');
+      loadingIcon?.classList.add('hidden');
+    }
   });
 </script>
