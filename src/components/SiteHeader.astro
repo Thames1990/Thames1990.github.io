@@ -5,7 +5,6 @@ interface Props {
 }
 
 const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
-const isCvAction = cvHref === '/cv';
 ---
 
 <header class="absolute left-0 top-0 z-[5] w-full text-ink">
@@ -83,7 +82,7 @@ const isCvAction = cvHref === '/cv';
         class="cv-action order-1 md:order-2"
         href={cvHref}
         aria-label={cvLabel}
-        data-floating-cv-action={isCvAction ? 'true' : undefined}
+        data-floating-cv-action="true"
       >
         <span>{cvLabel}</span><span aria-hidden="true">↗</span>
       </a>
