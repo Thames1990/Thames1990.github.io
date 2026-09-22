@@ -38,6 +38,21 @@ const isCvAction = cvHref === '/cv';
           <button class="theme-choice rounded-full px-3 py-2 text-muted transition-colors hover:text-ink" type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
         </div>
       </div>
+      <script is:inline>
+        // Sync the toggle's pressed state immediately, before the deferred
+        // header script runs, so it never visibly flashes on "System" first.
+        (() => {
+          try {
+            const stored = localStorage.getItem('theme');
+            const theme = stored === 'light' || stored === 'dark' ? stored : 'system';
+            document.querySelectorAll('[data-theme-choice]').forEach((choice) => {
+              choice.setAttribute('aria-pressed', String(choice.getAttribute('data-theme-choice') === theme));
+            });
+          } catch {
+            // Leave the server-rendered "System" state as the fallback.
+          }
+        })();
+      </script>
       <a
         id="cv-action"
         class="cv-action order-1 md:order-2"
