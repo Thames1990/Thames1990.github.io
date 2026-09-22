@@ -9,51 +9,63 @@
     --color-paper: 244 238 222;
     --color-muted: 100 88 73;
     --color-line: 210 190 158;
-    --color-accent: 225 69 40;
-    --color-blue: 123 183 194;
-    --color-sand: 218 191 134;
-    --color-ember: 255 129 76;
-    --color-panel: 255 249 232;
+    --color-accent: 214 52 33;
+    --color-violet: 108 74 182;
+    --color-blue: 32 105 122;
+    --color-sand: 184 140 63;
+    --color-ember: 224 92 37;
+    --color-panel: 255 250 236;
     --color-veil: 34 29 24;
-    --color-good: 65 138 88;
+    --color-good: 47 122 71;
     --color-surface-strong: 20 18 15;
     --color-surface-strong-foreground: 244 238 222;
+    --aurora-1: 214 52 33;
+    --aurora-2: 108 74 182;
+    --aurora-3: 32 105 122;
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
       color-scheme: dark;
-      --color-ink: 245 231 203;
-      --color-paper: 18 16 14;
-      --color-muted: 181 160 129;
-      --color-line: 83 67 50;
-      --color-accent: 255 104 66;
-      --color-blue: 70 139 153;
-      --color-sand: 181 136 67;
-      --color-ember: 255 151 91;
-      --color-panel: 31 26 21;
-      --color-veil: 247 221 183;
-      --color-good: 97 184 126;
-      --color-surface-strong: 18 16 14;
-      --color-surface-strong-foreground: 245 231 203;
+      --color-ink: 246 238 222;
+      --color-paper: 13 12 15;
+      --color-muted: 172 160 150;
+      --color-line: 54 48 52;
+      --color-accent: 255 111 74;
+      --color-violet: 165 133 235;
+      --color-blue: 96 195 210;
+      --color-sand: 214 173 99;
+      --color-ember: 255 145 88;
+      --color-panel: 22 20 24;
+      --color-veil: 0 0 0;
+      --color-good: 110 205 140;
+      --color-surface-strong: 8 7 9;
+      --color-surface-strong-foreground: 246 238 222;
+      --aurora-1: 255 90 60;
+      --aurora-2: 140 100 255;
+      --aurora-3: 60 190 210;
     }
   }
 
   :root[data-theme='dark'] {
     color-scheme: dark;
-    --color-ink: 245 231 203;
-    --color-paper: 18 16 14;
-    --color-muted: 181 160 129;
-    --color-line: 83 67 50;
-    --color-accent: 255 104 66;
-    --color-blue: 70 139 153;
-    --color-sand: 181 136 67;
-    --color-ember: 255 151 91;
-    --color-panel: 31 26 21;
-    --color-veil: 247 221 183;
-    --color-good: 97 184 126;
-    --color-surface-strong: 18 16 14;
-    --color-surface-strong-foreground: 245 231 203;
+    --color-ink: 246 238 222;
+    --color-paper: 13 12 15;
+    --color-muted: 172 160 150;
+    --color-line: 54 48 52;
+    --color-accent: 255 111 74;
+    --color-violet: 165 133 235;
+    --color-blue: 96 195 210;
+    --color-sand: 214 173 99;
+    --color-ember: 255 145 88;
+    --color-panel: 22 20 24;
+    --color-veil: 0 0 0;
+    --color-good: 110 205 140;
+    --color-surface-strong: 8 7 9;
+    --color-surface-strong-foreground: 246 238 222;
+    --aurora-1: 255 90 60;
+    --aurora-2: 140 100 255;
+    --aurora-3: 60 190 210;
   }
 
   :root[data-theme='light'] {
@@ -65,11 +77,7 @@
   }
 
   body {
-    @apply min-h-screen overflow-x-hidden bg-paper text-ink antialiased;
-    background-image:
-      radial-gradient(circle at 12% 8%, rgb(var(--color-accent) / 0.22), transparent 29rem),
-      radial-gradient(circle at 88% 4%, rgb(var(--color-blue) / 0.22), transparent 28rem);
-    background-attachment: fixed;
+    @apply relative min-h-screen overflow-x-hidden bg-paper text-ink antialiased;
   }
 
   ::selection {
@@ -79,6 +87,13 @@
   :focus-visible {
     @apply outline outline-2 outline-offset-4 outline-accent;
   }
+
+  em {
+    font-family: 'Newsreader', ui-serif, Georgia, serif;
+    font-style: italic;
+    font-weight: 380;
+    font-optical-sizing: auto;
+  }
 }
 
 @layer components {
@@ -86,20 +101,78 @@
     @apply mx-auto w-[calc(100%-2.5rem)] max-w-shell md:w-[calc(100%-5rem)];
   }
 
+  /* Aurora backdrop: three soft, independently drifting color fields. Fixed and
+     bounded so it never drives layout or blocks pointer/keyboard interaction. */
+  .aurora {
+    @apply pointer-events-none fixed inset-0 z-[-1] overflow-hidden;
+  }
+
+  .aurora::before,
+  .aurora::after,
+  .aurora span {
+    content: '';
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(88px);
+    opacity: 0.28;
+    will-change: transform;
+  }
+
+  .aurora::before {
+    left: -10%;
+    top: -18%;
+    width: 46rem;
+    height: 46rem;
+    background: rgb(var(--aurora-1));
+    animation: aurora-a 22s ease-in-out infinite;
+  }
+
+  .aurora::after {
+    right: -14%;
+    top: -8%;
+    width: 40rem;
+    height: 40rem;
+    background: rgb(var(--aurora-2));
+    animation: aurora-b 26s ease-in-out infinite;
+  }
+
+  .aurora span {
+    left: 30%;
+    bottom: -22%;
+    width: 44rem;
+    height: 44rem;
+    background: rgb(var(--aurora-3));
+    animation: aurora-a 30s ease-in-out infinite reverse;
+  }
+
+  [data-theme='dark'] .aurora::before,
+  [data-theme='dark'] .aurora::after,
+  [data-theme='dark'] .aurora span {
+    opacity: 0.4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .aurora::before,
+    :root:not([data-theme]) .aurora::after,
+    :root:not([data-theme]) .aurora span {
+      opacity: 0.4;
+    }
+  }
+
   .eyebrow {
     @apply mb-5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted;
   }
 
   .btn {
-    @apply inline-flex items-center gap-5 rounded-full px-5 py-4 text-xs font-extrabold transition-all duration-300 ease-out;
+    @apply relative inline-flex items-center gap-5 overflow-hidden rounded-full px-6 py-4 text-xs font-extrabold transition-all duration-300 ease-out;
   }
 
   .btn-primary {
-    @apply bg-ink text-paper shadow-[0_16px_34px_rgb(var(--color-veil)/0.16)] hover:-translate-y-1 hover:bg-accent hover:text-paper;
+    @apply bg-ink text-paper shadow-[0_20px_40px_-12px_rgb(var(--color-veil)/0.5)] hover:-translate-y-1 hover:bg-accent hover:text-paper hover:shadow-[0_24px_48px_-10px_rgb(var(--color-accent)/0.45)];
   }
 
   .btn-light {
-    @apply bg-paper text-ink shadow-[0_16px_34px_rgb(var(--color-veil)/0.14)] hover:-translate-y-1 hover:bg-panel;
+    @apply bg-paper text-ink shadow-[0_18px_38px_-12px_rgb(var(--color-veil)/0.35)] hover:-translate-y-1 hover:bg-panel;
   }
 
   .cv-action {
@@ -107,11 +180,11 @@
   }
 
   .cv-action.is-floating {
-    @apply fixed bottom-5 right-5 z-[80] border-accent bg-accent px-5 py-4 text-paper shadow-[0_20px_44px_rgb(var(--color-veil)/0.24),6px_6px_0_rgb(var(--color-line)/0.9)] hover:-translate-y-1 hover:bg-ink hover:text-paper md:bottom-8 md:right-8;
+    @apply fixed bottom-5 right-5 z-[80] border-accent bg-accent px-5 py-4 text-paper shadow-[0_20px_44px_-8px_rgb(var(--color-accent)/0.55)] hover:-translate-y-1 hover:bg-ink hover:text-paper md:bottom-8 md:right-8;
   }
 
   .text-link {
-    @apply border-b border-ink pb-1 text-xs font-extrabold transition-colors hover:border-accent hover:text-accent;
+    @apply relative inline-flex items-center border-b border-ink pb-1 text-xs font-extrabold transition-colors duration-300 hover:border-accent hover:text-accent;
   }
 
   .section-title {
@@ -123,11 +196,11 @@
   }
 
   .noise-card {
-    @apply border border-line bg-panel shadow-[12px_12px_0_rgb(var(--color-line)/0.7)] transition-all duration-300 ease-out;
+    @apply border border-line bg-panel shadow-[0_2px_0_0_rgb(var(--color-line)/0.9),0_28px_60px_-24px_rgb(var(--color-veil)/0.45)] transition-all duration-500 ease-out;
   }
 
   .noise-card:hover {
-    @apply -translate-y-1 shadow-[16px_16px_0_rgb(var(--color-accent)/0.28)];
+    @apply -translate-y-1 shadow-[0_2px_0_0_rgb(var(--color-accent)/0.6),0_36px_72px_-20px_rgb(var(--color-accent)/0.35)];
   }
 
   .theme-choice[aria-pressed='true'] {
@@ -143,6 +216,50 @@
     background-color: rgb(var(--color-surface-strong-foreground));
     color: rgb(var(--color-surface-strong));
   }
+
+  /* Magnetic buttons: pointer-driven translate applied via CSS custom
+     properties set from interactions.ts. Falls back to 0,0 (no motion). */
+  [data-magnetic] {
+    transform: translate(calc(var(--mx, 0) * 1px), calc(var(--my, 0) * 1px));
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Tilt cards: bounded 3D perspective driven by pointer position. */
+  [data-tilt] {
+    transform-style: preserve-3d;
+    transform:
+      perspective(1100px) rotateX(calc(var(--ry, 0) * 1deg)) rotateY(calc(var(--rx, 0) * 1deg))
+      translateZ(0);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-tilt-child] {
+    transform: translateZ(40px);
+  }
+
+  /* Scroll reveal: visible by default so disabled JS never hides content. */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+  }
+
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  html:not(.js) [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
 }
 
 @keyframes marquee-slide {
@@ -155,6 +272,43 @@
   animation: marquee-slide 34s linear infinite;
 }
 
+.marquee-mask {
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+/* Scroll progress bar filled by interactions.ts as the visitor scrolls. */
+#scroll-progress {
+  transform: scaleX(var(--scroll-progress, 0));
+  transform-origin: left;
+  transition: transform 0.1s linear;
+}
+
+/* Fine-pointer cursor glow: a soft accent halo that trails the pointer to
+   reinforce the aurora world. Hidden on touch/coarse pointers. */
+#cursor-glow {
+  position: fixed;
+  z-index: 90;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 999px;
+  background: rgb(var(--color-accent) / 0.55);
+  filter: blur(1px);
+  pointer-events: none;
+  transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0) scale(var(--cursor-scale, 1));
+  transition:
+    transform 0.12s ease-out,
+    opacity 0.3s ease-out,
+    background-color 0.3s ease-out;
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #cursor-glow.is-active {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -162,5 +316,28 @@
 
   .animate-marquee {
     animation: none;
+  }
+
+  .aurora::before,
+  .aurora::after,
+  .aurora span {
+    animation: none;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  [data-magnetic],
+  [data-tilt] {
+    transition: none;
+    transform: none;
+  }
+
+  #cursor-glow {
+    display: none;
   }
 }
