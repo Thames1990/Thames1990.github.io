@@ -213,6 +213,19 @@
     @apply bg-ink text-paper;
   }
 
+  /* Hover states are defined here (instead of via a `hover:text-ink` utility
+     class) so specificity is predictable: Tailwind utilities compile into a
+     later cascade layer than these component rules, which previously let
+     `hover:text-ink` win over the pressed button's `text-paper`, leaving
+     ink-on-ink (invisible) text while its background stayed bg-ink. */
+  .theme-choice:hover {
+    @apply text-ink;
+  }
+
+  .theme-choice[aria-pressed='true']:hover {
+    @apply text-paper;
+  }
+
   /* Mobile menu toggle: a circular icon button whose two bars morph into an
      "X" and whose background flips to a solid ink pill while the menu is
      open, echoing the pill-shaped buttons used across the rest of the site. */
