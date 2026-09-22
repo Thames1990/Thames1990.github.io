@@ -16,7 +16,8 @@ The `/cv` page is generated at build time from [`src/content/cv/cv.md`](src/cont
 file with frontmatter for structured fields (contact info, focus areas, tools, experience, education) and a
 Markdown body for the profile text. To update the CV, edit that file and rebuild; there's no in-browser editing or
 local storage involved. The file's shape is validated against a schema in
-[`src/content/config.ts`](src/content/config.ts). The page has a **Print / save PDF** button to export the live
+[`src/content.config.ts`](src/content.config.ts), using Astro's current content loader API. The page has a **Print /
+save PDF** button to export the live
 Markdown-driven version.
 
 ## Local development
