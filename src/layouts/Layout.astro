@@ -1,6 +1,6 @@
 ---
 import '@/styles/global.css';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -45,7 +45,7 @@ const { title, description } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,380;1,6..72,380;1,6..72,500&display=swap"
       rel="stylesheet"
     />
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <a

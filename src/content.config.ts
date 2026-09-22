@@ -1,4 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro:schema';
+import { glob } from 'astro/loaders';
 
 const link = z.object({
   label: z.string(),
@@ -6,7 +8,7 @@ const link = z.object({
 });
 
 const cv = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/cv' }),
   schema: z.object({
     name: z.string(),
     title: z.string(),
