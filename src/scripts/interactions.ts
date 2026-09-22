@@ -1,8 +1,8 @@
 /**
  * Shared client-side motion for the site: scroll reveals, a scroll progress
- * bar, magnetic buttons, pointer-tilt cards, count-up stats, and a cursor
- * glow. Everything degrades to a static, fully visible page when JavaScript
- * is unavailable or the visitor prefers reduced motion.
+ * bar, magnetic buttons, pointer-tilt cards, and count-up stats. Everything
+ * degrades to a static, fully visible page when JavaScript is unavailable
+ * or the visitor prefers reduced motion.
  */
 
 const prefersReducedMotion = () =>
@@ -31,6 +31,24 @@ function initReveal() {
     return Math.min(index, 6) * 70;
   };
 
+  // Anything already sitting inside the viewport on first paint should just
+  // render immediately. Waiting on the scroll-driven observer for those
+  // elements left visible gaps on tall/wide viewports — e.g. the "Selected
+  // work" heading would fade in while the case-study cards directly below
+  // it stayed invisible until the visitor nudged the page with a scroll.
+  const viewportHeight = window.innerHeight;
+  const toObserve: HTMLElement[] = [];
+
+  targets.forEach((el) => {
+    if (el.getBoundingClientRect().top < viewportHeight) {
+      el.classList.add('is-visible');
+    } else {
+      toObserve.push(el);
+    }
+  });
+
+  if (!toObserve.length) return;
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -44,7 +62,7 @@ function initReveal() {
     { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
   );
 
-  targets.forEach((el) => observer.observe(el));
+  toObserve.forEach((el) => observer.observe(el));
 }
 
 function initScrollProgress() {
