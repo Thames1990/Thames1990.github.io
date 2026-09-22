@@ -35,9 +35,9 @@ const principles = [
 ];
 
 const toneClasses = {
-  coral: 'bg-accent',
-  blue: 'bg-blue',
-  sand: 'bg-sand',
+  coral: 'bg-accent text-on-accent',
+  blue: 'bg-blue text-paper',
+  sand: 'bg-sand text-on-sand',
 };
 
 const marqueeSkills = [
@@ -125,7 +125,7 @@ const marqueeSkills = [
 
     <div class="shell overflow-hidden border-y border-line py-6" aria-label="Technologies I work with">
       <div class="marquee-mask overflow-hidden">
-        <div class="flex w-max animate-marquee gap-10 whitespace-nowrap" data-marquee>
+        <div class="flex w-max animate-marquee gap-10 whitespace-nowrap">
           {[...marqueeSkills, ...marqueeSkills].map((skill) => (
             <span class="font-mono text-sm font-medium uppercase tracking-[0.08em] text-muted">{skill}</span>
           ))}
@@ -163,7 +163,7 @@ const marqueeSkills = [
                 </div>
                 <div class="relative z-[1]">
                   <h3 class="m-0 text-[clamp(42px,6vw,76px)] leading-[0.92] tracking-[-0.05em]">{study.title}</h3>
-                  <p class="mb-0 mt-6 max-w-[430px] text-sm leading-relaxed text-ink/70">{study.context}</p>
+                  <p class="mb-0 mt-6 max-w-[430px] text-sm leading-relaxed">{study.context}</p>
                 </div>
               </div>
 
@@ -213,27 +213,27 @@ const marqueeSkills = [
       </div>
     </section>
 
-    <section class="relative overflow-hidden bg-blue py-[95px] md:py-[145px]" id="about">
+    <section class="relative overflow-hidden bg-blue py-[95px] text-paper md:py-[145px]" id="about">
       <div class="shell relative z-[1]">
         <div class="grid gap-10 md:grid-cols-[1.4fr_0.8fr]" data-reveal>
           <h2 class="section-title">
             Set direction.<br /><em class="tracking-[-0.02em]">Stay involved.</em>
           </h2>
-          <p class="max-w-[280px] text-sm leading-relaxed text-ink/70 md:self-end md:pb-1">
+          <p class="max-w-[280px] text-sm leading-relaxed text-paper/90 md:self-end md:pb-1">
             I'm happiest somewhere between the roadmap and the runtime — helping people agree on where we're
             going, then being useful when the route gets bumpy.
           </p>
         </div>
 
-        <div class="mt-16 grid border-y border-ink/20 md:grid-cols-3 md:divide-x md:divide-ink/20">
+        <div class="mt-16 grid border-y border-paper/25 md:grid-cols-3 md:divide-x md:divide-paper/25">
           {principles.map((principle) => (
             <article
-              class="border-b border-ink/20 py-9 last:border-0 md:border-0 md:px-8 md:first:pl-0 md:last:pr-0"
+              class="border-b border-paper/25 py-9 last:border-0 md:border-0 md:px-8 md:first:pl-0 md:last:pr-0"
               data-reveal
             >
-              <span class="font-mono text-[10px] text-ink/60">{principle.number}</span>
+              <span class="font-mono text-[10px] text-paper/90">{principle.number}</span>
               <h3 class="mb-4 mt-10 text-2xl tracking-[-0.045em]">{principle.title}</h3>
-              <p class="m-0 text-sm leading-relaxed text-ink/70">{principle.text}</p>
+              <p class="m-0 text-sm leading-relaxed text-paper/90">{principle.text}</p>
             </article>
           ))}
         </div>

@@ -19,6 +19,8 @@
     --color-good: 47 122 71;
     --color-surface-strong: 20 18 15;
     --color-surface-strong-foreground: 244 238 222;
+    --color-on-accent: 255 255 255;
+    --color-on-sand: 20 18 15;
     --aurora-1: 214 52 33;
     --aurora-2: 108 74 182;
     --aurora-3: 32 105 122;
@@ -41,6 +43,8 @@
       --color-good: 110 205 140;
       --color-surface-strong: 8 7 9;
       --color-surface-strong-foreground: 246 238 222;
+      --color-on-accent: 20 18 15;
+      --color-on-sand: 20 18 15;
       --aurora-1: 255 90 60;
       --aurora-2: 140 100 255;
       --aurora-3: 60 190 210;
@@ -63,6 +67,8 @@
     --color-good: 110 205 140;
     --color-surface-strong: 8 7 9;
     --color-surface-strong-foreground: 246 238 222;
+    --color-on-accent: 20 18 15;
+    --color-on-sand: 20 18 15;
     --aurora-1: 255 90 60;
     --aurora-2: 140 100 255;
     --aurora-3: 60 190 210;
@@ -283,32 +289,6 @@
   transition: transform 0.1s linear;
 }
 
-/* Fine-pointer cursor glow: a soft accent halo that trails the pointer to
-   reinforce the aurora world. Hidden on touch/coarse pointers. */
-#cursor-glow {
-  position: fixed;
-  z-index: 90;
-  width: 26px;
-  height: 26px;
-  margin: -13px 0 0 -13px;
-  border-radius: 999px;
-  background: rgb(var(--color-accent) / 0.55);
-  filter: blur(1px);
-  pointer-events: none;
-  transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0) scale(var(--cursor-scale, 1));
-  transition:
-    transform 0.12s ease-out,
-    opacity 0.3s ease-out,
-    background-color 0.3s ease-out;
-  opacity: 0;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  #cursor-glow.is-active {
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -335,9 +315,5 @@
   [data-tilt] {
     transition: none;
     transform: none;
-  }
-
-  #cursor-glow {
-    display: none;
   }
 }

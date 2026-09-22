@@ -52,88 +52,95 @@ const isCvAction = cvHref === '/cv';
 </header>
 
 <script>
-  const toggle = document.getElementById('menu-toggle');
-  const menu = document.getElementById('site-menu');
-  const choices = document.querySelectorAll('[data-theme-choice]');
-  const floatingCvAction = document.querySelector('[data-floating-cv-action="true"]');
+  function initHeader() {
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('site-menu');
+    const choices = document.querySelectorAll('[data-theme-choice]');
+    const floatingCvAction = document.querySelector('[data-floating-cv-action="true"]');
 
-  /** @returns {'system' | 'light' | 'dark'} */
-  const getStoredTheme = () => {
-    try {
-      const theme = localStorage.getItem('theme');
-      return theme === 'light' || theme === 'dark' ? theme : 'system';
-    } catch {
-      return 'system';
-    }
-  };
+    /** @returns {'system' | 'light' | 'dark'} */
+    const getStoredTheme = () => {
+      try {
+        const theme = localStorage.getItem('theme');
+        return theme === 'light' || theme === 'dark' ? theme : 'system';
+      } catch {
+        return 'system';
+      }
+    };
 
-  const syncPressedThemeChoice = () => {
-    const theme = getStoredTheme();
-    choices.forEach((choice) => {
-      choice.setAttribute('aria-pressed', String(choice.getAttribute('data-theme-choice') === theme));
-    });
-  };
+    const syncPressedThemeChoice = () => {
+      const theme = getStoredTheme();
+      choices.forEach((choice) => {
+        choice.setAttribute('aria-pressed', String(choice.getAttribute('data-theme-choice') === theme));
+      });
+    };
 
-  const applyStoredTheme = () => {
-    const theme = getStoredTheme();
+    const applyStoredTheme = () => {
+      const theme = getStoredTheme();
 
-    if (theme === 'light' || theme === 'dark') {
-      document.documentElement.dataset.theme = theme;
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
-
-    syncPressedThemeChoice();
-  };
-
-  applyStoredTheme();
-
-  choices.forEach((choice) => {
-    choice.addEventListener('click', () => {
-      const theme = choice.getAttribute('data-theme-choice');
       if (theme === 'light' || theme === 'dark') {
         document.documentElement.dataset.theme = theme;
-        try {
-          localStorage.setItem('theme', theme);
-        } catch {
-          // The selected visual theme can still apply for this page view.
-        }
-      } else if (theme === 'system') {
+      } else {
         document.documentElement.removeAttribute('data-theme');
-        try {
-          localStorage.removeItem('theme');
-        } catch {
-          // System mode still works without persistence.
-        }
       }
 
       syncPressedThemeChoice();
-    });
-  });
-
-  if (toggle && menu) {
-    toggle.addEventListener('click', () => {
-      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!isOpen));
-      menu.classList.toggle('hidden', isOpen);
-      menu.classList.toggle('flex', !isOpen);
-    });
-
-    menu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        toggle.setAttribute('aria-expanded', 'false');
-        menu.classList.add('hidden');
-        menu.classList.remove('flex');
-      });
-    });
-  }
-
-  if (floatingCvAction) {
-    const syncCvActionPosition = () => {
-      floatingCvAction.classList.toggle('is-floating', window.scrollY > 140);
     };
 
-    syncCvActionPosition();
-    window.addEventListener('scroll', syncCvActionPosition, { passive: true });
+    applyStoredTheme();
+
+    choices.forEach((choice) => {
+      choice.addEventListener('click', () => {
+        const theme = choice.getAttribute('data-theme-choice');
+        if (theme === 'light' || theme === 'dark') {
+          document.documentElement.dataset.theme = theme;
+          try {
+            localStorage.setItem('theme', theme);
+          } catch {
+            // The selected visual theme can still apply for this page view.
+          }
+        } else if (theme === 'system') {
+          document.documentElement.removeAttribute('data-theme');
+          try {
+            localStorage.removeItem('theme');
+          } catch {
+            // System mode still works without persistence.
+          }
+        }
+
+        syncPressedThemeChoice();
+      });
+    });
+
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        menu.classList.toggle('hidden', isOpen);
+        menu.classList.toggle('flex', !isOpen);
+      });
+
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          toggle.setAttribute('aria-expanded', 'false');
+          menu.classList.add('hidden');
+          menu.classList.remove('flex');
+        });
+      });
+    }
+
+    if (floatingCvAction) {
+      const syncCvActionPosition = () => {
+        floatingCvAction.classList.toggle('is-floating', window.scrollY > 140);
+      };
+
+      syncCvActionPosition();
+      window.addEventListener('scroll', syncCvActionPosition, { passive: true });
+    }
   }
+
+  // Astro View Transitions swap in a fresh header on every navigation, so
+  // re-run setup each time instead of relying on the script executing once.
+  initHeader();
+  document.addEventListener('astro:page-load', initHeader);
 </script>

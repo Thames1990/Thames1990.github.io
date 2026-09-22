@@ -19,6 +19,8 @@ export default {
         panel: 'rgb(var(--color-panel) / <alpha-value>)',
         veil: 'rgb(var(--color-veil) / <alpha-value>)',
         good: 'rgb(var(--color-good) / <alpha-value>)',
+        'on-accent': 'rgb(var(--color-on-accent) / <alpha-value>)',
+        'on-sand': 'rgb(var(--color-on-sand) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],

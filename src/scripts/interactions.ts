@@ -161,43 +161,6 @@ function initCounters() {
   counters.forEach((el) => observer.observe(el));
 }
 
-function initCursorGlow() {
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  if (prefersReducedMotion()) return;
-
-  const glow = document.getElementById('cursor-glow');
-  if (!glow) return;
-
-  let active = false;
-
-  window.addEventListener('pointermove', (event) => {
-    if (!active) {
-      active = true;
-      glow.classList.add('is-active');
-    }
-    glow.style.setProperty('--cx', `${event.clientX}px`);
-    glow.style.setProperty('--cy', `${event.clientY}px`);
-  });
-
-  document.querySelectorAll('a, button, [data-magnetic], [data-tilt]').forEach((el) => {
-    el.addEventListener('pointerenter', () => glow.style.setProperty('--cursor-scale', '2.4'));
-    el.addEventListener('pointerleave', () => glow.style.setProperty('--cursor-scale', '1'));
-  });
-
-  document.addEventListener('pointerleave', () => glow.classList.remove('is-active'));
-}
-
-function initMarqueePause() {
-  document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((track) => {
-    track.addEventListener('pointerenter', () => {
-      track.style.animationPlayState = 'paused';
-    });
-    track.addEventListener('pointerleave', () => {
-      track.style.animationPlayState = 'running';
-    });
-  });
-}
-
 function init() {
   document.documentElement.classList.add('js');
   initReveal();
@@ -205,8 +168,6 @@ function init() {
   initMagnetic();
   initTilt();
   initCounters();
-  initCursorGlow();
-  initMarqueePause();
 }
 
 if (document.readyState === 'loading') {
