@@ -1,16 +1,9 @@
 ---
-import { getEntry, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
+import { cv } from '@/data/cv';
 
-const cvEntry = await getEntry('cv', 'cv');
-if (!cvEntry) {
-  throw new Error('CV content entry "cv" is missing from src/content/cv/cv.md');
-}
-
-const cv = cvEntry.data;
-const { Content } = await render(cvEntry);
 ---
 
 <Layout title={`CV — ${cv.name}`} description={`Curriculum vitae for ${cv.name}, ${cv.title}.`}>
@@ -94,7 +87,7 @@ const { Content } = await render(cvEntry);
         <section class="cv-block mb-14">
           <h2 class="section-label">Profile</h2>
           <div id="cv-profile" class="prose prose-sm max-w-none text-muted prose-p:my-3 prose-p:leading-relaxed">
-            <Content />
+            {cv.profile.map((paragraph) => <p>{paragraph}</p>)}
           </div>
         </section>
 

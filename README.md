@@ -12,13 +12,10 @@ to GitHub Pages via GitHub Actions.
 
 ## CV
 
-The `/cv` page is generated at build time from [`src/content/cv/cv.md`](src/content/cv/cv.md) — a single Markdown
-file with frontmatter for structured fields (contact info, focus areas, tools, experience, education) and a
-Markdown body for the profile text. To update the CV, edit that file and rebuild; there's no in-browser editing or
-local storage involved. The file's shape is validated against a schema in
-[`src/content.config.ts`](src/content.config.ts), using Astro's current content loader API. The page has a **Print /
-save PDF** button to export the live
-Markdown-driven version.
+The `/cv` page and the portfolio are generated from the typed source in
+[`src/data/cv.ts`](src/data/cv.ts). It contains the profile, contact information, skills, experience, and education,
+so updates do not need to be made in multiple places. The page has a **Print / save PDF** button to export the live
+CV data. There is no in-browser editing or local storage involved.
 
 ## Local development
 
