@@ -1,6 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import matter from 'gray-matter';
 import { PDFDocument } from 'pdf-lib';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import type { TextItem } from 'pdfjs-dist/types/src/display/api';
@@ -11,6 +8,7 @@ import {
   cvPdfPageMetrics,
   type CvPdfData,
 } from './cv-pdf';
+import { cv } from '../data/cv';
 
 const baseCv: CvPdfData = {
   name: 'Thomas Mohr',
@@ -60,20 +58,7 @@ function repeatedText(label: string, count: number): string {
 }
 
 function loadSourceCv(): CvPdfData {
-  const markdownPath = fileURLToPath(new URL('../content/cv/cv.md', import.meta.url));
-  const parsed = matter(readFileSync(markdownPath, 'utf8'));
-  const data = parsed.data as Omit<CvPdfData, 'profile'>;
-  const profile = parsed.content
-    .trim()
-    .split(/\n\s*\n/)
-    .map((paragraph) => paragraph.replace(/\s+/g, ' ').trim());
-
-  return {
-    ...data,
-    experience: data.experience.map((role) => ({ ...role, links: role.links ?? [] })),
-    education: data.education.map((entry) => ({ ...entry, highlights: entry.highlights ?? [] })),
-    profile,
-  };
+  return cv;
 }
 
 async function expectTextInsidePages(buffer: Buffer): Promise<void> {
@@ -128,7 +113,7 @@ async function expectTextInsidePages(buffer: Buffer): Promise<void> {
 }
 
 describe('createCvPdfBuffer', () => {
-  it('should generate an in-bounds A4 PDF from the real CV Markdown', async () => {
+  it('should generate an in-bounds A4 PDF from the real CV data', async () => {
     const buffer = await createCvPdfBuffer(loadSourceCv());
 
     const pdf = await PDFDocument.load(buffer);
@@ -143,7 +128,7 @@ describe('createCvPdfBuffer', () => {
     await expectTextInsidePages(buffer);
   });
 
-  it('should paginate oversized and expanded Markdown data without changing page geometry', async () => {
+  it('should paginate oversized and expanded CV data without changing page geometry', async () => {
     const oversizedCv: CvPdfData = {
       ...baseCv,
       name: repeatedText('Long candidate name', 8),

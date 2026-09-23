@@ -1,13 +1,9 @@
 ---
-import { getEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
 import { caseStudies } from '@/data/portfolio';
-
-const cvEntry = await getEntry('cv', 'cv');
-if (!cvEntry) throw new Error('CV content is required for the portfolio profile');
-const cv = cvEntry.data;
+import { cv, marqueeSkills } from '@/data/cv';
 
 const career = cv.experience.map((role) => ({
   date: role.date,
@@ -40,20 +36,6 @@ const toneClasses = {
   sand: 'bg-sand text-on-sand',
 };
 
-const marqueeSkills = [
-  'TypeScript',
-  'Vue',
-  'React',
-  'Kubernetes',
-  'Python',
-  'PostgreSQL',
-  'Argo CD',
-  'Groovy',
-  'Docker',
-  'GitOps',
-  'Terraform',
-  'Grafana',
-];
 ---
 
 <Layout
@@ -202,7 +184,7 @@ const marqueeSkills = [
                 {study.links.length > 0 && (
                   <div class="mt-8 flex flex-wrap gap-5">
                     {study.links.map((link) => (
-                      <a class="text-link" href={link.href} target="_blank" rel="noopener">
+                      <a class="text-link" href={link.url} target="_blank" rel="noopener">
                         {link.label} <span aria-hidden="true">↗</span>
                       </a>
                     ))}
