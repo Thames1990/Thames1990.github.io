@@ -192,4 +192,16 @@ describe('createCvDocumentDefinition', () => {
     expect(serializedContent).not.toContain('relativePosition');
     expect(serializedContent).not.toContain('noWrap');
   });
+
+  it('omits optional link and highlight content when those collections are empty', () => {
+    const definition = createCvDocumentDefinition({
+      ...baseCv,
+      experience: [{ ...baseCv.experience[0], links: [], highlights: [] }],
+      education: [{ ...baseCv.education[0], highlights: [] }],
+    });
+    const serializedContent = JSON.stringify(definition.content);
+
+    expect(serializedContent).not.toContain('Product website');
+    expect(serializedContent).not.toContain('Thesis on distributed systems.');
+  });
 });

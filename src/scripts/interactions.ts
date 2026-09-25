@@ -8,6 +8,30 @@
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+export function calculateScrollProgress(scrollY: number, scrollHeight: number, clientHeight: number): number {
+  const scrollable = scrollHeight - clientHeight;
+  return scrollable > 0 ? Math.min(1, Math.max(0, scrollY / scrollable)) : 0;
+}
+
+export function calculatePointerOffset(
+  clientPosition: number,
+  edgePosition: number,
+  size: number,
+  strength: number
+): number {
+  if (size <= 0 || !Number.isFinite(size)) return 0;
+  const relativePosition = (clientPosition - edgePosition) / size - 0.5;
+  return relativePosition * strength;
+}
+
+export function calculateRevealDelay(index: number): number {
+  return Math.min(Math.max(index, 0), 6) * 70;
+}
+
+export function formatCounterValue(value: number, prefix: string, suffix: string): string {
+  return `${prefix}${value}${suffix}`;
+}
+
 let activeController: AbortController | undefined;
 let revealObserver: IntersectionObserver | undefined;
 let counterObserver: IntersectionObserver | undefined;
@@ -33,7 +57,7 @@ function initReveal() {
   const delayFor = (el: HTMLElement) => {
     const siblings = groups.get(el.parentElement ?? document.body) ?? [el];
     const index = siblings.indexOf(el);
-    return Math.min(index, 6) * 70;
+    return calculateRevealDelay(index);
   };
 
   // Anything already sitting inside the viewport on first paint should just
@@ -77,8 +101,7 @@ function initScrollProgress() {
 
   const update = () => {
     const doc = document.documentElement;
-    const scrollable = doc.scrollHeight - doc.clientHeight;
-    const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+    const progress = calculateScrollProgress(window.scrollY, doc.scrollHeight, doc.clientHeight);
     bar.style.setProperty('--scroll-progress', String(progress));
   };
 
@@ -101,10 +124,8 @@ function initMagnetic() {
 
     el.addEventListener('pointermove', (event) => {
       const rect = el.getBoundingClientRect();
-      const relX = (event.clientX - rect.left) / rect.width - 0.5;
-      const relY = (event.clientY - rect.top) / rect.height - 0.5;
-      el.style.setProperty('--mx', String(relX * strength));
-      el.style.setProperty('--my', String(relY * strength));
+      el.style.setProperty('--mx', String(calculatePointerOffset(event.clientX, rect.left, rect.width, strength)));
+      el.style.setProperty('--my', String(calculatePointerOffset(event.clientY, rect.top, rect.height, strength)));
     }, { signal: activeController?.signal });
 
     el.addEventListener('pointerleave', reset, { signal: activeController?.signal });
@@ -126,10 +147,8 @@ function initTilt() {
 
     el.addEventListener('pointermove', (event) => {
       const rect = el.getBoundingClientRect();
-      const relX = (event.clientX - rect.left) / rect.width - 0.5;
-      const relY = (event.clientY - rect.top) / rect.height - 0.5;
-      el.style.setProperty('--rx', String(relX * max * 2));
-      el.style.setProperty('--ry', String(relY * -max * 2));
+      el.style.setProperty('--rx', String(calculatePointerOffset(event.clientX, rect.left, rect.width, max * 2)));
+      el.style.setProperty('--ry', String(calculatePointerOffset(event.clientY, rect.top, rect.height, -max * 2)));
     }, { signal: activeController?.signal });
 
     el.addEventListener('pointerleave', reset, { signal: activeController?.signal });
@@ -149,7 +168,7 @@ function initCounters() {
     if (!Number.isFinite(to)) return;
 
     if (prefersReducedMotion()) {
-      el.textContent = `${prefix}${to}${suffix}`;
+      el.textContent = formatCounterValue(to, prefix, suffix);
       return;
     }
 
@@ -160,7 +179,7 @@ function initCounters() {
       const progress = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - progress, 3);
       const value = Math.round(to * eased);
-      el.textContent = `${prefix}${value}${suffix}`;
+      el.textContent = formatCounterValue(value, prefix, suffix);
       if (progress < 1) requestAnimationFrame(tick);
     };
 
@@ -198,10 +217,12 @@ function init() {
   initCounters();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 
-document.addEventListener('astro:page-load', init);
+  document.addEventListener('astro:page-load', init);
+}
