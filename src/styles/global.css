@@ -1,26 +1,468 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:is([data-theme="dark"] *));
+
+@theme inline {
+  --color-ink: rgb(var(--rgb-ink));
+  --color-paper: rgb(var(--rgb-paper));
+  --color-muted: rgb(var(--rgb-muted));
+  --color-line: rgb(var(--rgb-line));
+  --color-accent: rgb(var(--rgb-accent));
+  --color-violet: rgb(var(--rgb-violet));
+  --color-blue: rgb(var(--rgb-blue));
+  --color-sand: rgb(var(--rgb-sand));
+  --color-ember: rgb(var(--rgb-ember));
+  --color-panel: rgb(var(--rgb-panel));
+  --color-veil: rgb(var(--rgb-veil));
+  --color-good: rgb(var(--rgb-good));
+  --color-on-accent: rgb(var(--rgb-on-accent));
+  --color-on-sand: rgb(var(--rgb-on-sand));
+}
+
+@theme {
+  --font-sans: Manrope, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-serif: 'Newsreader', ui-serif, Georgia, serif;
+
+  --container-shell: 1180px;
+
+  /* Keep Tailwind CSS v3's fixed line heights; v4 defaults to unitless ratios that inherit differently. */
+  --text-xs--line-height: 1rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
+
+  --animate-aurora-a: aurora-a 22s ease-in-out infinite;
+  --animate-aurora-b: aurora-b 26s ease-in-out infinite;
+  --animate-blink: blink 1.6s ease-in-out infinite;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  @keyframes aurora-a {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(6%, 8%) scale(1.12);
+    }
+    66% {
+      transform: translate(-4%, 4%) scale(0.94);
+    }
+  }
+  @keyframes aurora-b {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    40% {
+      transform: translate(-8%, -5%) scale(1.08);
+    }
+    70% {
+      transform: translate(5%, -8%) scale(0.96);
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.25;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  /* Tailwind CSS v4 no longer sets `cursor: pointer` on buttons; keep the v3 behavior. */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility shell {
+  @apply mx-auto w-[calc(100%-2.5rem)] max-w-shell md:w-[calc(100%-5rem)];
+}
+
+@utility aurora {
+  /* Aurora backdrop: three soft, independently drifting color fields. Fixed and
+     bounded so it never drives layout or blocks pointer/keyboard interaction. */
+  @apply pointer-events-none fixed inset-0 z-[-1] overflow-hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(88px);
+    opacity: 0.28;
+    will-change: transform;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(88px);
+    opacity: 0.28;
+    will-change: transform;
+  }
+
+  & span {
+    content: '';
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(88px);
+    opacity: 0.28;
+    will-change: transform;
+  }
+
+  &::before {
+    left: -10%;
+    top: -18%;
+    width: 46rem;
+    height: 46rem;
+    background: rgb(var(--aurora-1));
+    animation: aurora-a 22s ease-in-out infinite;
+  }
+
+  &::after {
+    right: -14%;
+    top: -8%;
+    width: 40rem;
+    height: 40rem;
+    background: rgb(var(--aurora-2));
+    animation: aurora-b 26s ease-in-out infinite;
+  }
+
+  & span {
+    left: 30%;
+    bottom: -22%;
+    width: 44rem;
+    height: 44rem;
+    background: rgb(var(--aurora-3));
+    animation: aurora-a 30s ease-in-out infinite reverse;
+  }
+
+  [data-theme='dark'] &::before {
+    opacity: 0.4;
+  }
+
+  [data-theme='dark'] &::after {
+    opacity: 0.4;
+  }
+
+  [data-theme='dark'] & span {
+    opacity: 0.4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) &::before {
+      opacity: 0.4;
+    }
+
+    :root:not([data-theme]) &::after {
+      opacity: 0.4;
+    }
+
+    :root:not([data-theme]) & span {
+      opacity: 0.4;
+    }
+  }
+}
+
+@utility eyebrow {
+  @apply mb-5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted;
+}
+
+@utility btn {
+  @apply relative inline-flex items-center gap-5 overflow-hidden rounded-full px-6 py-4 text-xs font-extrabold transition-all duration-300 ease-out;
+}
+
+@utility btn-primary {
+  @apply bg-ink text-paper shadow-[0_20px_40px_-12px_rgb(var(--rgb-veil)/0.5)] hover:-translate-y-1 hover:bg-accent hover:text-paper hover:shadow-[0_24px_48px_-10px_rgb(var(--rgb-accent)/0.45)];
+}
+
+@utility btn-light {
+  @apply bg-paper text-ink shadow-[0_18px_38px_-12px_rgb(var(--rgb-veil)/0.35)] hover:-translate-y-1 hover:bg-panel;
+}
+
+@utility cv-action {
+  @apply inline-flex items-center justify-center gap-2.5 rounded-full border border-ink bg-transparent px-[17px] py-[11px] text-center text-xs font-bold text-ink shadow-none transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-ink hover:text-paper;
+
+  &.is-floating {
+    @apply fixed bottom-5 right-5 z-80 border-accent bg-accent px-5 py-4 text-paper shadow-[0_20px_44px_-8px_rgb(var(--rgb-accent)/0.55)] hover:-translate-y-1 hover:bg-ink hover:text-paper md:bottom-8 md:right-8;
+  }
+}
+
+@utility is-floating {
+  &.cv-action {
+    @apply fixed bottom-5 right-5 z-80 border-accent bg-accent px-5 py-4 text-paper shadow-[0_20px_44px_-8px_rgb(var(--rgb-accent)/0.55)] hover:-translate-y-1 hover:bg-ink hover:text-paper md:bottom-8 md:right-8;
+  }
+}
+
+@utility text-link {
+  @apply relative inline-flex items-center border-b border-ink pb-1 text-xs font-extrabold transition-colors duration-300 hover:border-accent hover:text-accent;
+}
+
+@utility section-title {
+  @apply m-0 text-[clamp(42px,5.5vw,70px)] leading-[0.96] tracking-[-0.04em];
+}
+
+@utility display-title {
+  @apply m-0 text-[clamp(52px,8vw,96px)] font-extrabold leading-[0.91] tracking-[-0.04em];
+}
+
+@utility noise-card {
+  @apply border border-line bg-panel shadow-[0_2px_0_0_rgb(var(--rgb-line)/0.9),0_28px_60px_-24px_rgb(var(--rgb-veil)/0.45)] transition-all duration-500 ease-out;
+
+  &:hover {
+    @apply -translate-y-1 shadow-[0_2px_0_0_rgb(var(--rgb-accent)/0.6),0_36px_72px_-20px_rgb(var(--rgb-accent)/0.35)];
+  }
+}
+
+@utility theme-choice {
+  &[aria-pressed='true'] {
+    @apply bg-ink text-paper;
+  }
+
+  /* Hover states are defined here (instead of via a `hover:text-ink` utility
+     class) so specificity is predictable: Tailwind utilities compile into a
+     later cascade layer than these component rules, which previously let
+     `hover:text-ink` win over the pressed button's `text-paper`, leaving
+     ink-on-ink (invisible) text while its background stayed bg-ink. */
+  &:hover {
+    @apply text-ink;
+  }
+
+  &[aria-pressed='true']:hover {
+    @apply text-paper;
+  }
+}
+
+@utility menu-toggle {
+  /* Mobile menu toggle: a circular icon button whose two bars morph into an
+     "X" and whose background flips to a solid ink pill while the menu is
+     open, echoing the pill-shaped buttons used across the rest of the site. */
+  transition:
+    background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    background-color: rgb(var(--rgb-panel));
+  }
+
+  &[aria-expanded='true'] {
+    background-color: rgb(var(--rgb-ink));
+    color: rgb(var(--rgb-paper));
+  }
+
+  &[aria-expanded='true'] .menu-bar-top {
+    transform: translateY(6.25px) rotate(45deg);
+  }
+
+  &[aria-expanded='true'] .menu-bar-bottom {
+    transform: translateY(-6.25px) rotate(-45deg);
+  }
+}
+
+@utility menu-bar {
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease-out;
+}
+
+@utility menu-bar-top {
+  .menu-toggle[aria-expanded='true'] & {
+    transform: translateY(6.25px) rotate(45deg);
+  }
+}
+
+@utility menu-bar-bottom {
+  .menu-toggle[aria-expanded='true'] & {
+    transform: translateY(-6.25px) rotate(-45deg);
+  }
+}
+
+@utility site-menu {
+  /* Mobile menu panel: hidden via visibility (not display) so it can
+     transition in/out, and only becomes interactive/focusable once fully
+     visible. `.is-open` is toggled by SiteHeader's script. */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.97);
+  transition:
+    opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s linear 0.32s;
+
+  &.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition:
+      opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s linear 0s;
+  }
+
+  @media (min-width: 768px) {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  &.is-open .site-menu-link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.is-open .site-menu-link:nth-child(1) {
+    transition-delay: 0.05s;
+  }
+
+  &.is-open .site-menu-link:nth-child(2) {
+    transition-delay: 0.1s;
+  }
+
+  &.is-open .site-menu-link:nth-child(3) {
+    transition-delay: 0.15s;
+  }
+}
+
+@utility is-open {
+  &.site-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition:
+      opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s linear 0s;
+  }
+
+  &.site-menu .site-menu-link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.site-menu .site-menu-link:nth-child(1) {
+    transition-delay: 0.05s;
+  }
+
+  &.site-menu .site-menu-link:nth-child(2) {
+    transition-delay: 0.1s;
+  }
+
+  &.site-menu .site-menu-link:nth-child(3) {
+    transition-delay: 0.15s;
+  }
+}
+
+@utility site-menu-link {
+  /* Links fade/slide in with a short stagger once the panel opens, and
+     reverse instantly on close so re-opening always restarts the sequence. */
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s ease-out;
+
+  .site-menu.is-open & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .site-menu.is-open &:nth-child(1) {
+    transition-delay: 0.05s;
+  }
+
+  .site-menu.is-open &:nth-child(2) {
+    transition-delay: 0.1s;
+  }
+
+  .site-menu.is-open &:nth-child(3) {
+    transition-delay: 0.15s;
+  }
+
+  @media (min-width: 768px) {
+    opacity: 1;
+    transform: none;
+    transition: color 0.3s ease-out;
+  }
+}
+
+@utility btn-strong-secondary {
+  border-color: rgb(var(--rgb-surface-strong-foreground));
+  color: rgb(var(--rgb-surface-strong-foreground));
+
+  &:hover {
+    background-color: rgb(var(--rgb-surface-strong-foreground));
+    color: rgb(var(--rgb-surface-strong));
+  }
+}
+
+@utility is-visible {
+  &[data-reveal] {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
 
 @layer base {
   :root {
     color-scheme: light;
-    --color-ink: 20 18 15;
-    --color-paper: 244 238 222;
-    --color-muted: 100 88 73;
-    --color-line: 210 190 158;
-    --color-accent: 214 52 33;
-    --color-violet: 108 74 182;
-    --color-blue: 32 105 122;
-    --color-sand: 184 140 63;
-    --color-ember: 224 92 37;
-    --color-panel: 255 250 236;
-    --color-veil: 34 29 24;
-    --color-good: 47 122 71;
-    --color-surface-strong: 20 18 15;
-    --color-surface-strong-foreground: 244 238 222;
-    --color-on-accent: 255 255 255;
-    --color-on-sand: 20 18 15;
+    --rgb-ink: 20 18 15;
+    --rgb-paper: 244 238 222;
+    --rgb-muted: 100 88 73;
+    --rgb-line: 210 190 158;
+    --rgb-accent: 214 52 33;
+    --rgb-violet: 108 74 182;
+    --rgb-blue: 32 105 122;
+    --rgb-sand: 184 140 63;
+    --rgb-ember: 224 92 37;
+    --rgb-panel: 255 250 236;
+    --rgb-veil: 34 29 24;
+    --rgb-good: 47 122 71;
+    --rgb-surface-strong: 20 18 15;
+    --rgb-surface-strong-foreground: 244 238 222;
+    --rgb-on-accent: 255 255 255;
+    --rgb-on-sand: 20 18 15;
     --aurora-1: 214 52 33;
     --aurora-2: 108 74 182;
     --aurora-3: 32 105 122;
@@ -29,22 +471,22 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
       color-scheme: dark;
-      --color-ink: 246 238 222;
-      --color-paper: 13 12 15;
-      --color-muted: 172 160 150;
-      --color-line: 54 48 52;
-      --color-accent: 255 111 74;
-      --color-violet: 165 133 235;
-      --color-blue: 96 195 210;
-      --color-sand: 214 173 99;
-      --color-ember: 255 145 88;
-      --color-panel: 22 20 24;
-      --color-veil: 0 0 0;
-      --color-good: 110 205 140;
-      --color-surface-strong: 8 7 9;
-      --color-surface-strong-foreground: 246 238 222;
-      --color-on-accent: 20 18 15;
-      --color-on-sand: 20 18 15;
+      --rgb-ink: 246 238 222;
+      --rgb-paper: 13 12 15;
+      --rgb-muted: 172 160 150;
+      --rgb-line: 54 48 52;
+      --rgb-accent: 255 111 74;
+      --rgb-violet: 165 133 235;
+      --rgb-blue: 96 195 210;
+      --rgb-sand: 214 173 99;
+      --rgb-ember: 255 145 88;
+      --rgb-panel: 22 20 24;
+      --rgb-veil: 0 0 0;
+      --rgb-good: 110 205 140;
+      --rgb-surface-strong: 8 7 9;
+      --rgb-surface-strong-foreground: 246 238 222;
+      --rgb-on-accent: 20 18 15;
+      --rgb-on-sand: 20 18 15;
       --aurora-1: 255 90 60;
       --aurora-2: 140 100 255;
       --aurora-3: 60 190 210;
@@ -53,22 +495,22 @@
 
   :root[data-theme='dark'] {
     color-scheme: dark;
-    --color-ink: 246 238 222;
-    --color-paper: 13 12 15;
-    --color-muted: 172 160 150;
-    --color-line: 54 48 52;
-    --color-accent: 255 111 74;
-    --color-violet: 165 133 235;
-    --color-blue: 96 195 210;
-    --color-sand: 214 173 99;
-    --color-ember: 255 145 88;
-    --color-panel: 22 20 24;
-    --color-veil: 0 0 0;
-    --color-good: 110 205 140;
-    --color-surface-strong: 8 7 9;
-    --color-surface-strong-foreground: 246 238 222;
-    --color-on-accent: 20 18 15;
-    --color-on-sand: 20 18 15;
+    --rgb-ink: 246 238 222;
+    --rgb-paper: 13 12 15;
+    --rgb-muted: 172 160 150;
+    --rgb-line: 54 48 52;
+    --rgb-accent: 255 111 74;
+    --rgb-violet: 165 133 235;
+    --rgb-blue: 96 195 210;
+    --rgb-sand: 214 173 99;
+    --rgb-ember: 255 145 88;
+    --rgb-panel: 22 20 24;
+    --rgb-veil: 0 0 0;
+    --rgb-good: 110 205 140;
+    --rgb-surface-strong: 8 7 9;
+    --rgb-surface-strong-foreground: 246 238 222;
+    --rgb-on-accent: 20 18 15;
+    --rgb-on-sand: 20 18 15;
     --aurora-1: 255 90 60;
     --aurora-2: 140 100 255;
     --aurora-3: 60 190 210;
@@ -91,7 +533,7 @@
   }
 
   :focus-visible {
-    @apply outline outline-2 outline-offset-4 outline-accent;
+    @apply outline-solid outline-2 outline-offset-4 outline-accent;
   }
 
   em {
@@ -103,239 +545,6 @@
 }
 
 @layer components {
-  .shell {
-    @apply mx-auto w-[calc(100%-2.5rem)] max-w-shell md:w-[calc(100%-5rem)];
-  }
-
-  /* Aurora backdrop: three soft, independently drifting color fields. Fixed and
-     bounded so it never drives layout or blocks pointer/keyboard interaction. */
-  .aurora {
-    @apply pointer-events-none fixed inset-0 z-[-1] overflow-hidden;
-  }
-
-  .aurora::before,
-  .aurora::after,
-  .aurora span {
-    content: '';
-    position: absolute;
-    border-radius: 999px;
-    filter: blur(88px);
-    opacity: 0.28;
-    will-change: transform;
-  }
-
-  .aurora::before {
-    left: -10%;
-    top: -18%;
-    width: 46rem;
-    height: 46rem;
-    background: rgb(var(--aurora-1));
-    animation: aurora-a 22s ease-in-out infinite;
-  }
-
-  .aurora::after {
-    right: -14%;
-    top: -8%;
-    width: 40rem;
-    height: 40rem;
-    background: rgb(var(--aurora-2));
-    animation: aurora-b 26s ease-in-out infinite;
-  }
-
-  .aurora span {
-    left: 30%;
-    bottom: -22%;
-    width: 44rem;
-    height: 44rem;
-    background: rgb(var(--aurora-3));
-    animation: aurora-a 30s ease-in-out infinite reverse;
-  }
-
-  [data-theme='dark'] .aurora::before,
-  [data-theme='dark'] .aurora::after,
-  [data-theme='dark'] .aurora span {
-    opacity: 0.4;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme]) .aurora::before,
-    :root:not([data-theme]) .aurora::after,
-    :root:not([data-theme]) .aurora span {
-      opacity: 0.4;
-    }
-  }
-
-  .eyebrow {
-    @apply mb-5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted;
-  }
-
-  .btn {
-    @apply relative inline-flex items-center gap-5 overflow-hidden rounded-full px-6 py-4 text-xs font-extrabold transition-all duration-300 ease-out;
-  }
-
-  .btn-primary {
-    @apply bg-ink text-paper shadow-[0_20px_40px_-12px_rgb(var(--color-veil)/0.5)] hover:-translate-y-1 hover:bg-accent hover:text-paper hover:shadow-[0_24px_48px_-10px_rgb(var(--color-accent)/0.45)];
-  }
-
-  .btn-light {
-    @apply bg-paper text-ink shadow-[0_18px_38px_-12px_rgb(var(--color-veil)/0.35)] hover:-translate-y-1 hover:bg-panel;
-  }
-
-  .cv-action {
-    @apply inline-flex items-center justify-center gap-2.5 rounded-full border border-ink bg-transparent px-[17px] py-[11px] text-center text-xs font-bold text-ink shadow-none transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-ink hover:text-paper;
-  }
-
-  .cv-action.is-floating {
-    @apply fixed bottom-5 right-5 z-[80] border-accent bg-accent px-5 py-4 text-paper shadow-[0_20px_44px_-8px_rgb(var(--color-accent)/0.55)] hover:-translate-y-1 hover:bg-ink hover:text-paper md:bottom-8 md:right-8;
-  }
-
-  .text-link {
-    @apply relative inline-flex items-center border-b border-ink pb-1 text-xs font-extrabold transition-colors duration-300 hover:border-accent hover:text-accent;
-  }
-
-  .section-title {
-    @apply m-0 text-[clamp(42px,5.5vw,70px)] leading-[0.96] tracking-[-0.04em];
-  }
-
-  .display-title {
-    @apply m-0 text-[clamp(52px,8vw,96px)] font-extrabold leading-[0.91] tracking-[-0.04em];
-  }
-
-  .noise-card {
-    @apply border border-line bg-panel shadow-[0_2px_0_0_rgb(var(--color-line)/0.9),0_28px_60px_-24px_rgb(var(--color-veil)/0.45)] transition-all duration-500 ease-out;
-  }
-
-  .noise-card:hover {
-    @apply -translate-y-1 shadow-[0_2px_0_0_rgb(var(--color-accent)/0.6),0_36px_72px_-20px_rgb(var(--color-accent)/0.35)];
-  }
-
-  .theme-choice[aria-pressed='true'] {
-    @apply bg-ink text-paper;
-  }
-
-  /* Hover states are defined here (instead of via a `hover:text-ink` utility
-     class) so specificity is predictable: Tailwind utilities compile into a
-     later cascade layer than these component rules, which previously let
-     `hover:text-ink` win over the pressed button's `text-paper`, leaving
-     ink-on-ink (invisible) text while its background stayed bg-ink. */
-  .theme-choice:hover {
-    @apply text-ink;
-  }
-
-  .theme-choice[aria-pressed='true']:hover {
-    @apply text-paper;
-  }
-
-  /* Mobile menu toggle: a circular icon button whose two bars morph into an
-     "X" and whose background flips to a solid ink pill while the menu is
-     open, echoing the pill-shaped buttons used across the rest of the site. */
-  .menu-toggle {
-    transition:
-      background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-      color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .menu-toggle:hover {
-    background-color: rgb(var(--color-panel));
-  }
-
-  .menu-toggle[aria-expanded='true'] {
-    background-color: rgb(var(--color-ink));
-    color: rgb(var(--color-paper));
-  }
-
-  .menu-bar {
-    transition:
-      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 0.2s ease-out;
-  }
-
-  .menu-toggle[aria-expanded='true'] .menu-bar-top {
-    transform: translateY(6.25px) rotate(45deg);
-  }
-
-  .menu-toggle[aria-expanded='true'] .menu-bar-bottom {
-    transform: translateY(-6.25px) rotate(-45deg);
-  }
-
-  /* Mobile menu panel: hidden via visibility (not display) so it can
-     transition in/out, and only becomes interactive/focusable once fully
-     visible. `.is-open` is toggled by SiteHeader's script. */
-  .site-menu {
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-8px) scale(0.97);
-    transition:
-      opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-      visibility 0s linear 0.32s;
-  }
-
-  .site-menu.is-open {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    transition:
-      opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-      visibility 0s linear 0s;
-  }
-
-  @media (min-width: 768px) {
-    .site-menu {
-      visibility: visible;
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-
-  /* Links fade/slide in with a short stagger once the panel opens, and
-     reverse instantly on close so re-opening always restarts the sequence. */
-  .site-menu-link {
-    opacity: 0;
-    transform: translateY(6px);
-    transition:
-      opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-      color 0.3s ease-out;
-  }
-
-  .site-menu.is-open .site-menu-link {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .site-menu.is-open .site-menu-link:nth-child(1) {
-    transition-delay: 0.05s;
-  }
-
-  .site-menu.is-open .site-menu-link:nth-child(2) {
-    transition-delay: 0.1s;
-  }
-
-  .site-menu.is-open .site-menu-link:nth-child(3) {
-    transition-delay: 0.15s;
-  }
-
-  @media (min-width: 768px) {
-    .site-menu-link {
-      opacity: 1;
-      transform: none;
-      transition: color 0.3s ease-out;
-    }
-  }
-
-  .btn-strong-secondary {
-    border-color: rgb(var(--color-surface-strong-foreground));
-    color: rgb(var(--color-surface-strong-foreground));
-  }
-
-  .btn-strong-secondary:hover {
-    background-color: rgb(var(--color-surface-strong-foreground));
-    color: rgb(var(--color-surface-strong));
-  }
-
   /* Magnetic buttons: pointer-driven translate applied via CSS custom
      properties set from interactions.ts. Falls back to 0,0 (no motion). */
   [data-magnetic] {
@@ -366,12 +575,6 @@
       transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
       filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: calc(var(--reveal-delay, 0) * 1ms);
-  }
-
-  [data-reveal].is-visible {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
   }
 
   html:not(.js) [data-reveal] {
