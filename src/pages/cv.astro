@@ -25,7 +25,7 @@ import { cv } from '@/data/cv';
         type="button"
         data-magnetic
         data-magnetic-strength="10"
-        class="download-cv-button group relative inline-flex min-h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-ink px-6 py-3.5 text-sm font-bold text-paper shadow-[0_18px_42px_-14px_rgb(var(--color-veil)/0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_22px_48px_-12px_rgb(var(--color-accent)/0.45)] disabled:cursor-wait disabled:opacity-70 md:w-auto"
+        class="download-cv-button group relative inline-flex min-h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-ink px-6 py-3.5 text-sm font-bold text-paper shadow-[0_18px_42px_-14px_rgb(var(--rgb-veil)/0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_22px_48px_-12px_rgb(var(--rgb-accent)/0.45)] disabled:cursor-wait disabled:opacity-70 md:w-auto"
       >
           <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" data-download-icon viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M10 2v10m0 0 4-4m-4 4L6 8M3 15.5V18h14v-2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -153,7 +153,7 @@ import { cv } from '@/data/cv';
 <style>
   .section-label {
     margin: 0 0 1.125rem;
-    border-bottom: 1px solid rgb(var(--color-line));
+    border-bottom: 1px solid rgb(var(--rgb-line));
     padding-bottom: 0.75rem;
     font-family: 'DM Mono', monospace;
     font-size: 11px;
@@ -164,13 +164,13 @@ import { cv } from '@/data/cv';
 
   .cv-link {
     text-decoration: underline;
-    text-decoration-color: rgb(var(--color-line));
+    text-decoration-color: rgb(var(--rgb-line));
     text-underline-offset: 3px;
   }
 
   .cv-link:hover {
-    color: rgb(var(--color-accent));
-    text-decoration-color: rgb(var(--color-accent));
+    color: rgb(var(--rgb-accent));
+    text-decoration-color: rgb(var(--rgb-accent));
   }
 
   @media print {

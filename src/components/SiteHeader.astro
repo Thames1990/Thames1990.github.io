@@ -7,10 +7,10 @@ interface Props {
 const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
 ---
 
-<header class="absolute left-0 top-0 z-[5] w-full text-ink">
+<header class="absolute left-0 top-0 z-5 w-full text-ink">
   <nav class="shell flex h-[76px] items-center justify-between border-b border-line/80 md:h-[94px]" aria-label="Main navigation">
-    <a class="flex items-center font-mono text-sm tracking-[0.05em]" href="/" aria-label="Thomas Mohr home" transition:name="site-logo">
-      <span class="mr-2 grid h-9 w-9 place-items-center rounded-full bg-ink text-[11px] text-paper shadow-[0_10px_24px_-6px_rgb(var(--color-accent)/0.55)]">TM</span> / 90
+    <a class="flex items-center font-mono text-sm tracking-wider" href="/" aria-label="Thomas Mohr home" transition:name="site-logo">
+      <span class="mr-2 grid h-9 w-9 place-items-center rounded-full bg-ink text-[11px] text-paper shadow-[0_10px_24px_-6px_rgb(var(--rgb-accent)/0.55)]">TM</span> / 90
     </a>
     <div class="flex items-center gap-3 md:gap-7">
       <button
@@ -28,7 +28,7 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
       </button>
       <div
         id="site-menu"
-        class="site-menu absolute left-5 right-5 top-[68px] z-40 flex-col items-stretch gap-0 overflow-hidden rounded-2xl border border-line bg-panel text-ink shadow-[0_2px_0_0_rgb(var(--color-line)/0.9),0_28px_60px_-24px_rgb(var(--color-veil)/0.55)] backdrop-blur-xl md:static md:top-auto md:z-auto md:order-1 md:flex md:w-auto md:flex-row md:items-center md:gap-7 md:overflow-visible md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
+        class="site-menu absolute left-5 right-5 top-[68px] z-40 flex-col items-stretch gap-0 overflow-hidden rounded-2xl border border-line bg-panel text-ink shadow-[0_2px_0_0_rgb(var(--rgb-line)/0.9),0_28px_60px_-24px_rgb(var(--rgb-veil)/0.55)] backdrop-blur-xl md:static md:top-auto md:z-auto md:order-1 md:flex md:w-auto md:flex-row md:items-center md:gap-7 md:overflow-visible md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none"
       >
         <nav class="flex flex-col md:contents" aria-label="Section links">
           <a class="site-menu-link group flex items-center justify-between gap-4 border-b border-line px-5 py-4 text-sm font-bold text-ink md:border-0 md:p-0 md:text-xs md:text-muted md:hover:text-ink" href="/#work">

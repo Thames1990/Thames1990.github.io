@@ -62,7 +62,7 @@ const PAGE_HEIGHT = 841.89;
 const PAGE_MARGIN = 42;
 const CONTENT_WIDTH = PAGE_WIDTH - PAGE_MARGIN * 2;
 
-pdfMake.vfs = pdfFonts;
+pdfMake.addVirtualFileSystem(pdfFonts);
 
 const styles: StyleDictionary = {
   name: {
@@ -381,28 +381,14 @@ export function createCvDocumentDefinition(cv: CvPdfData): TDocumentDefinitions 
 }
 
 export async function createCvPdfBuffer(cv: CvPdfData): Promise<Buffer> {
-  const document = pdfMake.createPdf(createCvDocumentDefinition(cv));
+  const buffer = await pdfMake.createPdf(createCvDocumentDefinition(cv)).getBuffer();
 
-  return new Promise<Buffer>((resolve, reject) => {
-    try {
-      document.getBuffer((buffer) => resolve(Buffer.from(buffer)));
-    } catch (error: unknown) {
-      reject(error);
-    }
-  });
+  return Buffer.from(buffer);
 }
 
 export async function downloadCvPdf(cv: CvPdfData): Promise<void> {
   const filename = `${cv.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-cv.pdf`;
-  const document = pdfMake.createPdf(createCvDocumentDefinition(cv));
-
-  await new Promise<void>((resolve, reject) => {
-    try {
-      document.download(filename, resolve);
-    } catch (error: unknown) {
-      reject(error);
-    }
-  });
+  await pdfMake.createPdf(createCvDocumentDefinition(cv)).download(filename);
 }
 
 export const cvPdfPageMetrics = {

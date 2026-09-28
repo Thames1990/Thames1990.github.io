@@ -3,7 +3,7 @@
   "type": "module",
   "version": "2.0.0",
   "private": true,
-  "packageManager": "pnpm@10.16.1",
+  "packageManager": "pnpm@12.6.0",
   "description": "Software developer portfolio for Thomas Mohr, built with Astro, TypeScript and Tailwind CSS.",
   "author": "Thomas Mohr",
   "license": "MIT",
@@ -16,18 +16,18 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.3.4",
-    "pdfmake": "0.2.20"
+    "astro": "^7.3.5",
+    "pdfmake": "^0.3.11"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/tailwind": "^6.0.2",
     "@tailwindcss/typography": "^0.5.20",
-    "@types/pdfmake": "^0.2.13",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/pdfmake": "^0.3.3",
     "pdf-lib": "^1.17.1",
-    "pdfjs-dist": "6.3.289",
-    "tailwindcss": "^3.4.19",
-    "typescript": "^5.9.3",
-    "vitest": "5.0.1"
+    "pdfjs-dist": "^6.3.289",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.2"
   }
 }
