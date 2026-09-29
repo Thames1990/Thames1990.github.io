@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = ({ site }) => {
   const baseUrl = site ?? new URL('https://thames1990.github.io');
-  const routes = ['/', '/cv'];
+  const routes = ['/', '/cv/'];
   const urls = routes
     .map((route) => `  <url><loc>${new URL(route, baseUrl).href}</loc></url>`)
     .join('\n');
