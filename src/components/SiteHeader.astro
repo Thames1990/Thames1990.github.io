@@ -168,23 +168,38 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
     });
 
     if (toggle && menu) {
-      const setOpen = (open: boolean) => {
+      const mobile = window.matchMedia('(max-width: 767px)');
+      const setOpen = (open: boolean, restoreFocus = false) => {
+        if (!open && restoreFocus && mobile.matches) {
+          toggle.focus();
+        }
         toggle.setAttribute('aria-expanded', String(open));
         menu.classList.toggle('is-open', open);
+        menu.inert = mobile.matches && !open;
+        if (mobile.matches && !open) {
+          menu.setAttribute('aria-hidden', 'true');
+        } else {
+          menu.removeAttribute('aria-hidden');
+        }
+        if (open && mobile.matches) {
+          menu.querySelector<HTMLElement>('a, button')?.focus();
+        }
       };
+
+      setOpen(false);
+      mobile.addEventListener('change', () => setOpen(false, mobile.matches && menu.contains(document.activeElement)), { signal });
 
       toggle.addEventListener('click', () => {
         setOpen(toggle.getAttribute('aria-expanded') !== 'true');
       }, { signal });
 
       menu.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => setOpen(false), { signal });
+        link.addEventListener('click', () => setOpen(false, true), { signal });
       });
 
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-          setOpen(false);
-          toggle.focus();
+          setOpen(false, true);
         }
       }, { signal });
 
@@ -196,7 +211,7 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
           !menu.contains(target) &&
           !toggle.contains(target)
         ) {
-          setOpen(false);
+          setOpen(false, document.activeElement === document.body || menu.contains(document.activeElement));
         }
       }, { signal });
     }
