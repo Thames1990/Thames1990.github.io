@@ -8,6 +8,38 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL('/social-preview.png', Astro.site);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': 'https://thames1990.github.io/#person',
+      name: 'Thomas Mohr',
+      jobTitle: 'Technical Project Lead and Engineering Lead',
+      url: 'https://thames1990.github.io/',
+      image: socialImage.href,
+      sameAs: ['https://www.linkedin.com/in/thomas-mohr-03154324a/', 'https://github.com/Thames1990'],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://thames1990.github.io/#website',
+      name: 'Thomas Mohr — developer portfolio',
+      url: 'https://thames1990.github.io/',
+      publisher: { '@id': 'https://thames1990.github.io/#person' },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonicalUrl.href}#webpage`,
+      name: title,
+      description,
+      url: canonicalUrl.href,
+      isPartOf: { '@id': 'https://thames1990.github.io/#website' },
+      about: { '@id': 'https://thames1990.github.io/#person' },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -22,8 +54,22 @@ const { title, description } = Astro.props;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:site_name" content="Thomas Mohr — developer portfolio" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={socialImage.href} />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage.href} />
+    <meta name="twitter:image:alt" content={title} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={canonicalUrl.href} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
     <title>{title}</title>
     <script is:inline>
       (() => {
