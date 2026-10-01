@@ -6,6 +6,10 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
+test('logo accessible name includes its visible label and home purpose', async ({ page }) => {
+  await expect(page.getByRole('link', { name: 'TM / 90 — Thomas Mohr home', exact: true })).toBeVisible();
+});
+
 test('closed mobile menu is inert, and opening exposes every item in keyboard order', async ({ page }) => {
   const menu = page.locator('#site-menu');
   const toggle = page.locator('#menu-toggle');
