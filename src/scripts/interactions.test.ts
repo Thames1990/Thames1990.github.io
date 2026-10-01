@@ -1,9 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   calculatePointerOffset,
   calculateRevealDelay,
   calculateScrollProgress,
+  createAnimationFrameScheduler,
   formatCounterValue,
+  shouldDeferReveal,
 } from './interactions';
 
 describe('calculateScrollProgress', () => {
@@ -44,9 +46,41 @@ describe('calculateRevealDelay', () => {
   });
 });
 
+describe('shouldDeferReveal', () => {
+  it('only defers targets whose top is below the viewport', () => {
+    expect(shouldDeferReveal(736, 800)).toBe(false);
+    expect(shouldDeferReveal(800, 800)).toBe(true);
+    expect(shouldDeferReveal(1_200, 800)).toBe(true);
+  });
+});
+
 describe('formatCounterValue', () => {
   it('preserves configured prefixes and suffixes', () => {
     expect(formatCounterValue(8, '', '+ years')).toBe('8+ years');
     expect(formatCounterValue(10, '≈', 'k')).toBe('≈10k');
+  });
+});
+
+describe('createAnimationFrameScheduler', () => {
+  it('coalesces repeated requests until the scheduled frame runs', () => {
+    const callback = vi.fn();
+    const frames: FrameRequestCallback[] = [];
+    const schedule = createAnimationFrameScheduler(callback, (frame) => {
+      frames.push(frame);
+      return frames.length;
+    });
+
+    schedule();
+    schedule();
+    schedule();
+
+    expect(frames).toHaveLength(1);
+    expect(callback).not.toHaveBeenCalled();
+
+    frames[0](16);
+    expect(callback).toHaveBeenCalledOnce();
+
+    schedule();
+    expect(frames).toHaveLength(2);
   });
 });

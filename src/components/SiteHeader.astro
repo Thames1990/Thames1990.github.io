@@ -9,7 +9,7 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
 
 <header class="absolute left-0 top-0 z-5 w-full text-ink">
   <nav class="shell flex h-[76px] items-center justify-between border-b border-line/80 md:h-[94px]" aria-label="Main navigation">
-    <a class="flex items-center font-mono text-sm tracking-wider" href="/" aria-label="Thomas Mohr home" transition:name="site-logo">
+    <a class="flex items-center font-mono text-sm tracking-wider" href="/" aria-label="TM / 90 — Thomas Mohr home" transition:name="site-logo">
       <span class="mr-2 grid h-9 w-9 place-items-center rounded-full bg-ink text-[11px] text-paper shadow-[0_10px_24px_-6px_rgb(var(--rgb-accent)/0.55)]">TM</span> / 90
     </a>
     <div class="flex items-center gap-3 md:gap-7">
@@ -97,7 +97,6 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
     const toggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('site-menu');
     const choices = document.querySelectorAll('[data-theme-choice]');
-    const floatingCvAction = document.querySelector('[data-floating-cv-action="true"]');
 
     // `astro:page-load` fires on the initial page load as well as every
     // subsequent view-transition navigation, so this function can run twice
@@ -216,14 +215,6 @@ const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
       }, { signal });
     }
 
-    if (floatingCvAction) {
-      const syncCvActionPosition = () => {
-        floatingCvAction.classList.toggle('is-floating', window.scrollY > 140);
-      };
-
-      syncCvActionPosition();
-      window.addEventListener('scroll', syncCvActionPosition, { passive: true, signal });
-    }
   }
 
   // Astro View Transitions swap in a fresh header on every navigation, so

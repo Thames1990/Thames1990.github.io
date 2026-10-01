@@ -28,11 +28,29 @@ export function calculateRevealDelay(index: number): number {
   return Math.min(Math.max(index, 0), 6) * 70;
 }
 
+export function shouldDeferReveal(targetTop: number, viewportHeight: number): boolean {
+  return targetTop >= viewportHeight;
+}
+
 export function formatCounterValue(value: number, prefix: string, suffix: string): string {
   return `${prefix}${value}${suffix}`;
 }
 
+export function createAnimationFrameScheduler(callback: FrameRequestCallback, requestFrame = requestAnimationFrame): () => void {
+  let framePending = false;
+
+  return () => {
+    if (framePending) return;
+    framePending = true;
+    requestFrame((time) => {
+      framePending = false;
+      callback(time);
+    });
+  };
+}
+
 let activeController: AbortController | undefined;
+let pointerController: AbortController | undefined;
 let revealObserver: IntersectionObserver | undefined;
 let counterObserver: IntersectionObserver | undefined;
 
@@ -41,8 +59,11 @@ function initReveal() {
   const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
   if (!targets.length) return;
 
-  if (prefersReducedMotion() || !('IntersectionObserver' in window)) {
-    targets.forEach((el) => el.classList.add('is-visible'));
+  if (prefersReducedMotion() || typeof IntersectionObserver === 'undefined') {
+    targets.forEach((el) => {
+      el.classList.remove('is-pending');
+      el.classList.add('is-visible');
+    });
     return;
   }
 
@@ -60,30 +81,22 @@ function initReveal() {
     return calculateRevealDelay(index);
   };
 
-  // Anything already sitting inside the viewport on first paint should just
-  // render immediately. Waiting on the scroll-driven observer for those
-  // elements left visible gaps on tall/wide viewports — e.g. the "Selected
-  // work" heading would fade in while the case-study cards directly below
-  // it stayed invisible until the visitor nudged the page with a scroll.
-  const viewportHeight = window.innerHeight;
-  const toObserve: HTMLElement[] = [];
-
-  targets.forEach((el) => {
-    if (el.getBoundingClientRect().top < viewportHeight) {
-      el.classList.add('is-visible');
-    } else {
-      toObserve.push(el);
-    }
-  });
-
-  if (!toObserve.length) return;
-
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
         const el = entry.target as HTMLElement;
-        el.style.setProperty('--reveal-delay', String(delayFor(el)));
+
+        if (!entry.isIntersecting) {
+          if (!el.classList.contains('is-visible') && shouldDeferReveal(entry.boundingClientRect.top, window.innerHeight)) {
+            el.classList.add('is-pending');
+          }
+          return;
+        }
+
+        if (el.classList.contains('is-pending')) {
+          el.style.setProperty('--reveal-delay', String(delayFor(el)));
+          el.classList.remove('is-pending');
+        }
         el.classList.add('is-visible');
         observer.unobserve(el);
       });
@@ -92,68 +105,165 @@ function initReveal() {
   );
 
   revealObserver = observer;
-  toObserve.forEach((el) => observer.observe(el));
+  targets.forEach((el) => observer.observe(el));
 }
 
 function initScrollProgress() {
   const bar = document.getElementById('scroll-progress');
-  if (!bar) return;
+  const floatingCvAction = document.querySelector<HTMLElement>('[data-floating-cv-action="true"]');
+  if (!bar && !floatingCvAction) return;
 
   const update = () => {
-    const doc = document.documentElement;
-    const progress = calculateScrollProgress(window.scrollY, doc.scrollHeight, doc.clientHeight);
-    bar.style.setProperty('--scroll-progress', String(progress));
+    if (bar) {
+      const doc = document.documentElement;
+      const progress = calculateScrollProgress(window.scrollY, doc.scrollHeight, doc.clientHeight);
+      bar.style.setProperty('--scroll-progress', String(progress));
+    }
+
+    if (floatingCvAction) {
+      const shouldFloat = window.scrollY > 140;
+      if (floatingCvAction.classList.contains('is-floating') !== shouldFloat) {
+        floatingCvAction.classList.toggle('is-floating', shouldFloat);
+      }
+    }
   };
+  const scheduleUpdate = createAnimationFrameScheduler(update);
 
   update();
-  window.addEventListener('scroll', update, { passive: true, signal: activeController?.signal });
-  window.addEventListener('resize', update, { signal: activeController?.signal });
+  window.addEventListener('scroll', scheduleUpdate, { passive: true, signal: activeController?.signal });
+  window.addEventListener('resize', scheduleUpdate, { signal: activeController?.signal });
 }
 
-function initMagnetic() {
-  if (prefersReducedMotion()) return;
+function initMagnetic(signal: AbortSignal) {
   const items = document.querySelectorAll<HTMLElement>('[data-magnetic]');
 
   items.forEach((el) => {
     const strength = Number(el.dataset.magneticStrength ?? 18);
-
-    const reset = () => {
-      el.style.setProperty('--mx', '0');
-      el.style.setProperty('--my', '0');
-    };
-
-    el.addEventListener('pointermove', (event) => {
-      const rect = el.getBoundingClientRect();
-      el.style.setProperty('--mx', String(calculatePointerOffset(event.clientX, rect.left, rect.width, strength)));
-      el.style.setProperty('--my', String(calculatePointerOffset(event.clientY, rect.top, rect.height, strength)));
-    }, { signal: activeController?.signal });
-
-    el.addEventListener('pointerleave', reset, { signal: activeController?.signal });
-    reset();
+    initPointerEffect(el, '--mx', '--my', strength, strength, signal);
   });
 }
 
-function initTilt() {
-  if (prefersReducedMotion()) return;
+function initTilt(signal: AbortSignal) {
   const items = document.querySelectorAll<HTMLElement>('[data-tilt]');
 
   items.forEach((el) => {
     const max = Number(el.dataset.tiltStrength ?? 6);
-
-    const reset = () => {
-      el.style.setProperty('--rx', '0');
-      el.style.setProperty('--ry', '0');
-    };
-
-    el.addEventListener('pointermove', (event) => {
-      const rect = el.getBoundingClientRect();
-      el.style.setProperty('--rx', String(calculatePointerOffset(event.clientX, rect.left, rect.width, max * 2)));
-      el.style.setProperty('--ry', String(calculatePointerOffset(event.clientY, rect.top, rect.height, -max * 2)));
-    }, { signal: activeController?.signal });
-
-    el.addEventListener('pointerleave', reset, { signal: activeController?.signal });
-    reset();
+    initPointerEffect(el, '--rx', '--ry', max * 2, -max * 2, signal);
   });
+}
+
+function resetPointerEffects() {
+  document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
+    el.style.setProperty('--mx', '0');
+    el.style.setProperty('--my', '0');
+  });
+  document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
+    el.style.setProperty('--rx', '0');
+    el.style.setProperty('--ry', '0');
+  });
+}
+
+function initPointerEffects() {
+  pointerController?.abort();
+  pointerController = undefined;
+  resetPointerEffects();
+
+  const pointerQuery = window.matchMedia(
+    '(hover: hover) and (pointer: fine) and (min-width: 48rem) and (prefers-reduced-motion: no-preference)'
+  );
+
+  const bind = () => {
+    pointerController?.abort();
+    pointerController = undefined;
+    resetPointerEffects();
+    if (!pointerQuery.matches) return;
+
+    pointerController = new AbortController();
+    initMagnetic(pointerController.signal);
+    initTilt(pointerController.signal);
+  };
+
+  bind();
+  pointerQuery.addEventListener('change', bind, { signal: activeController?.signal });
+}
+
+function initPointerEffect(
+  el: HTMLElement,
+  horizontalProperty: string,
+  verticalProperty: string,
+  horizontalStrength: number,
+  verticalStrength: number,
+  signal: AbortSignal
+) {
+  let bounds: DOMRect | undefined;
+  let boundsStale = false;
+  let clientX = 0;
+  let clientY = 0;
+  let pointerIsOver = false;
+
+  const reset = () => {
+    pointerIsOver = false;
+    bounds = undefined;
+    boundsStale = false;
+    el.style.setProperty(horizontalProperty, '0');
+    el.style.setProperty(verticalProperty, '0');
+  };
+
+  const update = () => {
+    if (!pointerIsOver) return;
+    if (boundsStale) {
+      bounds = el.getBoundingClientRect();
+      boundsStale = false;
+    }
+    if (!bounds) return;
+    el.style.setProperty(
+      horizontalProperty,
+      String(calculatePointerOffset(clientX, bounds.left, bounds.width, horizontalStrength))
+    );
+    el.style.setProperty(
+      verticalProperty,
+      String(calculatePointerOffset(clientY, bounds.top, bounds.height, verticalStrength))
+    );
+  };
+  const scheduleUpdate = createAnimationFrameScheduler(update);
+
+  el.addEventListener(
+    'pointerenter',
+    (event) => {
+      if (event.pointerType === 'touch') return;
+      bounds = el.getBoundingClientRect();
+      pointerIsOver = true;
+      clientX = event.clientX;
+      clientY = event.clientY;
+      scheduleUpdate();
+    },
+    { signal }
+  );
+
+  el.addEventListener(
+    'pointermove',
+    (event) => {
+      if (!pointerIsOver) return;
+      clientX = event.clientX;
+      clientY = event.clientY;
+      scheduleUpdate();
+    },
+    { signal }
+  );
+
+  el.addEventListener('pointerleave', reset, { signal });
+  const refreshBounds = () => {
+    if (!pointerIsOver) return;
+    boundsStale = true;
+    scheduleUpdate();
+  };
+  window.addEventListener('scroll', refreshBounds, { passive: true, signal });
+  window.addEventListener(
+    'resize',
+    refreshBounds,
+    { signal }
+  );
+  reset();
 }
 
 function initCounters() {
@@ -186,7 +296,7 @@ function initCounters() {
     requestAnimationFrame(tick);
   };
 
-  if (!('IntersectionObserver' in window)) {
+  if (typeof IntersectionObserver === 'undefined') {
     counters.forEach(animate);
     return;
   }
@@ -212,8 +322,7 @@ function init() {
   document.documentElement.classList.add('js');
   initReveal();
   initScrollProgress();
-  initMagnetic();
-  initTilt();
+  initPointerEffects();
   initCounters();
 }
 

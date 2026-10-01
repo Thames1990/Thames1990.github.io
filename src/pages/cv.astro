@@ -4,6 +4,7 @@ import SiteHeader from '@/components/SiteHeader.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
 import { cv } from '@/data/cv';
 
+const cvPdfFilename = `${cv.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-cv.pdf`;
 ---
 
 <Layout title={`CV — ${cv.name}`} description={`Curriculum vitae for ${cv.name}, ${cv.title}.`}>
@@ -25,6 +26,7 @@ import { cv } from '@/data/cv';
         type="button"
         data-magnetic
         data-magnetic-strength="10"
+        data-cv-pdf-filename={cvPdfFilename}
         class="download-cv-button group relative inline-flex min-h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-ink px-6 py-3.5 text-sm font-bold text-paper shadow-[0_18px_42px_-14px_rgb(var(--rgb-veil)/0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_22px_48px_-12px_rgb(var(--rgb-accent)/0.45)] disabled:cursor-wait disabled:opacity-70 md:w-auto"
       >
           <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" data-download-icon viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -143,11 +145,6 @@ import { cv } from '@/data/cv';
   </main>
 
   <SiteFooter showPortfolioLink />
-  <script
-    id="cv-pdf-data"
-    type="application/json"
-    set:html={JSON.stringify(cv).replaceAll('<', '\\u003c')}
-  ></script>
 </Layout>
 
 <style>
@@ -216,23 +213,41 @@ import { cv } from '@/data/cv';
     }
 
     button.disabled = true;
-    label.textContent = 'Creating your PDF…';
+    label.textContent = 'Preparing your PDF…';
     downloadIcon?.classList.add('hidden');
     loadingIcon?.classList.remove('hidden');
 
     try {
-      const dataElement = document.getElementById('cv-pdf-data');
-      if (!dataElement?.textContent) {
-        throw new Error('CV data is missing from the page.');
+      const filename = button.dataset.cvPdfFilename;
+      if (!filename) {
+        throw new Error('CV PDF filename is missing from the page.');
       }
-      const profile = Array.from(document.querySelectorAll('#cv-profile p'))
-        .map((paragraph) => paragraph.textContent?.trim())
-        .filter((paragraph): paragraph is string => Boolean(paragraph));
-      const { downloadCvPdf } = await import('../scripts/cv-pdf');
-      await downloadCvPdf({ ...JSON.parse(dataElement.textContent), profile });
+
+      const response = await fetch('/cv.pdf');
+      if (!response.ok) {
+        throw new Error(`CV PDF request failed with status ${response.status}.`);
+      }
+      if (!response.headers.get('content-type')?.includes('application/pdf')) {
+        throw new Error('CV PDF response has an unexpected content type.');
+      }
+
+      const pdf = await response.blob();
+      if (pdf.size === 0) {
+        throw new Error('CV PDF response is empty.');
+      }
+
+      const url = URL.createObjectURL(pdf);
+      const download = document.createElement('a');
+      download.href = url;
+      download.download = filename;
+      download.hidden = true;
+      document.body.append(download);
+      download.click();
+      download.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
       label.textContent = 'PDF downloaded';
     } catch (error) {
-      console.error('CV PDF generation failed:', error);
+      console.error('CV PDF download failed:', error);
       label.textContent = 'Try download again';
     } finally {
       button.disabled = false;

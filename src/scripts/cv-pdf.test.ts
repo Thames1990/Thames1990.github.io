@@ -61,15 +61,17 @@ function loadSourceCv(): CvPdfData {
   return cv;
 }
 
-async function expectTextInsidePages(buffer: Buffer): Promise<void> {
+async function expectTextInsidePages(buffer: Buffer): Promise<string> {
   const document = await getDocument({ data: new Uint8Array(buffer) }).promise;
   const violations: string[] = [];
+  const text: string[] = [];
 
   for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
     const page = await document.getPage(pageNumber);
     const viewport = page.getViewport({ scale: 1 });
     const textContent = await page.getTextContent();
     const textItems = textContent.items.filter((item): item is TextItem => 'str' in item && item.str.trim().length > 0);
+    text.push(...textItems.map((item) => item.str));
 
     textItems.forEach((item) => {
       const left = item.transform[4];
@@ -110,6 +112,7 @@ async function expectTextInsidePages(buffer: Buffer): Promise<void> {
   }
 
   expect(violations).toEqual([]);
+  return text.join(' ');
 }
 
 describe('createCvPdfBuffer', () => {
@@ -125,7 +128,17 @@ describe('createCvPdfBuffer', () => {
       expect(page.getWidth()).toBeCloseTo(cvPdfPageMetrics.width, 1);
       expect(page.getHeight()).toBeCloseTo(cvPdfPageMetrics.height, 1);
     });
-    await expectTextInsidePages(buffer);
+    const text = await expectTextInsidePages(buffer);
+    const normalizedText = text.toLowerCase();
+    expect(text).toContain(cv.name);
+    expect(normalizedText).toContain('profile');
+    expect(normalizedText).toContain('core strengths');
+    expect(normalizedText).toContain('experience');
+    expect(normalizedText).toContain('education');
+    expect(normalizedText).toContain('skills & tools');
+    expect(normalizedText).toContain('languages');
+    expect(text).toContain(cv.experience[0].title);
+    expect(text).toContain(cv.education[0].title);
   });
 
   it('should paginate oversized and expanded CV data without changing page geometry', async () => {

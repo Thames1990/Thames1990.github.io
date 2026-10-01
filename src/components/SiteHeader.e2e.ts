@@ -6,6 +6,10 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
+test('logo accessible name includes its visible label and home purpose', async ({ page }) => {
+  await expect(page.getByRole('link', { name: 'TM / 90 — Thomas Mohr home', exact: true })).toBeVisible();
+});
+
 test('closed mobile menu is inert, and opening exposes every item in keyboard order', async ({ page }) => {
   const menu = page.locator('#site-menu');
   const toggle = page.locator('#menu-toggle');
@@ -76,4 +80,24 @@ test('reduced motion removes mobile menu transitions', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.locator('#menu-toggle').click();
   await expect(page.locator('#site-menu')).toHaveCSS('transition-duration', '0s');
+});
+
+test('floating CV action follows scroll position across view-transition navigation', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const action = page.locator('#cv-action');
+
+  await expect(action).not.toHaveClass(/is-floating/);
+  await page.evaluate(() => window.scrollTo(0, 220));
+  await expect(action).toHaveClass(/is-floating/);
+
+  await action.click();
+  await expect(page).toHaveURL(/\/cv\/?$/);
+  const backAction = page.locator('#cv-action');
+  await page.evaluate(() => window.scrollTo(0, 220));
+  await expect(backAction).toHaveClass(/is-floating/);
+
+  await backAction.click();
+  await expect(page).toHaveURL(/\/$/);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(page.locator('#cv-action')).not.toHaveClass(/is-floating/);
 });
