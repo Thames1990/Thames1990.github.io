@@ -28,6 +28,10 @@ export function calculateRevealDelay(index: number): number {
   return Math.min(Math.max(index, 0), 6) * 70;
 }
 
+export function shouldDeferReveal(targetTop: number, viewportHeight: number): boolean {
+  return targetTop >= viewportHeight;
+}
+
 export function formatCounterValue(value: number, prefix: string, suffix: string): string {
   return `${prefix}${value}${suffix}`;
 }
@@ -46,6 +50,7 @@ export function createAnimationFrameScheduler(callback: FrameRequestCallback, re
 }
 
 let activeController: AbortController | undefined;
+let pointerController: AbortController | undefined;
 let revealObserver: IntersectionObserver | undefined;
 let counterObserver: IntersectionObserver | undefined;
 
@@ -82,7 +87,9 @@ function initReveal() {
         const el = entry.target as HTMLElement;
 
         if (!entry.isIntersecting) {
-          if (!el.classList.contains('is-visible')) el.classList.add('is-pending');
+          if (!el.classList.contains('is-visible') && shouldDeferReveal(entry.boundingClientRect.top, window.innerHeight)) {
+            el.classList.add('is-pending');
+          }
           return;
         }
 
@@ -127,28 +134,57 @@ function initScrollProgress() {
   window.addEventListener('resize', scheduleUpdate, { signal: activeController?.signal });
 }
 
-function initMagnetic() {
-  if (prefersReducedMotion() || !supportsPointerEffects()) return;
+function initMagnetic(signal: AbortSignal) {
   const items = document.querySelectorAll<HTMLElement>('[data-magnetic]');
 
   items.forEach((el) => {
     const strength = Number(el.dataset.magneticStrength ?? 18);
-    initPointerEffect(el, '--mx', '--my', strength, strength);
+    initPointerEffect(el, '--mx', '--my', strength, strength, signal);
   });
 }
 
-function initTilt() {
-  if (prefersReducedMotion() || !supportsPointerEffects()) return;
+function initTilt(signal: AbortSignal) {
   const items = document.querySelectorAll<HTMLElement>('[data-tilt]');
 
   items.forEach((el) => {
     const max = Number(el.dataset.tiltStrength ?? 6);
-    initPointerEffect(el, '--rx', '--ry', max * 2, -max * 2);
+    initPointerEffect(el, '--rx', '--ry', max * 2, -max * 2, signal);
   });
 }
 
-function supportsPointerEffects(): boolean {
-  return window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 48rem)').matches;
+function resetPointerEffects() {
+  document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
+    el.style.setProperty('--mx', '0');
+    el.style.setProperty('--my', '0');
+  });
+  document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
+    el.style.setProperty('--rx', '0');
+    el.style.setProperty('--ry', '0');
+  });
+}
+
+function initPointerEffects() {
+  pointerController?.abort();
+  pointerController = undefined;
+  resetPointerEffects();
+
+  const pointerQuery = window.matchMedia(
+    '(hover: hover) and (pointer: fine) and (min-width: 48rem) and (prefers-reduced-motion: no-preference)'
+  );
+
+  const bind = () => {
+    pointerController?.abort();
+    pointerController = undefined;
+    resetPointerEffects();
+    if (!pointerQuery.matches) return;
+
+    pointerController = new AbortController();
+    initMagnetic(pointerController.signal);
+    initTilt(pointerController.signal);
+  };
+
+  bind();
+  pointerQuery.addEventListener('change', bind, { signal: activeController?.signal });
 }
 
 function initPointerEffect(
@@ -156,9 +192,11 @@ function initPointerEffect(
   horizontalProperty: string,
   verticalProperty: string,
   horizontalStrength: number,
-  verticalStrength: number
+  verticalStrength: number,
+  signal: AbortSignal
 ) {
   let bounds: DOMRect | undefined;
+  let boundsStale = false;
   let clientX = 0;
   let clientY = 0;
   let pointerIsOver = false;
@@ -166,12 +204,18 @@ function initPointerEffect(
   const reset = () => {
     pointerIsOver = false;
     bounds = undefined;
+    boundsStale = false;
     el.style.setProperty(horizontalProperty, '0');
     el.style.setProperty(verticalProperty, '0');
   };
 
   const update = () => {
-    if (!pointerIsOver || !bounds) return;
+    if (!pointerIsOver) return;
+    if (boundsStale) {
+      bounds = el.getBoundingClientRect();
+      boundsStale = false;
+    }
+    if (!bounds) return;
     el.style.setProperty(
       horizontalProperty,
       String(calculatePointerOffset(clientX, bounds.left, bounds.width, horizontalStrength))
@@ -193,7 +237,7 @@ function initPointerEffect(
       clientY = event.clientY;
       scheduleUpdate();
     },
-    { signal: activeController?.signal }
+    { signal }
   );
 
   el.addEventListener(
@@ -204,18 +248,20 @@ function initPointerEffect(
       clientY = event.clientY;
       scheduleUpdate();
     },
-    { signal: activeController?.signal }
+    { signal }
   );
 
-  el.addEventListener('pointerleave', reset, { signal: activeController?.signal });
+  el.addEventListener('pointerleave', reset, { signal });
+  const refreshBounds = () => {
+    if (!pointerIsOver) return;
+    boundsStale = true;
+    scheduleUpdate();
+  };
+  window.addEventListener('scroll', refreshBounds, { passive: true, signal });
   window.addEventListener(
     'resize',
-    () => {
-      if (!pointerIsOver) return;
-      bounds = el.getBoundingClientRect();
-      scheduleUpdate();
-    },
-    { signal: activeController?.signal }
+    refreshBounds,
+    { signal }
   );
   reset();
 }
@@ -276,8 +322,7 @@ function init() {
   document.documentElement.classList.add('js');
   initReveal();
   initScrollProgress();
-  initMagnetic();
-  initTilt();
+  initPointerEffects();
   initCounters();
 }
 

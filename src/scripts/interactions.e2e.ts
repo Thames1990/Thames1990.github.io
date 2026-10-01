@@ -44,4 +44,33 @@ test('pointer card effects reuse bounds throughout a movement sequence', async (
 
   await expect.poll(() => card.evaluate((element) => element.dataset.testGeometryReads)).toBe('1');
   await expect.poll(() => card.evaluate((element) => getComputedStyle(element).getPropertyValue('--rx'))).not.toBe('0');
+
+  await page.evaluate(() => {
+    window.dispatchEvent(new Event('scroll'));
+    window.dispatchEvent(new Event('scroll'));
+    window.dispatchEvent(new Event('scroll'));
+  });
+  await expect.poll(() => card.evaluate((element) => element.dataset.testGeometryReads)).toBe('2');
+});
+
+test('pointer effects follow the desktop media query across resizes', async ({ page }) => {
+  await page.setViewportSize({ width: 640, height: 800 });
+  await page.goto('/');
+
+  const card = page.locator('[data-tilt]').first();
+  await card.scrollIntoViewIfNeeded();
+  let bounds = await card.boundingBox();
+  if (!bounds) throw new Error('The pointer-tilt card must have a visible bounding box.');
+  await page.mouse.move(bounds.x + 10, bounds.y + 10);
+  await expect(card).toHaveCSS('--rx', '0');
+
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await card.scrollIntoViewIfNeeded();
+  bounds = await card.boundingBox();
+  if (!bounds) throw new Error('The pointer-tilt card must have a visible bounding box.');
+  await page.mouse.move(bounds.x + 10, bounds.y + 10);
+  await expect.poll(() => card.evaluate((element) => getComputedStyle(element).getPropertyValue('--rx'))).not.toBe('0');
+
+  await page.setViewportSize({ width: 640, height: 800 });
+  await expect(card).toHaveCSS('--rx', '0');
 });

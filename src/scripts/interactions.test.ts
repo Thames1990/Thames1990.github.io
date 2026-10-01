@@ -5,6 +5,7 @@ import {
   calculateScrollProgress,
   createAnimationFrameScheduler,
   formatCounterValue,
+  shouldDeferReveal,
 } from './interactions';
 
 describe('calculateScrollProgress', () => {
@@ -42,6 +43,14 @@ describe('calculateRevealDelay', () => {
 
   it('does not create negative delays', () => {
     expect(calculateRevealDelay(-1)).toBe(0);
+  });
+});
+
+describe('shouldDeferReveal', () => {
+  it('only defers targets whose top is below the viewport', () => {
+    expect(shouldDeferReveal(736, 800)).toBe(false);
+    expect(shouldDeferReveal(800, 800)).toBe(true);
+    expect(shouldDeferReveal(1_200, 800)).toBe(true);
   });
 });
 
