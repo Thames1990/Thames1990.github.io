@@ -1,8 +1,9 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   calculatePointerOffset,
   calculateRevealDelay,
   calculateScrollProgress,
+  createAnimationFrameScheduler,
   formatCounterValue,
 } from './interactions';
 
@@ -48,5 +49,29 @@ describe('formatCounterValue', () => {
   it('preserves configured prefixes and suffixes', () => {
     expect(formatCounterValue(8, '', '+ years')).toBe('8+ years');
     expect(formatCounterValue(10, '≈', 'k')).toBe('≈10k');
+  });
+});
+
+describe('createAnimationFrameScheduler', () => {
+  it('coalesces repeated requests until the scheduled frame runs', () => {
+    const callback = vi.fn();
+    const frames: FrameRequestCallback[] = [];
+    const schedule = createAnimationFrameScheduler(callback, (frame) => {
+      frames.push(frame);
+      return frames.length;
+    });
+
+    schedule();
+    schedule();
+    schedule();
+
+    expect(frames).toHaveLength(1);
+    expect(callback).not.toHaveBeenCalled();
+
+    frames[0](16);
+    expect(callback).toHaveBeenCalledOnce();
+
+    schedule();
+    expect(frames).toHaveLength(2);
   });
 });

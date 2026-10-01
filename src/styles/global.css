@@ -126,34 +126,31 @@
     content: '';
     position: absolute;
     border-radius: 999px;
-    filter: blur(88px);
+    filter: blur(64px);
     opacity: 0.28;
-    will-change: transform;
   }
 
   &::after {
     content: '';
     position: absolute;
     border-radius: 999px;
-    filter: blur(88px);
+    filter: blur(64px);
     opacity: 0.28;
-    will-change: transform;
   }
 
   & span {
     content: '';
     position: absolute;
     border-radius: 999px;
-    filter: blur(88px);
+    filter: blur(64px);
     opacity: 0.28;
-    will-change: transform;
   }
 
   &::before {
     left: -10%;
     top: -18%;
-    width: 46rem;
-    height: 46rem;
+    width: 40rem;
+    height: 40rem;
     background: rgb(var(--aurora-1));
     animation: aurora-a 22s ease-in-out infinite;
   }
@@ -161,8 +158,8 @@
   &::after {
     right: -14%;
     top: -8%;
-    width: 40rem;
-    height: 40rem;
+    width: 34rem;
+    height: 34rem;
     background: rgb(var(--aurora-2));
     animation: aurora-b 26s ease-in-out infinite;
   }
@@ -170,8 +167,8 @@
   & span {
     left: 30%;
     bottom: -22%;
-    width: 44rem;
-    height: 44rem;
+    width: 36rem;
+    height: 36rem;
     background: rgb(var(--aurora-3));
     animation: aurora-a 30s ease-in-out infinite reverse;
   }
@@ -200,6 +197,21 @@
     :root:not([data-theme]) & span {
       opacity: 0.4;
     }
+  }
+}
+
+@media (max-width: 48rem), (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .aurora {
+    background-image:
+      radial-gradient(ellipse at 15% 15%, rgb(var(--aurora-1) / 0.12), transparent 42%),
+      radial-gradient(ellipse at 85% 10%, rgb(var(--aurora-2) / 0.1), transparent 40%),
+      radial-gradient(ellipse at 50% 90%, rgb(var(--aurora-3) / 0.1), transparent 44%);
+  }
+
+  .aurora::before,
+  .aurora::after,
+  .aurora span {
+    display: none;
   }
 }
 
@@ -246,10 +258,15 @@
 }
 
 @utility noise-card {
-  @apply border border-line bg-panel shadow-[0_2px_0_0_rgb(var(--rgb-line)/0.9),0_28px_60px_-24px_rgb(var(--rgb-veil)/0.45)] transition-all duration-500 ease-out;
+  @apply border border-line bg-panel shadow-[0_1px_0_0_rgb(var(--rgb-line)/0.9),0_12px_28px_-24px_rgb(var(--rgb-veil)/0.35)] transition-[box-shadow,translate] duration-300 ease-out;
 
-  &:hover {
-    @apply -translate-y-1 shadow-[0_2px_0_0_rgb(var(--rgb-accent)/0.6),0_36px_72px_-20px_rgb(var(--rgb-accent)/0.35)];
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      translate: 0 -0.25rem;
+      box-shadow:
+        0 1px 0 0 rgb(var(--rgb-accent) / 0.6),
+        0 20px 36px -26px rgb(var(--rgb-accent) / 0.3);
+    }
   }
 }
 
@@ -440,7 +457,6 @@
   &[data-reveal] {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
 }
 
@@ -552,35 +568,34 @@
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* Tilt cards: bounded 3D perspective driven by pointer position. */
-  [data-tilt] {
-    transform-style: preserve-3d;
-    transform:
-      perspective(1100px) rotateX(calc(var(--ry, 0) * 1deg)) rotateY(calc(var(--rx, 0) * 1deg))
-      translateZ(0);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  @media (hover: hover) and (pointer: fine) and (min-width: 48rem) {
+    /* Tilt cards: bounded 3D perspective driven by pointer position. */
+    [data-tilt] {
+      transform-style: preserve-3d;
+      transform:
+        perspective(1100px) rotateX(calc(var(--ry, 0) * 1deg)) rotateY(calc(var(--rx, 0) * 1deg))
+        translateZ(0);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-tilt-child] {
+      transform: translateZ(24px);
+    }
   }
 
-  [data-tilt-child] {
-    transform: translateZ(40px);
-  }
-
-  /* Scroll reveal: visible by default so disabled JS never hides content. */
+  /* Keep content visible until the observer confirms it is below the fold. */
   [data-reveal] {
-    opacity: 0;
-    transform: translateY(28px);
-    filter: blur(6px);
+    opacity: 1;
+    transform: none;
     transition:
       opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-      filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: calc(var(--reveal-delay, 0) * 1ms);
   }
 
-  html:not(.js) [data-reveal] {
-    opacity: 1;
-    transform: none;
-    filter: none;
+  [data-reveal].is-pending {
+    opacity: 0;
+    transform: translateY(28px);
   }
 }
 
@@ -614,23 +629,31 @@
     animation: none;
   }
 
-  .aurora::before,
-  .aurora::after,
-  .aurora span {
-    animation: none;
-  }
-
   [data-reveal] {
     opacity: 1;
     transform: none;
-    filter: none;
     transition: none;
+  }
+
+  [data-reveal].is-pending {
+    opacity: 1;
+    transform: none;
   }
 
   [data-magnetic],
   [data-tilt] {
     transition: none;
     transform: none;
+  }
+
+  .noise-card {
+    transition: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .noise-card:hover {
+      translate: none;
+    }
   }
 
   .menu-toggle,

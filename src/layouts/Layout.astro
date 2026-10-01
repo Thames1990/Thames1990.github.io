@@ -10,6 +10,8 @@ interface Props {
 const { title, description } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL('/social-preview.png', Astro.site);
+const fontStylesheetUrl =
+  'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400..800&family=Newsreader:ital,opsz,wght@0,6..72,380;1,6..72,380&display=swap';
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -87,10 +89,22 @@ const structuredData = {
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,380;1,6..72,380;1,6..72,500&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preload" as="style" href={fontStylesheetUrl} />
+    <link data-font-stylesheet rel="stylesheet" href={fontStylesheetUrl} media="print" />
+    <script is:inline>
+      const fontStylesheet = document.querySelector('link[data-font-stylesheet]');
+      if (fontStylesheet instanceof HTMLLinkElement) {
+        const applyFontStyles = () => {
+          fontStylesheet.media = 'all';
+        };
+        if (fontStylesheet.sheet) {
+          applyFontStyles();
+        } else {
+          fontStylesheet.addEventListener('load', applyFontStyles, { once: true });
+        }
+      }
+    </script>
+    <noscript><link rel="stylesheet" href={fontStylesheetUrl} /></noscript>
     <ClientRouter />
   </head>
   <body>

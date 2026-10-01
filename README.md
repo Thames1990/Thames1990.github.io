@@ -36,7 +36,7 @@ This site presents a profile, selected work, experience, and contact details in 
 
 ## CV and content model
 
-The `/cv` page is a static render of the live CV content defined in [`src/data/cv.ts`](src/data/cv.ts). It includes profile details, contact information, skills, work history, and education. There is no in-browser editing or local persistence for the CV itself.
+The `/cv` page is a static render of the live CV content defined in [`src/data/cv.ts`](src/data/cv.ts). It includes profile details, contact information, skills, work history, and education. The downloadable `/cv.pdf` is generated from the same source at build time. There is no in-browser editing or local persistence for the CV itself.
 
 ## Theme preference
 
