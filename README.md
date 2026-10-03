@@ -96,7 +96,7 @@ pnpm run preview   # preview the production build locally
 
 ## Deployment
 
-Pushing to `master` triggers `.github/workflows/deploy.yml`, which builds the site and publishes the generated `./dist` output to GitHub Pages. In the repository settings, make sure **Settings → Pages → Source** is set to **GitHub Actions**.
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the site and publishes the generated `./dist` output to GitHub Pages. In the repository settings, make sure **Settings → Pages → Source** is set to **GitHub Actions**.
 
 ## Notes
 
