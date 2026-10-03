@@ -261,8 +261,6 @@ export const cv: CvData = {
   ],
 };
 
-export const marqueeSkills = [...new Set(cv.skillGroups.flatMap((group) => group.skills))];
-
 export const caseStudies: CaseStudy[] = [
   {
     index: '01',

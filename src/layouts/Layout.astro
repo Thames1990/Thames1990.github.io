@@ -1,6 +1,8 @@
 ---
 import '@/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import geistLatinExtended from '@fontsource-variable/geist/files/geist-latin-ext-wght-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -10,8 +12,6 @@ interface Props {
 const { title, description } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL('/social-preview.png', Astro.site);
-const fontStylesheetUrl =
-  'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400..800&family=Newsreader:ital,opsz,wght@0,6..72,380;1,6..72,380&display=swap';
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -49,10 +49,12 @@ const structuredData = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={geistLatinExtended} as="font" type="font/woff2" crossorigin="anonymous" />
     <meta name="description" content={description} />
     <meta name="author" content="Thomas Mohr" />
-    <meta name="theme-color" content="#f4eede" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#12100e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -85,35 +87,21 @@ const structuredData = {
         } catch {
           document.documentElement.removeAttribute('data-theme');
         }
+        document.documentElement.classList.toggle(
+          'dark',
+          document.documentElement.dataset.theme === 'dark' ||
+            (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches),
+        );
       })();
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href={fontStylesheetUrl} />
-    <link data-font-stylesheet rel="stylesheet" href={fontStylesheetUrl} media="print" />
-    <script is:inline>
-      const fontStylesheet = document.querySelector('link[data-font-stylesheet]');
-      if (fontStylesheet instanceof HTMLLinkElement) {
-        const applyFontStyles = () => {
-          fontStylesheet.media = 'all';
-        };
-        if (fontStylesheet.sheet) {
-          applyFontStyles();
-        } else {
-          fontStylesheet.addEventListener('load', applyFontStyles, { once: true });
-        }
-      }
-    </script>
-    <noscript><link rel="stylesheet" href={fontStylesheetUrl} /></noscript>
     <ClientRouter />
   </head>
   <body>
     <a
-      class="fixed left-3 top-3 z-99 translate-y-[-150%] bg-accent px-4 py-2 text-paper focus:translate-y-0"
+      class="fixed left-3 top-3 z-99 translate-y-[-150%] rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground focus:translate-y-0"
       href="#main">Skip to content</a
     >
-    <div class="aurora" aria-hidden="true"><span></span></div>
-    <div id="scroll-progress" class="fixed left-0 top-0 z-95 h-[3px] w-full origin-left bg-accent"></div>
+    <div id="scroll-progress" class="fixed left-0 top-0 z-95 h-0.5 w-full origin-left bg-brand"></div>
     <slot />
     <script src="../scripts/interactions.ts"></script>
   </body>

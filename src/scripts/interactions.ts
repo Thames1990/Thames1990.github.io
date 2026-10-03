@@ -110,8 +110,7 @@ function initReveal() {
 
 function initScrollProgress() {
   const bar = document.getElementById('scroll-progress');
-  const floatingCvAction = document.querySelector<HTMLElement>('[data-floating-cv-action="true"]');
-  if (!bar && !floatingCvAction) return;
+  if (!bar) return;
 
   const update = () => {
     if (bar) {
@@ -120,12 +119,6 @@ function initScrollProgress() {
       bar.style.setProperty('--scroll-progress', String(progress));
     }
 
-    if (floatingCvAction) {
-      const shouldFloat = window.scrollY > 140;
-      if (floatingCvAction.classList.contains('is-floating') !== shouldFloat) {
-        floatingCvAction.classList.toggle('is-floating', shouldFloat);
-      }
-    }
   };
   const scheduleUpdate = createAnimationFrameScheduler(update);
 
@@ -324,6 +317,17 @@ function init() {
   initScrollProgress();
   initPointerEffects();
   initCounters();
+  enableSmoothScroll();
+}
+
+// Astro restores scroll with scrollTo() on reload and history navigation; keep that instant
+// so restored sections don't animate past reveal targets. In-page hash links stay smooth.
+function enableSmoothScroll() {
+  document.documentElement.dataset.smoothScroll = '';
+}
+
+function disableSmoothScroll() {
+  delete document.documentElement.dataset.smoothScroll;
 }
 
 if (typeof document !== 'undefined') {
@@ -334,4 +338,16 @@ if (typeof document !== 'undefined') {
   }
 
   document.addEventListener('astro:page-load', init);
+  document.addEventListener('astro:before-swap', disableSmoothScroll);
+  document.addEventListener('astro:after-swap', enableSmoothScroll);
+
+  // ClientRouter switches history to manual scroll restoration and restores from a deferred
+  // module, so a reload paints one frame at the top before jumping back. Handing the outgoing
+  // entry back to the browser lets it restore natively before first paint; once the router has
+  // applied its exact position, switch back to manual so the browser's load-time restore can't
+  // nudge it again.
+  window.addEventListener('pagehide', () => {
+    history.scrollRestoration = 'auto';
+  });
+  history.scrollRestoration = 'manual';
 }
