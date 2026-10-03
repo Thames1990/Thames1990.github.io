@@ -96,7 +96,7 @@ pnpm run preview   # preview the production build locally
 
 ## Deployment
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the site and publishes the generated `./dist` output to GitHub Pages. In the repository settings, make sure **Settings → Pages → Source** is set to **GitHub Actions**.
+Pull requests to `main`, pushes to `main`, and manual runs trigger `.github/workflows/deploy.yml`. Unit and Playwright e2e tests run in a parallel matrix alongside an independent type-check and static production build. Only pushes and manual runs upload the generated `./dist` output and deploy to GitHub Pages, after both the test matrix and production build succeed. In the repository settings, make sure **Settings → Pages → Source** is set to **GitHub Actions**.
 
 ## Notes
 
