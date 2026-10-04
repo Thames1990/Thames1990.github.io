@@ -6,13 +6,13 @@ import type { CaseStudy } from '@/data/portfolio';
 
 export function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
-    <Card className="gap-0 pt-0">
+    <Card className="gap-0 pt-0 pb-0">
       <CardHeader className="gap-3 border-b bg-secondary pt-(--card-spacing)">
         <CardTitle><h3 className="text-2xl md:text-3xl">{study.title}</h3></CardTitle>
         <CardDescription>{study.eyebrow}</CardDescription>
         <p className="max-w-3xl leading-relaxed">{study.context}</p>
       </CardHeader>
-      <CardContent className="py-6">
+      <CardContent className="pt-6 pb-0">
         <dl aria-label="Project results" className="grid grid-cols-3 gap-3 divide-x sm:gap-5">
           {study.outcomes.map(({ value, label }) => (
             <div key={label} className="min-w-0 pl-3 first:pl-0 sm:pl-5">
