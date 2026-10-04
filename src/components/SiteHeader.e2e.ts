@@ -268,6 +268,24 @@ test('case-study Cards preserve all project content and links', async ({ page })
   }
 });
 
+test('technology list sits close to the bottom of cards on mobile and desktop', async ({ page }) => {
+  for (const width of [375, 1280]) {
+    await page.setViewportSize({ width, height: 812 });
+    await page.goto('/');
+    const card = page.locator('article').filter({
+      has: page.getByRole('heading', { name: '80+ TB music catalog', exact: true }),
+    });
+    await card.getByRole('button', { name: 'Technology & tools', exact: true }).click();
+    const technologies = card.getByRole('list').last();
+    await expect(technologies.getByText('DataOps', { exact: true })).toBeVisible();
+    await expect.poll(async () => technologies.evaluate((list) => {
+      const card = list.closest('[data-slot="card"]');
+      if (!card) throw new Error('Case-study card is missing.');
+      return card.getBoundingClientRect().bottom - list.getBoundingClientRect().bottom;
+    })).toBeLessThanOrEqual(20);
+  }
+});
+
 test('hero flows directly into selected work and provides a working jump link', async ({ page }) => {
   for (const width of [375, 1280]) {
     await page.setViewportSize({ width, height: 900 });
