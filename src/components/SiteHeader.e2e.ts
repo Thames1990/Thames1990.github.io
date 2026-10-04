@@ -131,6 +131,22 @@ test('system appearance follows OS changes and explicit light overrides a dark O
   await expect(page.locator('html')).not.toHaveClass(/dark/);
 });
 
+test('mobile browser theme color follows the active light, dark and system theme', async ({ page }) => {
+  const themeColor = page.locator('meta[name="theme-color"]');
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(themeColor).toHaveAttribute('content', '#f8fafc');
+
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(themeColor).toHaveAttribute('content', '#0f172a');
+  await selectTheme(page, 'Light');
+  await expect(themeColor).toHaveAttribute('content', '#f8fafc');
+  await selectTheme(page, 'Dark');
+  await expect(themeColor).toHaveAttribute('content', '#0f172a');
+  await selectTheme(page, 'System');
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(themeColor).toHaveAttribute('content', '#f8fafc');
+});
+
 test('appearance remains usable when browser storage is unavailable', async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(window, 'localStorage', {

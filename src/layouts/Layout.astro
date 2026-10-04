@@ -53,8 +53,7 @@ const structuredData = {
     <link rel="preload" href={geistLatinExtended} as="font" type="font/woff2" crossorigin="anonymous" />
     <meta name="description" content={description} />
     <meta name="author" content="Thomas Mohr" />
-    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f8fafc" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -92,6 +91,18 @@ const structuredData = {
           document.documentElement.dataset.theme === 'dark' ||
             (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches),
         );
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        const syncThemeColor = () => {
+          themeColor?.setAttribute(
+            'content',
+            document.documentElement.classList.contains('dark') ? '#0f172a' : '#f8fafc',
+          );
+        };
+        syncThemeColor();
+        new MutationObserver(syncThemeColor).observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['class'],
+        });
       })();
     </script>
     <ClientRouter />
