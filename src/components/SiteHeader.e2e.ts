@@ -272,10 +272,13 @@ test('technology list sits close to the bottom of cards on mobile and desktop', 
   for (const width of [375, 1280]) {
     await page.setViewportSize({ width, height: 812 });
     await page.goto('/');
+    await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
     const card = page.locator('article').filter({
       has: page.getByRole('heading', { name: '80+ TB music catalog', exact: true }),
     });
-    await card.getByRole('button', { name: 'Technology & tools', exact: true }).click();
+    const technology = card.getByRole('button', { name: 'Technology & tools', exact: true });
+    await technology.click();
+    await expect(technology).toHaveAttribute('aria-expanded', 'true');
     const technologies = card.getByRole('list').last();
     await expect(technologies.getByText('DataOps', { exact: true })).toBeVisible();
     await expect.poll(async () => technologies.evaluate((list) => {
