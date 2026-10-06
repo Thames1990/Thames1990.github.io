@@ -4,6 +4,8 @@ A personal portfolio and CV site for Thomas Mohr, built with Astro, React, TypeS
 
 ## Site
 
+The production site is [https://mohrworks.com](https://mohrworks.com), hosted on GitHub Pages. `astro.config.mjs` defines the production origin used by canonical links, social metadata, structured data, and the sitemap. Keep the sitemap URL in `public/robots.txt` aligned with it.
+
 - `/` presents selected projects, experience, and contact information.
 - `/cv` presents the full CV and provides a PDF download from `/cv.pdf`.
 - CV and case-study content is maintained in [`src/data/cv.ts`](src/data/cv.ts).

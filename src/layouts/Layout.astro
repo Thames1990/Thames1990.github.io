@@ -12,24 +12,27 @@ interface Props {
 const { title, description } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL('/social-preview.png', Astro.site);
+const siteUrl = new URL('/', Astro.site);
+const personId = new URL('#person', siteUrl).href;
+const websiteId = new URL('#website', siteUrl).href;
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Person',
-      '@id': 'https://thames1990.github.io/#person',
+      '@id': personId,
       name: 'Thomas Mohr',
       jobTitle: 'Technical Project Lead and Engineering Lead',
-      url: 'https://thames1990.github.io/',
+      url: siteUrl.href,
       image: socialImage.href,
       sameAs: ['https://www.linkedin.com/in/thomas-mohr-03154324a/', 'https://github.com/Thames1990'],
     },
     {
       '@type': 'WebSite',
-      '@id': 'https://thames1990.github.io/#website',
+      '@id': websiteId,
       name: 'Thomas Mohr — developer portfolio',
-      url: 'https://thames1990.github.io/',
-      publisher: { '@id': 'https://thames1990.github.io/#person' },
+      url: siteUrl.href,
+      publisher: { '@id': personId },
     },
     {
       '@type': 'WebPage',
@@ -37,8 +40,8 @@ const structuredData = {
       name: title,
       description,
       url: canonicalUrl.href,
-      isPartOf: { '@id': 'https://thames1990.github.io/#website' },
-      about: { '@id': 'https://thames1990.github.io/#person' },
+      isPartOf: { '@id': websiteId },
+      about: { '@id': personId },
     },
   ],
 };
