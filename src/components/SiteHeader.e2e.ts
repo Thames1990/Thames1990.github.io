@@ -15,58 +15,78 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('logo accessible name includes its visible label and home purpose', async ({ page }) => {
-  await expect(page.getByRole('link', { name: 'TM / 90 — Thomas Mohr home', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Thomas Mohr home', exact: true })).toBeVisible();
 });
 
-test('mobile Sheet contains navigation in keyboard order and traps focus', async ({ page }) => {
-  const toggle = page.getByRole('button', { name: 'Open navigation' });
-  const sheet = page.getByRole('dialog', { name: 'Navigation' });
-  await expect(sheet).toBeHidden();
-  await toggle.click();
-  const links = sheet.getByRole('link');
-  const close = sheet.getByRole('button', { name: 'Close', exact: true });
-  await expect(close).toBeFocused();
-  for (const item of [links.first(), links.nth(1), links.nth(2), close]) {
-    await page.keyboard.press('Tab');
-    await expect(item).toBeFocused();
+test('mobile portfolio navigation spans the content width and supports keyboard access', async ({ page }) => {
+  const toggle = page.getByRole('button', { name: 'Open portfolio navigation' });
+  const menu = page.getByRole('menu');
+  await expect(menu).toBeHidden();
+
+  for (const width of [320, 375, 430]) {
+    await page.setViewportSize({ width, height: 812 });
+    await toggle.focus();
+    await page.keyboard.press('ArrowDown');
+    const items = menu.getByRole('menuitem');
+    await expect(menu).toBeVisible();
+    await expect(items).toHaveCount(3);
+    await expect(items.first()).toBeFocused();
+    await expect.poll(() => menu.evaluate((element) => element.getBoundingClientRect().width))
+      .toBeCloseTo(width - 40, 0);
+    const menuBounds = await menu.evaluate((element) => {
+      const { left, right, height } = element.getBoundingClientRect();
+      return { left, right, height };
+    });
+    expect(menuBounds.height).toBeLessThan(200);
+    expect(menuBounds.left).toBeCloseTo(20, 0);
+    expect(menuBounds.right).toBeCloseTo(width - 20, 0);
+
+    if (width === 320) {
+      await page.keyboard.press('ArrowDown');
+      await expect(items.nth(1)).toBeFocused();
+      await page.keyboard.press('ArrowDown');
+      await expect(items.nth(2)).toBeFocused();
+    }
+    await page.keyboard.press('Escape');
+    await expect(menu).toBeHidden();
+    await expect(toggle).toBeFocused();
   }
-  await page.keyboard.press('Escape');
-  await expect(sheet).toBeHidden();
-  await expect(toggle).toBeFocused();
 });
 
-test('Sheet closes with Escape, overlay and links', async ({ page }) => {
-  const toggle = page.getByRole('button', { name: 'Open navigation' });
-  const sheet = page.getByRole('dialog', { name: 'Navigation' });
+test('mobile navigation closes when a section link is selected', async ({ page }) => {
+  const toggle = page.getByRole('button', { name: 'Open portfolio navigation' });
+  const menu = page.getByRole('menu');
   await toggle.click();
-  await page.keyboard.press('Escape');
-  await expect(sheet).toBeHidden();
-  await expect(toggle).toBeFocused();
-  await toggle.click();
-  await page.locator('[data-slot="sheet-overlay"]').click({ position: { x: 5, y: 400 } });
-  await expect(sheet).toBeHidden();
-  await expect(toggle).toBeFocused();
-  await toggle.click();
-  await sheet.getByRole('link', { name: 'Impact' }).click();
-  await expect(sheet).toBeHidden();
+  await menu.getByRole('menuitem', { name: 'Impact' }).click();
+  await expect(menu).toBeHidden();
   await expect(page).toHaveURL(/#work$/);
 });
 
 test('desktop navigation stays available after resizing', async ({ page }) => {
-  await page.getByRole('button', { name: 'Open navigation' }).click();
+  await page.getByRole('button', { name: 'Open portfolio navigation' }).click();
   await page.setViewportSize({ width: 1024, height: 768 });
-  await expect(page.getByRole('dialog', { name: 'Navigation' })).toBeHidden();
+  await expect(page.getByRole('menu')).toBeHidden();
   const links = page.getByRole('navigation', { name: 'Section links', exact: true });
   await expect(links.getByRole('link', { name: 'Impact' })).toBeVisible();
   await links.getByRole('link', { name: 'Impact' }).focus();
   await expect(links.getByRole('link', { name: 'Impact' })).toBeFocused();
 });
 
-test('reduced motion removes Sheet animations', async ({ page }) => {
+test('reduced motion removes dropdown animations', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.getByRole('button', { name: 'Open navigation' }).click();
-  await expect(page.getByRole('dialog', { name: 'Navigation' })).toHaveCSS('animation-name', 'none');
-  await expect(page.getByRole('dialog', { name: 'Navigation' })).toHaveCSS('transition-duration', '0s');
+  await page.getByRole('button', { name: 'Open portfolio navigation' }).click();
+  await expect(page.getByRole('menu')).toHaveCSS('animation-name', 'none');
+  await expect(page.getByRole('menu')).toHaveCSS('transition-duration', '0s');
+});
+
+test('CV header omits portfolio section navigation', async ({ page }) => {
+  for (const width of [375, 1280]) {
+    await page.setViewportSize({ width, height: 812 });
+    await page.goto('/cv');
+    await expect(page.getByRole('button', { name: 'Open portfolio navigation' })).toHaveCount(0);
+    await expect(page.getByRole('navigation', { name: 'Section links' })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'Back to portfolio', exact: true })).toBeVisible();
+  }
 });
 
 test('CV action stays in the sticky header across scrolling and navigation', async ({ page }) => {
@@ -96,7 +116,7 @@ test('mobile theme control stays in the header and works independently of naviga
   await toggle.click();
   await page.keyboard.press('Escape');
   await expect(toggle).toBeFocused();
-  await expect(page.getByRole('dialog')).toBeHidden();
+  await expect(page.getByRole('menu')).toBeHidden();
 });
 
 test('shadcn appearance control persists theme through reloads and page navigation', async ({ page }) => {
@@ -132,19 +152,19 @@ test('system appearance follows OS changes and explicit light overrides a dark O
 });
 
 test('mobile browser theme color follows the active light, dark and system theme', async ({ page }) => {
-  const themeColor = page.locator('meta[name="theme-color"]');
+  const themeColor = page.locator('meta[name="theme-color"]').first();
   await page.emulateMedia({ colorScheme: 'light' });
-  await expect(themeColor).toHaveAttribute('content', '#f8fafc');
+  await expect(themeColor).toHaveAttribute('content', '#f1f1eb');
 
   await page.emulateMedia({ colorScheme: 'dark' });
-  await expect(themeColor).toHaveAttribute('content', '#0f172a');
+  await expect(themeColor).toHaveAttribute('content', '#151917');
   await selectTheme(page, 'Light');
-  await expect(themeColor).toHaveAttribute('content', '#f8fafc');
+  await expect(themeColor).toHaveAttribute('content', '#f1f1eb');
   await selectTheme(page, 'Dark');
-  await expect(themeColor).toHaveAttribute('content', '#0f172a');
+  await expect(themeColor).toHaveAttribute('content', '#151917');
   await selectTheme(page, 'System');
   await page.emulateMedia({ colorScheme: 'light' });
-  await expect(themeColor).toHaveAttribute('content', '#f8fafc');
+  await expect(themeColor).toHaveAttribute('content', '#f1f1eb');
 });
 
 test('appearance remains usable when browser storage is unavailable', async ({ page }) => {
@@ -164,12 +184,12 @@ test('appearance remains usable when browser storage is unavailable', async ({ p
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
-test('portfolio and CV render shadcn primitives without horizontal overflow', async ({ page }) => {
+test('portfolio and CV render the redesigned content without horizontal overflow', async ({ page }) => {
   for (const width of [320, 375, 768, 1280]) {
     await page.setViewportSize({ width, height: 812 });
     for (const route of ['/', '/cv']) {
       await page.goto(route);
-      await expect(page.locator(route === '/' ? '[data-slot="card"]' : '[data-slot="alert"]').first()).toBeVisible();
+      await expect(page.locator(route === '/' ? '.work-case__accordion' : '[data-slot="alert"]').first()).toBeVisible();
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
       await page.keyboard.press('Tab');
@@ -180,15 +200,16 @@ test('portfolio and CV render shadcn primitives without horizontal overflow', as
   }
 });
 
-test('hero preserves the original Field notes content', async ({ page }) => {
-  const notes = page.getByRole('complementary', { name: 'A few useful numbers' });
-  await expect(notes.getByRole('heading', { name: 'Field notes' })).toBeVisible();
-  await expect(notes.getByText('8+ years', { exact: true })).toBeVisible();
-  await expect(notes.getByText('Engineering experience', { exact: true })).toBeVisible();
-  await expect(notes.getByText('5+', { exact: true })).toBeVisible();
-  await expect(notes.getByText('Developers per project', { exact: true })).toBeVisible();
-  await expect(notes.getByText('Code + people', { exact: true })).toBeVisible();
-  await expect(notes.getByText('Where I do my best work', { exact: true })).toBeVisible();
+test('opening readouts connect project outcomes to their case studies', async ({ page }) => {
+  const readouts = page.getByRole('complementary', { name: 'Selected project outcomes' });
+  await expect(readouts.getByRole('heading', { name: 'Evidence that shipped' })).toBeVisible();
+  for (const [index, title, outcome] of [[1, 'Loader', '≈10k'], [2, 'Fuel & Leg Twin', '3m'], [3, '80+ TB music catalog', '80+ TB']] as const) {
+    const project = readouts.locator('li').nth(index - 1);
+    await expect(project.getByText(outcome, { exact: true })).toBeVisible();
+    await project.getByRole('link', { name: title }).click();
+    await expect(page).toHaveURL(new RegExp(`#project-0${index}$`));
+    await expect(page.getByRole('heading', { name: title, exact: true })).toBeInViewport();
+  }
 });
 
 test('header CV action remains readable in both themes and on hover', async ({ page }) => {
@@ -251,7 +272,7 @@ test('homepage omits the skills strip while the CV retains skill details', async
   await expect(page.getByRole('complementary').getByText(/Scrum facilitation/)).toBeVisible();
 });
 
-test('case-study Cards preserve all project content and links', async ({ page }) => {
+test('case-study details preserve all project content and links', async ({ page }) => {
   for (const study of caseStudies) {
     const card = page.locator('article').filter({ has: page.getByRole('heading', { name: study.title, exact: true }) });
     for (const text of [
@@ -284,7 +305,7 @@ test('case-study Cards preserve all project content and links', async ({ page })
   }
 });
 
-test('technology list sits close to the bottom of cards on mobile and desktop', async ({ page }) => {
+test('technology lists remain accessible on mobile and desktop', async ({ page }) => {
   for (const width of [375, 1280]) {
     await page.setViewportSize({ width, height: 812 });
     await page.goto('/');
@@ -297,11 +318,7 @@ test('technology list sits close to the bottom of cards on mobile and desktop', 
     await expect(technology).toHaveAttribute('aria-expanded', 'true');
     const technologies = card.getByRole('list').last();
     await expect(technologies.getByText('DataOps', { exact: true })).toBeVisible();
-    await expect.poll(async () => technologies.evaluate((list) => {
-      const card = list.closest('[data-slot="card"]');
-      if (!card) throw new Error('Case-study card is missing.');
-      return card.getBoundingClientRect().bottom - list.getBoundingClientRect().bottom;
-    })).toBeLessThanOrEqual(20);
+    await expect(technologies).toBeInViewport();
   }
 });
 
@@ -316,9 +333,10 @@ test('hero flows directly into selected work and provides a working jump link', 
       return work.getBoundingClientRect().top - hero.getBoundingClientRect().bottom;
     });
     expect(gap).toBeLessThanOrEqual(1);
-    await page.getByRole('link', { name: 'View selected work', exact: true }).click();
-    await expect(page).toHaveURL(/#work$/);
-    await expect(page.getByRole('heading', { name: 'Selected work.' })).toBeInViewport();
+    await page.getByRole('complementary', { name: 'Selected project outcomes' })
+      .getByRole('link', { name: /Loader/ }).click();
+    await expect(page).toHaveURL(/#project-01$/);
+    await expect(page.getByRole('heading', { name: 'Loader', exact: true })).toBeInViewport();
   }
 });
 
@@ -339,18 +357,19 @@ test('project summaries stay compact and reduced motion disables disclosure anim
   }
 });
 
-test('project summary headers have equal top and bottom padding', async ({ page }) => {
+test('project summaries and evidence stay in reading order at each breakpoint', async ({ page }) => {
   for (const width of [375, 1280]) {
     await page.setViewportSize({ width, height: 900 });
-    const headers = page.locator('#work [data-slot="card-header"]');
-    for (const header of await headers.all()) {
-      const padding = await header.evaluate((element) => {
-        const style = getComputedStyle(element);
-        return { top: style.paddingTop, bottom: style.paddingBottom, left: style.paddingLeft, right: style.paddingRight };
+    const projects = page.locator('#work .work-case');
+    for (const project of await projects.all()) {
+      const layout = await project.evaluate((element) => {
+        const summary = element.querySelector('.work-case__summary')?.getBoundingClientRect();
+        const details = element.querySelector('.work-case__details')?.getBoundingClientRect();
+        if (!summary || !details) throw new Error('Project summary or results are missing.');
+        return { summaryRight: summary.right, summaryBottom: summary.bottom, detailsLeft: details.left, detailsTop: details.top };
       });
-      expect(padding.top).toBe('16px');
-      expect(padding.top).toBe(padding.bottom);
-      expect(padding.left).toBe(padding.right);
+      if (width >= 768) expect(layout.summaryRight).toBeLessThanOrEqual(layout.detailsLeft);
+      else expect(layout.summaryBottom).toBeLessThanOrEqual(layout.detailsTop);
     }
   }
 });

@@ -4,7 +4,6 @@ import SiteHeader from '@/components/SiteHeader.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
 import { FieldNotes } from '@/components/FieldNotes';
 import { CaseStudyCard } from '@/components/CaseStudyCard';
-import { buttonVariants } from '@/components/ui/button';
 import { caseStudies } from '@/data/portfolio';
 import { cv } from '@/data/cv';
 
@@ -29,7 +28,6 @@ const principles = [
     text: 'The interesting part often begins after the code is merged. Deployment, support, observability, security, and helping users through change all count.',
   },
 ];
-
 ---
 
 <Layout
@@ -39,107 +37,83 @@ const principles = [
   <SiteHeader />
 
   <main id="main" tabindex="-1">
-    <section
-      class="shell grid gap-10 py-12 md:grid-cols-[1.45fr_0.55fr] md:items-center md:gap-12 md:py-16"
-      id="top"
-    >
-      <div>
-        <h1 class="display-title max-w-[920px]" data-reveal>
-          I help teams make<br /><em class="tracking-[-0.02em]">difficult software feel manageable.</em>
-        </h1>
-        <p class="my-7 max-w-[610px] text-[17px] leading-relaxed text-muted-foreground md:text-lg md:leading-7" data-reveal>
-          I'm Thomas, a Technical Project Lead and hands-on engineer in {cv.location}. I ask a lot of questions,
-          enjoy making sense of complicated systems, and help teams turn good intentions into software that
-          actually works.
-        </p>
-        <div class="flex flex-wrap items-center gap-6" data-reveal>
-          <a
-            class={buttonVariants({ size: 'lg' })}
-            data-magnetic
-            data-magnetic-strength="14"
-            href={`mailto:${cv.email}?subject=Technical leadership opportunity`}
-          >
-            Email me about a role <span aria-hidden="true">↗</span>
-          </a>
-          <a class={buttonVariants({ variant: 'outline', size: 'lg' })} href="#work">
-            View selected work <span aria-hidden="true">↓</span>
-          </a>
+    <!--
+      THESIS: A signal bench makes Thomas's real project evidence the portfolio; it refuses the generic bio-over-card-stack opening.
+      OWN-WORLD: Ash-white instrument stock, blackened chassis panels, signal-orange active marks, and chartreuse state labels; square controls and ruled readouts.
+      STORY: Hiring teams see a leader who stays hands-on, verify that through three shipped-project readouts, then follow either the concise route or full CV.
+      FIRST VIEWPORT: A slim wordmark header sits above an ink-dark split panel: oversized role-led statement and email/CV actions at left, availability and three outcome readouts at right.
+      FORM: Signal Bench, fifth grounded direction assigned by seed 473b43f2; portfolio evidence follows a measured hang, with meaningful short gaps between projects and larger chapter rests; surface seed 6e02ef92.
+    -->
+    <section class="bench-intro" id="top">
+      <div class="shell bench-intro__inner">
+        <div class="bench-intro__copy">
+          <h1 class="display-title">
+            Leading the work.<br /><em>Shipping the system.</em>
+          </h1>
+          <p class="bench-intro__summary">
+            I'm Thomas Mohr: a Technical Project Lead and hands-on engineer who takes complex software from planning through production. Currently available for a permanent role.
+          </p>
+          <div class="bench-actions">
+            <a class="bench-button bench-button--signal" href={`mailto:${cv.email}?subject=Technical leadership opportunity`}>
+              Talk about a role <span aria-hidden="true">↗</span>
+            </a>
+            <a class="bench-button bench-button--line" href="/cv">
+              Read my CV <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
-        <p class="mt-5 inline-flex items-center gap-2.5 text-sm text-muted-foreground">
-          <span class="inline-block h-2 w-2 rounded-full bg-good"></span>
-          {cv.availability}
-        </p>
+        <aside class="bench-readouts" aria-label="Selected project outcomes">
+          <FieldNotes />
+        </aside>
       </div>
-
-      <aside
-        data-tilt
-        data-tilt-strength="5"
-        data-reveal
-        aria-label="A few useful numbers"
-      >
-        <div data-tilt-child><FieldNotes /></div>
-      </aside>
     </section>
 
-    <section class="border-y bg-secondary/50 py-12 md:py-16" id="work">
+    <section class="work-section" id="work">
       <div class="shell">
-        <div class="mb-8 grid gap-5 md:grid-cols-[0.8fr_1.2fr] md:gap-12" data-reveal>
-          <h2 class="section-title">Selected work.</h2>
-          <p class="m-0 max-w-[620px] self-end text-[17px] leading-relaxed text-muted-foreground md:pb-1 md:text-lg md:leading-7">
-            Three projects where I helped teams turn complicated systems into dependable products — from first
-            decisions through day-to-day operation.
-          </p>
+        <div class="section-heading" data-reveal>
+          <h2 class="section-title">Selected projects</h2>
+          <p>I helped teams bring these complex, data-heavy systems into day-to-day use.</p>
         </div>
-
-        <div class="space-y-8">
+        <div class="work-list">
           {caseStudies.map((study) => (
-            <article data-reveal><CaseStudyCard study={study} client:load /></article>
+            <article class="work-item" id={`project-${study.index}`}><CaseStudyCard study={study} client:load /></article>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="relative overflow-hidden bg-secondary py-20 text-secondary-foreground md:py-28" id="about">
-      <div class="shell relative z-1">
-        <div class="grid gap-10 md:grid-cols-[1.4fr_0.8fr]" data-reveal>
-          <h2 class="section-title">
-            Set direction.<br /><em class="tracking-[-0.02em]">Stay involved.</em>
-          </h2>
-          <p class="max-w-[320px] text-sm leading-relaxed text-muted-foreground md:self-end md:pb-1">
-            I'm happiest somewhere between the roadmap and the runtime — helping people agree on where we're
-            going, then being useful when the route gets bumpy.
-          </p>
+    <section class="approach-section" id="about">
+      <div class="shell">
+        <div class="approach-heading" data-reveal>
+          <h2 class="section-title">From the roadmap<br />to the runtime.</h2>
+          <p>Good leadership doesn't stop at agreeing on a plan. I stay close enough to the system to help the team make it real.</p>
         </div>
-
-        <div class="mt-12 grid border-y border-border md:grid-cols-3 md:divide-x md:divide-border">
+        <div class="principle-list">
           {principles.map((principle) => (
-            <article
-              class="border-b border-border py-8 last:border-0 md:border-0 md:px-8 md:first:pl-0 md:last:pr-0"
-              data-reveal
-            >
-              <h3 class="mb-3 text-xl font-semibold tracking-tight">{principle.title}</h3>
-              <p class="m-0 text-sm leading-relaxed text-muted-foreground">{principle.text}</p>
+            <article class="principle" data-reveal>
+              <h3>{principle.title}</h3>
+              <p>{principle.text}</p>
             </article>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="shell py-16 md:py-24" id="experience">
-      <div class="grid gap-12 md:grid-cols-[0.8fr_2.2fr]">
-        <h2 class="section-title md:sticky md:top-24 md:self-start" data-reveal>
-          Still learning.<br />Just with <em class="tracking-[-0.02em]">bigger problems.</em>
-        </h2>
-        <div class="border-t border-line">
+    <section class="experience-section" id="experience">
+      <div class="shell experience-layout">
+        <div class="experience-intro" data-reveal>
+          <h2 class="section-title">Built across<br />different systems.</h2>
+          <p>Data platforms, real-time aviation, customer software, and the infrastructure that keeps them running.</p>
+          <a class="text-link" href="/cv">See the complete experience <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="career-list">
           {career.map((role) => (
-            <article class="grid gap-4 border-b border-line py-8 md:grid-cols-[120px_1fr] md:gap-8 md:py-10" data-reveal>
-              <div class="flex justify-between md:block">
-                <span class="text-sm font-medium text-brand">{role.date}</span>
-              </div>
+            <article class="career-entry" data-reveal>
+              <p class="career-date">{role.date}</p>
               <div>
-                <h3 class="m-0 text-xl font-semibold tracking-[-0.03em]">{role.title}</h3>
-                <p class="mb-4 mt-1 text-sm font-semibold">{role.company}</p>
-                <p class="m-0 max-w-[650px] text-sm leading-relaxed text-muted-foreground">{role.summary}</p>
+                <h3>{role.title}</h3>
+                <p class="career-company">{role.company}</p>
+                <p class="career-summary">{role.summary}</p>
               </div>
             </article>
           ))}
@@ -147,36 +121,20 @@ const principles = [
       </div>
     </section>
 
-    <section
-      class="relative overflow-hidden border-t border-border bg-secondary py-16 text-secondary-foreground md:py-24"
-      id="contact"
-    >
-      <div class="shell relative z-1" data-reveal>
-        <h2 class="section-title max-w-3xl">
-          Let's talk about the <em>work.</em>
-        </h2>
-        <p class="my-6 max-w-[500px] text-sm leading-relaxed text-muted-foreground">
-          I'm looking for a permanent Technical Project Lead or Engineering Lead role. If you have an interesting
-          problem, a thoughtful team, and room for someone who likes both people and systems, I'd be glad to hear
-          from you.
-        </p>
-        <div class="flex flex-wrap gap-5">
-          <a
-            class={buttonVariants({ size: 'lg' })}
-            data-magnetic
-            data-magnetic-strength="14"
-            href={`mailto:${cv.email}?subject=Technical leadership opportunity`}
-          >
-            Email me about a role <span aria-hidden="true">↗</span>
-          </a>
-          <a class={buttonVariants({ variant: 'outline', size: 'lg' })} data-magnetic data-magnetic-strength="14" href={cv.linkedin} target="_blank" rel="noopener">
-            Connect on LinkedIn <span aria-hidden="true">↗</span>
-          </a>
+    <section class="contact-section" id="contact">
+      <div class="shell contact-panel" data-reveal>
+        <div>
+          <h2 class="section-title">Have a hard problem<br />worth solving?</h2>
+          <p>I'm looking for a permanent Technical Project Lead or Engineering Lead role. I prefer on-site work in the Frankfurt region and am open to hybrid arrangements.</p>
         </div>
-        <div
-          class="mt-12 flex flex-col justify-between gap-3 border-t border-border pt-5 text-xs md:flex-row"
-        >
-          <span>{cv.email}</span><span>{cv.location}</span>
+        <div class="contact-actions">
+          <a class="bench-button bench-button--signal" href={`mailto:${cv.email}?subject=Technical leadership opportunity`}>
+            Email me <span aria-hidden="true">↗</span>
+          </a>
+          <a class="text-link" href={cv.linkedin} target="_blank" rel="noopener">
+            Find me on LinkedIn <span aria-hidden="true">↗</span>
+          </a>
+          <span class="contact-detail">{cv.location}</span>
         </div>
       </div>
     </section>

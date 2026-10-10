@@ -1,10 +1,8 @@
 import { expect, test } from '@playwright/test';
 
-test('reveal content stays visible until an offscreen target is observed', async ({ page }) => {
+test('hero stays visible and deferred content appears when scrolled into view', async ({ page }) => {
   await page.goto('/');
-  const hero = page.locator('#top [data-reveal]').first();
-
-  await expect.poll(() => hero.evaluate((element) => getComputedStyle(element).opacity)).toBe('1');
+  await expect(page.locator('#top h1')).toBeVisible();
 
   const workHeading = page.locator('#work [data-reveal]').first();
   await workHeading.scrollIntoViewIfNeeded();
@@ -21,56 +19,18 @@ test('reveal content remains visible when IntersectionObserver is unavailable', 
   await expect.poll(() => reveals.last().evaluate((element) => getComputedStyle(element).opacity)).toBe('1');
 });
 
-test('portfolio and CV do not redraw visible text when delayed fonts arrive', async ({ page }) => {
+test('portfolio and CV remain readable without loading custom font files', async ({ page }) => {
+  const fontRequests: string[] = [];
+  page.on('request', (request) => {
+    if (/\.woff2?($|\?)/i.test(request.url())) fontRequests.push(request.url());
+  });
+
   for (const route of ['/', '/cv']) {
-    let releaseFonts: () => void = () => {};
-    const fontsReleased = new Promise<void>((resolve) => { releaseFonts = resolve; });
-    await page.route('**/*.woff2', async (request) => {
-      await fontsReleased;
-      await request.continue();
-    });
-    try {
-      await page.goto(route, { waitUntil: 'domcontentloaded' });
-      // Outlast the optional font's initial block period while it is still unavailable.
-      await page.evaluate(() => new Promise<void>((resolve) => {
-        const start = performance.now();
-        const next = () => {
-          if (performance.now() - start >= 300) resolve();
-          else requestAnimationFrame(next);
-        };
-        requestAnimationFrame(next);
-      }));
-      const measureText = () => page.evaluate(() => {
-        const targets = document.querySelectorAll('h1, #top p, #cv-profile p');
-        return [...targets].map((element) => {
-          const range = document.createRange();
-          range.selectNodeContents(element);
-          const bounds = range.getBoundingClientRect();
-          const text = document.createTreeWalker(element, NodeFilter.SHOW_TEXT).nextNode();
-          if (!text) throw new Error('Visible text is missing');
-          range.setStart(text, 0);
-          range.setEnd(text, Math.min(10, text.textContent?.length ?? 0));
-          return {
-            width: bounds.width,
-            height: bounds.height,
-            textWidth: range.getBoundingClientRect().width,
-            opacity: getComputedStyle(element).opacity,
-          };
-        });
-      });
-      const before = await measureText();
-      expect(before.length).toBeGreaterThan(1);
-      expect(before.every(({ opacity }) => opacity === '1')).toBe(true);
-      expect(await page.evaluate(() => [...document.fonts].every((font) => font.display === 'optional'))).toBe(true);
-      releaseFonts();
-      await page.evaluate(() => document.fonts.ready);
-      const after = await measureText();
-      expect(after).toEqual(before);
-    } finally {
-      releaseFonts();
-      await page.unroute('**/*.woff2');
-    }
+    await page.goto(route);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   }
+
+  expect(fontRequests).toEqual([]);
 });
 
 test('reloading inside the work section restores scroll without moving cards', async ({ page }) => {
@@ -143,58 +103,4 @@ test('reloading near the bottom paints the restored position on the first frame'
 
   const frames = await page.evaluate(() => (window as unknown as { __frameScroll: number[] }).__frameScroll);
   for (const scrollY of frames) expect(Math.abs(scrollY - target)).toBeLessThanOrEqual(2);
-});
-
-test('pointer card effects reuse bounds throughout a movement sequence', async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 800 });
-  await page.goto('/');
-
-  const card = page.locator('[data-tilt]').first();
-  await card.scrollIntoViewIfNeeded();
-  await card.evaluate((element) => {
-    const target = element as HTMLElement;
-    const getBounds = target.getBoundingClientRect.bind(target);
-    target.dataset.testGeometryReads = '0';
-    target.getBoundingClientRect = () => {
-      target.dataset.testGeometryReads = String(Number(target.dataset.testGeometryReads) + 1);
-      return getBounds();
-    };
-  });
-
-  const bounds = await card.boundingBox();
-  if (!bounds) throw new Error('The pointer-tilt card must have a visible bounding box.');
-  await page.mouse.move(bounds.x + 10, bounds.y + 10);
-  await page.mouse.move(bounds.x + bounds.width - 10, bounds.y + bounds.height - 10, { steps: 12 });
-
-  await expect.poll(() => card.evaluate((element) => element.dataset.testGeometryReads)).toBe('1');
-  await expect.poll(() => card.evaluate((element) => getComputedStyle(element).getPropertyValue('--rx'))).not.toBe('0');
-
-  await page.evaluate(() => {
-    window.dispatchEvent(new Event('scroll'));
-    window.dispatchEvent(new Event('scroll'));
-    window.dispatchEvent(new Event('scroll'));
-  });
-  await expect.poll(() => card.evaluate((element) => element.dataset.testGeometryReads)).toBe('2');
-});
-
-test('pointer effects follow the desktop media query across resizes', async ({ page }) => {
-  await page.setViewportSize({ width: 640, height: 800 });
-  await page.goto('/');
-
-  const card = page.locator('[data-tilt]').first();
-  await card.scrollIntoViewIfNeeded();
-  let bounds = await card.boundingBox();
-  if (!bounds) throw new Error('The pointer-tilt card must have a visible bounding box.');
-  await page.mouse.move(bounds.x + 10, bounds.y + 10);
-  await expect(card).toHaveCSS('--rx', '0');
-
-  await page.setViewportSize({ width: 1280, height: 800 });
-  await card.scrollIntoViewIfNeeded();
-  bounds = await card.boundingBox();
-  if (!bounds) throw new Error('The pointer-tilt card must have a visible bounding box.');
-  await page.mouse.move(bounds.x + 10, bounds.y + 10);
-  await expect.poll(() => card.evaluate((element) => getComputedStyle(element).getPropertyValue('--rx'))).not.toBe('0');
-
-  await page.setViewportSize({ width: 640, height: 800 });
-  await expect(card).toHaveCSS('--rx', '0');
 });
