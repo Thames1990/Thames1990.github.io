@@ -9,21 +9,27 @@ interface Props {
 }
 
 const { cvHref = '/cv', cvLabel = 'Open CV' } = Astro.props;
+const showSectionNavigation = Astro.url.pathname === '/';
 ---
 
-<header class="sticky top-0 z-40 border-b bg-background">
-  <div class="shell flex h-16 items-center justify-between gap-3">
-    <a class="flex shrink-0 items-center gap-2 text-sm font-medium" href="/" aria-label="TM / 90 — Thomas Mohr home">
-      <span class="grid size-8 place-items-center rounded-md bg-primary text-xs text-primary-foreground">TM</span>
-      <span class="hidden sm:inline">/ 90</span>
+<header class="site-header sticky top-0 z-40">
+  <div class="shell flex h-18 items-center justify-between gap-3">
+    <a class="site-wordmark shrink-0" href="/" aria-label="Thomas Mohr home">
+      Thomas Mohr
+      <span class="site-wordmark__descriptor hidden sm:inline">Technical lead / engineer</span>
     </a>
     <div class="flex items-center gap-2">
-      <HeaderNavigation client:load />
+      <HeaderNavigation client:load showSections={showSectionNavigation} />
       <ThemePreference client:load />
       <a id="cv-action" class={buttonVariants()} href={cvHref} aria-label={cvLabel}>
-        {cvLabel === 'Back to portfolio' ? (
-          <><span class="sm:hidden">Back</span><span class="hidden sm:inline">{cvLabel}</span></>
-        ) : cvLabel}
+        <span class="cv-action__label-full">
+          {cvLabel === 'Back to portfolio' ? (
+            <><span class="sm:hidden">Back</span><span class="hidden sm:inline">{cvLabel}</span></>
+          ) : cvLabel}
+        </span>
+        <span class="cv-action__label-short" aria-hidden="true">
+          {cvLabel === 'Back to portfolio' ? 'Home' : 'CV'}
+        </span>
         <span aria-hidden="true">↗</span>
       </a>
     </div>

@@ -1,9 +1,6 @@
 ---
 import '@/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
-import geistLatinExtended from '@fontsource-variable/geist/files/geist-latin-ext-wght-normal.woff2?url';
-
 interface Props {
   title: string;
   description: string;
@@ -52,11 +49,10 @@ const structuredData = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin="anonymous" />
-    <link rel="preload" href={geistLatinExtended} as="font" type="font/woff2" crossorigin="anonymous" />
     <meta name="description" content={description} />
     <meta name="author" content="Thomas Mohr" />
-    <meta name="theme-color" content="#f8fafc" />
+    <meta name="theme-color" content="#f1f1eb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#151917" media="(prefers-color-scheme: dark)" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -94,12 +90,10 @@ const structuredData = {
           document.documentElement.dataset.theme === 'dark' ||
             (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches),
         );
-        const themeColor = document.querySelector('meta[name="theme-color"]');
+        const themeColors = document.querySelectorAll('meta[name="theme-color"]');
         const syncThemeColor = () => {
-          themeColor?.setAttribute(
-            'content',
-            document.documentElement.classList.contains('dark') ? '#0f172a' : '#f8fafc',
-          );
+          const color = document.documentElement.classList.contains('dark') ? '#151917' : '#f1f1eb';
+          themeColors.forEach((themeColor) => themeColor.setAttribute('content', color));
         };
         syncThemeColor();
         new MutationObserver(syncThemeColor).observe(document.documentElement, {
