@@ -1,4 +1,33 @@
 import { expect, test } from '@playwright/test';
+import { caseStudies } from '@/data/portfolio';
+import { cv } from '@/data/cv';
+
+test('link arrows are decorative SVGs at tablet sizes on portfolio and CV', async ({ page }) => {
+  await page.setViewportSize({ width: 820, height: 1180 });
+
+  for (const [route, count] of [
+    ['/', 6 + caseStudies.reduce((total, study) => total + study.links.length, 0)],
+    ['/cv', 1 + cv.experience.reduce((total, role) => total + role.links.length, 0)],
+  ] as const) {
+    await page.goto(route);
+    await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
+    const arrows = page.locator('a svg[data-link-arrow]');
+    await expect(arrows).toHaveCount(count);
+    expect(await page.locator('body').innerText()).not.toContain('↗');
+
+    for (const arrow of await arrows.all()) {
+      await expect(arrow).toHaveAttribute('aria-hidden', 'true');
+      await expect(arrow).toHaveAttribute('focusable', 'false');
+      await expect(arrow).toHaveAttribute('viewBox', '0 0 24 24');
+      await expect(arrow).toHaveAttribute('stroke', 'currentColor');
+      const bounds = await arrow.boundingBox();
+      expect(bounds?.width).toBeGreaterThan(0);
+      expect(bounds?.width).toBeCloseTo(bounds!.height, 1);
+    }
+  }
+
+  await expect(page.getByRole('link', { name: 'Back to portfolio', exact: true })).toBeVisible();
+});
 
 test('hero stays visible and deferred content appears when scrolled into view', async ({ page }) => {
   await page.goto('/');
