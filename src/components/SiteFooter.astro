@@ -1,4 +1,6 @@
 ---
+import { cv } from '@/data/cv';
+
 interface Props {
   showPortfolioLink?: boolean;
 }
@@ -16,12 +18,11 @@ const year = new Date().getFullYear();
           Portfolio
         </a>
       ) : (
-        <a class="hover:text-brand" href="https://github.com/Thames1990" target="_blank" rel="noopener">
+        <a class="hover:text-brand" href={cv.github} target="_blank" rel="noopener">
           GitHub
         </a>
       )
     }
-    <a class="hover:text-brand" href="mailto:thomasmohr1990@gmail.com">Email</a>
+    <a class="hover:text-brand" href={`mailto:${cv.email}`}>Email</a>
   </div>
-  <span class="font-medium text-foreground">Thomas Mohr · Frankfurt</span>
 </footer>

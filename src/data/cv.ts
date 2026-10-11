@@ -66,7 +66,7 @@ export const cv: CvData = {
   title: 'Technical Project Lead / Engineering Lead',
   availability: 'Available immediately for permanent roles',
   location: 'Frankfurt am Main, Germany',
-  email: 'thomasmohr1990@gmail.com',
+  email: 'info@mohrworks.com',
   linkedin: 'https://www.linkedin.com/in/thomas-mohr-03154324a/',
   github: 'https://github.com/Thames1990',
   profile: [
