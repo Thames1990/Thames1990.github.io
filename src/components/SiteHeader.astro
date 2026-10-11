@@ -2,6 +2,7 @@
 import { buttonVariants } from '@/components/ui/button';
 import { HeaderNavigation } from '@/components/HeaderNavigation';
 import { ThemePreference } from '@/components/ThemePreference';
+import { LinkArrow } from '@/components/LinkArrow';
 
 interface Props {
   cvHref?: string;
@@ -30,7 +31,7 @@ const showSectionNavigation = Astro.url.pathname === '/';
         <span class="cv-action__label-short" aria-hidden="true">
           {cvLabel === 'Back to portfolio' ? 'Home' : 'CV'}
         </span>
-        <span aria-hidden="true">↗</span>
+        <LinkArrow />
       </a>
     </div>
   </div>

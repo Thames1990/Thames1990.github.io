@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge';
+import { LinkArrow } from '@/components/LinkArrow';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import type { CaseStudy } from '@/data/portfolio';
 
@@ -13,7 +14,7 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
           <div className="work-case__links" aria-label={`${study.title} links`}>
             {study.links.map(({ label, url }) => (
               <a key={url} href={url} target="_blank" rel="noopener noreferrer">
-                {label} <span aria-hidden="true">↗</span>
+                {label} <LinkArrow />
               </a>
             ))}
           </div>

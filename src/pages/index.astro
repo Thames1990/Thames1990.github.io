@@ -2,6 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
+import { LinkArrow } from '@/components/LinkArrow';
 import { FieldNotes } from '@/components/FieldNotes';
 import { CaseStudyCard } from '@/components/CaseStudyCard';
 import { caseStudies } from '@/data/portfolio';
@@ -55,10 +56,10 @@ const principles = [
           </p>
           <div class="bench-actions">
             <a class="bench-button bench-button--signal" href={`mailto:${cv.email}?subject=Technical leadership opportunity`}>
-              Talk about a role <span aria-hidden="true">↗</span>
+              Talk about a role <LinkArrow />
             </a>
             <a class="bench-button bench-button--line" href="/cv">
-              Read my CV <span aria-hidden="true">↗</span>
+              Read my CV <LinkArrow />
             </a>
           </div>
         </div>
@@ -104,7 +105,7 @@ const principles = [
         <div class="experience-intro" data-reveal>
           <h2 class="section-title">Built across<br />different systems.</h2>
           <p>Data platforms, real-time aviation, customer software, and the infrastructure that keeps them running.</p>
-          <a class="text-link" href="/cv">See the complete experience <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="/cv">See the complete experience <LinkArrow /></a>
         </div>
         <div class="career-list">
           {career.map((role) => (
@@ -129,10 +130,10 @@ const principles = [
         </div>
         <div class="contact-actions">
           <a class="bench-button bench-button--signal" href={`mailto:${cv.email}?subject=Technical leadership opportunity`}>
-            Email me <span aria-hidden="true">↗</span>
+            Email me <LinkArrow />
           </a>
           <a class="text-link" href={cv.linkedin} target="_blank" rel="noopener">
-            Find me on LinkedIn <span aria-hidden="true">↗</span>
+            Find me on LinkedIn <LinkArrow />
           </a>
           <span class="contact-detail">{cv.location}</span>
         </div>
