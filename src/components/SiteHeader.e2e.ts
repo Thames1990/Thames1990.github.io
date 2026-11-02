@@ -14,6 +14,53 @@ test.beforeEach(async ({ page }) => {
   await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
 });
 
+test.afterEach(async ({ page }, testInfo) => {
+  if (
+    process.env.CI !== 'true' ||
+    testInfo.title !== 'mobile portfolio navigation spans the content width and supports keyboard access' ||
+    testInfo.status === testInfo.expectedStatus
+  ) return;
+
+  const state = await page.evaluate(() => {
+    const activeElement = document.activeElement;
+    const menu = document.querySelector<HTMLElement>('[role="menu"]');
+    const describeElement = (element: HTMLElement) => ({
+      tagName: element.tagName,
+      id: element.id,
+      role: element.getAttribute('role'),
+      ariaLabel: element.getAttribute('aria-label'),
+      text: element.textContent?.trim().replace(/\s+/g, ' '),
+      tabIndex: element.tabIndex,
+    });
+
+    return {
+      viewport: { width: window.innerWidth, height: window.innerHeight },
+      activeElement: activeElement instanceof HTMLElement ? describeElement(activeElement) : null,
+      menu: menu ? {
+        state: menu.dataset.state,
+        ariaHidden: menu.getAttribute('aria-hidden'),
+        bounds: (() => {
+          const { left, right, top, bottom, width, height } = menu.getBoundingClientRect();
+          return { left, right, top, bottom, width, height };
+        })(),
+        items: Array.from(menu.querySelectorAll<HTMLElement>('[role="menuitem"]'), (item) => ({
+          ...describeElement(item),
+          focused: item === activeElement,
+        })),
+      } : null,
+    };
+  });
+
+  await testInfo.attach('mobile-navigation-state.json', {
+    body: JSON.stringify({
+      repeatEachIndex: testInfo.repeatEachIndex,
+      retry: testInfo.retry,
+      ...state,
+    }, null, 2),
+    contentType: 'application/json',
+  });
+});
+
 test('logo accessible name includes its visible label and home purpose', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Thomas Mohr home', exact: true })).toBeVisible();
 });
