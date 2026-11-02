@@ -53,6 +53,17 @@ let activeController: AbortController | undefined;
 let pointerController: AbortController | undefined;
 let revealObserver: IntersectionObserver | undefined;
 let counterObserver: IntersectionObserver | undefined;
+const scheduledFrames = new Set<number>();
+
+function requestManagedAnimationFrame(callback: FrameRequestCallback): number {
+  let frameId = 0;
+  frameId = window.requestAnimationFrame((time) => {
+    scheduledFrames.delete(frameId);
+    callback(time);
+  });
+  scheduledFrames.add(frameId);
+  return frameId;
+}
 
 function initReveal() {
   revealObserver?.disconnect();
@@ -120,7 +131,7 @@ function initScrollProgress() {
     }
 
   };
-  const scheduleUpdate = createAnimationFrameScheduler(update);
+  const scheduleUpdate = createAnimationFrameScheduler(update, requestManagedAnimationFrame);
 
   update();
   window.addEventListener('scroll', scheduleUpdate, { passive: true, signal: activeController?.signal });
@@ -218,7 +229,7 @@ function initPointerEffect(
       String(calculatePointerOffset(clientY, bounds.top, bounds.height, verticalStrength))
     );
   };
-  const scheduleUpdate = createAnimationFrameScheduler(update);
+  const scheduleUpdate = createAnimationFrameScheduler(update, requestManagedAnimationFrame);
 
   el.addEventListener(
     'pointerenter',
@@ -283,10 +294,10 @@ function initCounters() {
       const eased = 1 - Math.pow(1 - progress, 3);
       const value = Math.round(to * eased);
       el.textContent = formatCounterValue(value, prefix, suffix);
-      if (progress < 1) requestAnimationFrame(tick);
+      if (progress < 1) requestManagedAnimationFrame(tick);
     };
 
-    requestAnimationFrame(tick);
+    requestManagedAnimationFrame(tick);
   };
 
   if (typeof IntersectionObserver === 'undefined') {
@@ -309,8 +320,23 @@ function initCounters() {
   counters.forEach((el) => observer.observe(el));
 }
 
-function init() {
+export function disposeInteractions() {
   activeController?.abort();
+  activeController = undefined;
+  pointerController?.abort();
+  pointerController = undefined;
+  revealObserver?.disconnect();
+  revealObserver = undefined;
+  counterObserver?.disconnect();
+  counterObserver = undefined;
+  scheduledFrames.forEach((frameId) => window.cancelAnimationFrame(frameId));
+  scheduledFrames.clear();
+  resetPointerEffects();
+  disableSmoothScroll();
+}
+
+export function initializeInteractions() {
+  disposeInteractions();
   activeController = new AbortController();
   document.documentElement.classList.add('js');
   initReveal();
@@ -332,12 +358,12 @@ function disableSmoothScroll() {
 
 if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initializeInteractions, { once: true });
   } else {
-    init();
+    initializeInteractions();
   }
 
-  document.addEventListener('astro:page-load', init);
+  document.addEventListener('astro:page-load', initializeInteractions);
   document.addEventListener('astro:before-swap', disableSmoothScroll);
   document.addEventListener('astro:after-swap', enableSmoothScroll);
 
