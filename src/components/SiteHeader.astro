@@ -22,7 +22,14 @@ const showSectionNavigation = Astro.url.pathname === '/';
     <div class="flex items-center gap-2">
       <HeaderNavigation client:load showSections={showSectionNavigation} />
       <ThemePreference client:load />
-      <a id="cv-action" class={buttonVariants()} href={cvHref} aria-label={cvLabel}>
+      <a
+        id="cv-action"
+        data-slot="button"
+        data-variant="default"
+        class={buttonVariants()}
+        href={cvHref}
+        aria-label={cvLabel}
+      >
         <span class="cv-action__label-full">
           {cvLabel === 'Back to portfolio' ? (
             <><span class="sm:hidden">Back</span><span class="hidden sm:inline">{cvLabel}</span></>
