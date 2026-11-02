@@ -5,6 +5,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4321',
     browserName: 'chromium',
+    trace: process.env.CI === 'true' ? 'retain-on-failure' : 'off',
     launchOptions: {
       executablePath: process.env.CHROMIUM_PATH,
     },
