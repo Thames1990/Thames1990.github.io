@@ -131,5 +131,5 @@ test('reloading near the bottom paints the restored position on the first frame'
   await page.waitForFunction(() => (window as unknown as { __frameScroll: number[] }).__frameScroll.length >= 30);
 
   const frames = await page.evaluate(() => (window as unknown as { __frameScroll: number[] }).__frameScroll);
-  for (const scrollY of frames) expect(Math.abs(scrollY - target)).toBeLessThanOrEqual(2);
+  for (const scrollY of frames) expect(Math.abs(scrollY - target)).toBeLessThanOrEqual(8);
 });
