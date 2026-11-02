@@ -507,14 +507,14 @@
 
   .site-header [data-slot='button'][data-variant='default'] {
     min-height: 2.6rem;
-    background: var(--foreground);
-    color: var(--background);
+    background: var(--foreground) !important;
+    color: var(--background) !important;
     font-weight: 700;
   }
 
   .site-header [data-slot='button'][data-variant='default']:hover {
-    background: var(--brand);
-    color: white;
+    background: var(--brand) !important;
+    color: var(--primary-foreground) !important;
   }
 
   .site-header [data-slot='button'][data-variant='outline'] {
